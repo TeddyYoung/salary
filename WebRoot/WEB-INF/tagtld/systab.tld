@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    <tlib-version>1.0</tlib-version>
+    <short-name>systab</short-name>
+    <uri>http://www.systab.com/jsp/tld/examples</uri>
+    <tag>
+        <name>dataDictionary</name>
+        <tag-class>com.fh.tags.SysTagDataDictionary</tag-class>
+        <body-content>scriptless</body-content>
+        <!-- 配置标签的属性 -->
+        <attribute>
+        	<name>codeType</name>
+        	<required>true</required><!-- 是否必须的 -->
+        	<rtexprvalue>true</rtexprvalue>
+        	<!-- rtexprvalue:
+        			rt   RunTime
+        			expr Expression
+        			value Value
+        		该属性的值是否允许使用表达式（EL或者JSP表达式）
+        	 -->
+        </attribute>
+         <attribute>
+        	<name>valueType</name>
+        	<required>false</required><!-- 是否必须的 -->
+        	<rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+   </taglib>

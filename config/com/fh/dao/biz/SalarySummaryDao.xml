@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.SalarySummaryDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.SalarySummary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="salary_summary_code" property="salarySummaryCode" jdbcType="VARCHAR" />
+    <result column="salary_difference_code" property="salaryDifferenceCode" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="salary_summary" property="salarySummary" jdbcType="DECIMAL" />
+    <result column="salary_difference_final" property="salaryDifferenceFinal" jdbcType="DECIMAL" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, salary_summary_code, salary_difference_code, staff_code, salary_summary, salary_difference_final, 
+      year_month, sys_create_time, sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.SalarySummaryQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_salary_summary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,salary_summary_code,salary_difference_code,staff_code,salary_summary,salary_difference_final,year_month,sys_create_time,sys_update_time,remark
+    from biz_salary_summary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_salary_summary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.SalarySummaryQuery" >
+    delete from biz_salary_summary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.SalarySummary" >
+    insert into biz_salary_summary (id, salary_summary_code, salary_difference_code, 
+      staff_code, salary_summary, salary_difference_final, 
+      year_month, sys_create_time, sys_update_time, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{salarySummaryCode,jdbcType=VARCHAR}, #{salaryDifferenceCode,jdbcType=VARCHAR}, 
+      #{staffCode,jdbcType=VARCHAR}, #{salarySummary,jdbcType=DECIMAL}, #{salaryDifferenceFinal,jdbcType=DECIMAL}, 
+      #{yearMonth,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.SalarySummary" >
+    insert into biz_salary_summary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="salarySummaryCode != null" >
+        salary_summary_code,
+      </if>
+      <if test="salaryDifferenceCode != null" >
+        salary_difference_code,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="salarySummary != null" >
+        salary_summary,
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        salary_difference_final,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="salarySummaryCode != null" >
+        #{salarySummaryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryDifferenceCode != null" >
+        #{salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salarySummary != null" >
+        #{salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.SalarySummaryQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_salary_summary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_salary_summary
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.salarySummaryCode != null" >
+        salary_summary_code = #{record.salarySummaryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salaryDifferenceCode != null" >
+        salary_difference_code = #{record.salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salarySummary != null" >
+        salary_summary = #{record.salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferenceFinal != null" >
+        salary_difference_final = #{record.salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_salary_summary
+    set id = #{record.id,jdbcType=BIGINT},
+      salary_summary_code = #{record.salarySummaryCode,jdbcType=VARCHAR},
+      salary_difference_code = #{record.salaryDifferenceCode,jdbcType=VARCHAR},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      salary_summary = #{record.salarySummary,jdbcType=DECIMAL},
+      salary_difference_final = #{record.salaryDifferenceFinal,jdbcType=DECIMAL},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.SalarySummary" >
+    update biz_salary_summary
+    <set >
+      <if test="salarySummaryCode != null" >
+        salary_summary_code = #{salarySummaryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryDifferenceCode != null" >
+        salary_difference_code = #{salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salarySummary != null" >
+        salary_summary = #{salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        salary_difference_final = #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.SalarySummary" >
+    update biz_salary_summary
+    set salary_summary_code = #{salarySummaryCode,jdbcType=VARCHAR},
+      salary_difference_code = #{salaryDifferenceCode,jdbcType=VARCHAR},
+      staff_code = #{staffCode,jdbcType=VARCHAR},
+      salary_summary = #{salarySummary,jdbcType=DECIMAL},
+      salary_difference_final = #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      year_month = #{yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

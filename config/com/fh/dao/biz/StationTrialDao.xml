@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StationTrialDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.StationTrial" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="station_trial_code" property="stationTrialCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="is_trial" property="isTrial" jdbcType="CHAR" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, station_trial_code, station_code, area_code, is_trial, year_month, sys_create_time, 
+      sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StationTrialQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_station_trial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,station_trial_code,station_code,area_code,is_trial,year_month,sys_create_time,sys_update_time,remark
+    from biz_station_trial
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_station_trial
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StationTrialQuery" >
+    delete from biz_station_trial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.StationTrial" >
+    insert into biz_station_trial (id, station_trial_code, station_code, 
+      area_code, is_trial, year_month, 
+      sys_create_time, sys_update_time, remark
+      )
+    values (#{id,jdbcType=BIGINT}, #{stationTrialCode,jdbcType=VARCHAR}, #{stationCode,jdbcType=VARCHAR}, 
+      #{areaCode,jdbcType=VARCHAR}, #{isTrial,jdbcType=CHAR}, #{yearMonth,jdbcType=VARCHAR}, 
+      #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.StationTrial" >
+    insert into biz_station_trial
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stationTrialCode != null" >
+        station_trial_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="isTrial != null" >
+        is_trial,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="stationTrialCode != null" >
+        #{stationTrialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isTrial != null" >
+        #{isTrial,jdbcType=CHAR},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StationTrialQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_station_trial
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_station_trial
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.stationTrialCode != null" >
+        station_trial_code = #{record.stationTrialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null" >
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isTrial != null" >
+        is_trial = #{record.isTrial,jdbcType=CHAR},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_station_trial
+    set id = #{record.id,jdbcType=BIGINT},
+      station_trial_code = #{record.stationTrialCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      is_trial = #{record.isTrial,jdbcType=CHAR},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.StationTrial" >
+    update biz_station_trial
+    <set >
+      <if test="stationTrialCode != null" >
+        station_trial_code = #{stationTrialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isTrial != null" >
+        is_trial = #{isTrial,jdbcType=CHAR},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.StationTrial" >
+    update biz_station_trial
+    set station_trial_code = #{stationTrialCode,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      is_trial = #{isTrial,jdbcType=CHAR},
+      year_month = #{yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findStationTrialCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_station_trial
+  	<if test="yearMonth != null">
+  		<where>
+  			year_month = '${yearMonth}'
+  		</where>
+  	</if>
+  </select>
+  <select id="findStationTrialsByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} *, 
+  		(SELECT station_name FROM biz_station where station_code = tt.station_code) station_name, 
+  	    (SELECT area_name FROM biz_area where area_code = tt.area_code ) area_name 
+  	FROM  
+  		(SELECT * FROM biz_station_trial) as tt
+  	<where>
+  		tt.id not in (SELECT top ${startIndex} id FROM (SELECT * FROM biz_station_trial) as ttt
+  			<if test="yearMonth != null">
+  				<where>
+  					ttt.year_month = '${yearMonth}'
+  				</where>
+  			</if>
+  			ORDER BY ttt.year_month DESC)
+  			<if test="yearMonth != null">
+  				AND tt.year_month = '${yearMonth}'
+  			</if>
+  			ORDER BY tt.year_month DESC
+  	</where>
+  </select>
+</mapper>

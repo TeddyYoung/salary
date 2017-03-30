@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.DutySalaryDao" >
+
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.DutySalary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="job_level" property="jobLevel" jdbcType="VARCHAR" />
+    <result column="salary_amt" property="salaryAmt" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getDutySalary" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from biz_duty_salary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from biz_duty_salary  where id = #{id, jdbcType=BIGINT}
+  </delete>
+
+  <insert id="save" parameterType="com.fh.entity.biz.DutySalary" >
+    insert into biz_duty_salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dutyCode != null" >
+        duty_code,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="salaryAmt != null" >
+        salary_amt,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="jobLevel != null" >
+        job_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dutyCode != null" >
+        #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryAmt != null" >
+        #{salaryAmt,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="jobLevel != null" >
+        #{jobLevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ <update id="update" parameterType="com.fh.entity.biz.DutySalary" >
+    update biz_duty_salary
+    <set >
+     <if test="dutyCode != null" >
+        duty_code = #{dutyCode,jdbcType=VARCHAR},
+      </if>
+       <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+       <if test="jobLevel != null" >
+        job_level = #{jobLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="salaryAmt != null" >
+        salary_amt = #{salaryAmt,jdbcType=DECIMAL},
+      </if>
+       <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findCount" parameterType="com.fh.entity.biz.DutySalary" resultType="java.lang.Integer" >
+    select count(*) from biz_duty_salary where 1=1
+    <if test="dutyCode != null">
+		and duty_code = #{dutyCode}
+  	</if>
+  </select>
+  
+  <select id="findDutySalaryPage" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} *, (select distinct duty_name from biz_duty t where tt.duty_code=t.duty_code) as duty_name from biz_duty_salary as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from biz_duty_salary as ttt
+    	order by ttt.id)
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.ManageBaseDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.ManageBase" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="new_duty_name" property="newDutyName" jdbcType="VARCHAR" />
+    <result column="duty_nature" property="dutyNature" jdbcType="VARCHAR" />
+    <result column="duty_level" property="dutyLevel" jdbcType="VARCHAR" />
+    <result column="post_salary" property="postSalary" jdbcType="DECIMAL" />
+    <result column="new_post_salary" property="newPostSalary" jdbcType="DECIMAL" />
+    <result column="phone_cost" property="phoneCost" jdbcType="DECIMAL" />
+    <result column="education_cost" property="educationCost" jdbcType="DECIMAL" />
+    <result column="performance_coefficient" property="performanceCoefficient" jdbcType="DECIMAL" />
+    <result column="job_subsidies" property="jobSubsidies" jdbcType="DECIMAL" />
+    <result column="bonus_base" property="bonusBase" jdbcType="DECIMAL" />
+    <result column="bonus_coefficient" property="bonusCoefficient" jdbcType="DECIMAL" />
+    <result column="standard_rate" property="standardRate" jdbcType="DECIMAL" />
+    <result column="phone_cost_detection" property="phoneCostDetection" jdbcType="VARCHAR" />
+    <result column="station_staff_bonuses" property="stationStaffBonuses" jdbcType="DECIMAL" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, staff_code, station_name, duty_name, duty_nature, duty_level, post_salary, phone_cost, 
+      performance_coefficient, job_subsidies, bonus_base, bonus_coefficient, standard_rate, 
+      phone_cost_detection, station_staff_bonuses, year_month, sys_create_time, sys_update_time, 
+      remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.ManageBaseQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_manage_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,staff_code,station_name,duty_name,duty_nature,duty_level,post_salary,phone_cost,performance_coefficient,job_subsidies,bonus_base,bonus_coefficient,standard_rate,phone_cost_detection,station_staff_bonuses,year_month,sys_create_time,sys_update_time,remark
+    from biz_manage_base
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_manage_base
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.ManageBaseQuery" >
+    delete from biz_manage_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.ManageBase" >
+    insert into biz_manage_base (id, staff_code, station_name, 
+      duty_name, duty_nature, duty_level, 
+      post_salary, phone_cost, performance_coefficient, 
+      job_subsidies, bonus_base, bonus_coefficient, 
+      standard_rate, phone_cost_detection, station_staff_bonuses, 
+      year_month, sys_create_time, sys_update_time, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{staffCode,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR}, 
+      #{dutyName,jdbcType=VARCHAR}, #{dutyNature,jdbcType=VARCHAR}, #{dutyLevel,jdbcType=VARCHAR}, 
+      #{postSalary,jdbcType=DECIMAL}, #{phoneCost,jdbcType=DECIMAL}, #{performanceCoefficient,jdbcType=DECIMAL}, 
+      #{jobSubsidies,jdbcType=DECIMAL}, #{bonusBase,jdbcType=DECIMAL}, #{bonusCoefficient,jdbcType=DECIMAL}, 
+      #{standardRate,jdbcType=DECIMAL}, #{phoneCostDetection,jdbcType=VARCHAR}, #{stationStaffBonuses,jdbcType=DECIMAL}, 
+      #{yearMonth,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.ManageBase" >
+    insert into biz_manage_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="stationName != null" >
+        station_name,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="dutyName != null" >
+        duty_name,
+      </if>
+      <if test="dutyNature != null" >
+        duty_nature,
+      </if>
+      <if test="dutyLevel != null" >
+        duty_level,
+      </if>
+      <if test="postSalary != null" >
+        post_salary,
+      </if>
+      <if test="phoneCost != null" >
+        phone_cost,
+      </if>
+      <if test="educationCost != null" >
+        education_cost,
+      </if>
+      <if test="performanceCoefficient != null" >
+        performance_coefficient,
+      </if>
+      <if test="jobSubsidies != null" >
+        job_subsidies,
+      </if>
+      <if test="bonusBase != null" >
+        bonus_base,
+      </if>
+      <if test="bonusCoefficient != null" >
+        bonus_coefficient,
+      </if>
+      <if test="standardRate != null" >
+        standard_rate,
+      </if>
+      <if test="phoneCostDetection != null" >
+        phone_cost_detection,
+      </if>
+      <if test="stationStaffBonuses != null" >
+        station_staff_bonuses,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null" >
+        #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyNature != null" >
+        #{dutyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyLevel != null" >
+        #{dutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="postSalary != null" >
+        #{postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCost != null" >
+        #{phoneCost,jdbcType=DECIMAL},
+      </if>
+       <if test="educationCost != null" >
+        #{educationCost,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceCoefficient != null" >
+        #{performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="jobSubsidies != null" >
+        #{jobSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="bonusBase != null" >
+        #{bonusBase,jdbcType=DECIMAL},
+      </if>
+      <if test="bonusCoefficient != null" >
+        #{bonusCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="standardRate != null" >
+        #{standardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCostDetection != null" >
+        #{phoneCostDetection,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStaffBonuses != null" >
+        #{stationStaffBonuses,jdbcType=DECIMAL},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.ManageBaseQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_manage_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_manage_base
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationName != null" >
+        station_name = #{record.stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyName != null" >
+        duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyNature != null" >
+        duty_nature = #{record.dutyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyLevel != null" >
+        duty_level = #{record.dutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postSalary != null" >
+        post_salary = #{record.postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneCost != null" >
+        phone_cost = #{record.phoneCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.performanceCoefficient != null" >
+        performance_coefficient = #{record.performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.jobSubsidies != null" >
+        job_subsidies = #{record.jobSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bonusBase != null" >
+        bonus_base = #{record.bonusBase,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bonusCoefficient != null" >
+        bonus_coefficient = #{record.bonusCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.standardRate != null" >
+        standard_rate = #{record.standardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneCostDetection != null" >
+        phone_cost_detection = #{record.phoneCostDetection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationStaffBonuses != null" >
+        station_staff_bonuses = #{record.stationStaffBonuses,jdbcType=DECIMAL},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_manage_base
+    set id = #{record.id,jdbcType=BIGINT},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      station_name = #{record.stationName,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      duty_nature = #{record.dutyNature,jdbcType=VARCHAR},
+      duty_level = #{record.dutyLevel,jdbcType=VARCHAR},
+      post_salary = #{record.postSalary,jdbcType=DECIMAL},
+      phone_cost = #{record.phoneCost,jdbcType=DECIMAL},
+      performance_coefficient = #{record.performanceCoefficient,jdbcType=DECIMAL},
+      job_subsidies = #{record.jobSubsidies,jdbcType=DECIMAL},
+      bonus_base = #{record.bonusBase,jdbcType=DECIMAL},
+      bonus_coefficient = #{record.bonusCoefficient,jdbcType=DECIMAL},
+      standard_rate = #{record.standardRate,jdbcType=DECIMAL},
+      phone_cost_detection = #{record.phoneCostDetection,jdbcType=VARCHAR},
+      station_staff_bonuses = #{record.stationStaffBonuses,jdbcType=DECIMAL},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.ManageBase" >
+    update biz_manage_base
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null" >
+        station_name = #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyNature != null" >
+        duty_nature = #{dutyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyLevel != null" >
+        duty_level = #{dutyLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="postSalary != null" >
+        post_salary = #{postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCost != null" >
+        phone_cost = #{phoneCost,jdbcType=DECIMAL},
+      </if>
+       <if test="educationCost != null" >
+        education_cost = #{educationCost,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceCoefficient != null" >
+        performance_coefficient = #{performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="jobSubsidies != null" >
+        job_subsidies = #{jobSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="bonusBase != null" >
+        bonus_base = #{bonusBase,jdbcType=DECIMAL},
+      </if>
+      <if test="bonusCoefficient != null" >
+        bonus_coefficient = #{bonusCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="standardRate != null" >
+        standard_rate = #{standardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCostDetection != null" >
+        phone_cost_detection = #{phoneCostDetection,jdbcType=VARCHAR},
+      </if>
+      <if test="stationStaffBonuses != null" >
+        station_staff_bonuses = #{stationStaffBonuses,jdbcType=DECIMAL},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.ManageBase" >
+    update biz_manage_base
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      station_name = #{stationName,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      duty_nature = #{dutyNature,jdbcType=VARCHAR},
+      duty_level = #{dutyLevel,jdbcType=VARCHAR},
+      post_salary = #{postSalary,jdbcType=DECIMAL},
+      phone_cost = #{phoneCost,jdbcType=DECIMAL},
+      performance_coefficient = #{performanceCoefficient,jdbcType=DECIMAL},
+      job_subsidies = #{jobSubsidies,jdbcType=DECIMAL},
+      bonus_base = #{bonusBase,jdbcType=DECIMAL},
+      bonus_coefficient = #{bonusCoefficient,jdbcType=DECIMAL},
+      standard_rate = #{standardRate,jdbcType=DECIMAL},
+      phone_cost_detection = #{phoneCostDetection,jdbcType=VARCHAR},
+      station_staff_bonuses = #{stationStaffBonuses,jdbcType=DECIMAL},
+      year_month = #{yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from biz_manage_base
+  		<if test="yearMonth != null">
+	  		<where>
+	  			and year_month = '${yearMonth}'
+	  		</where>
+  		</if>
+  </select>
+  <select id="findManageBasesByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from  (select * from biz_manage_base) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select * from biz_manage_base) as ttt
+    		<if test="yearMonth != null">
+    			<where>
+    				ttt.year_month = '${yearMonth}'
+    			</where>
+    		</if>
+    	order by ttt.id)
+    		<if test="yearMonth != null">
+    			and tt.year_month = '${yearMonth}'
+    		</if>
+    	order by tt.id
+    </where>
+  </select>
+  <select id="findAllManageBaseCountByYearMonth" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_manage_base as tt, biz_staff t1,biz_station st,biz_duty dt
+  	 WHERE t1.staff_code = tt.staff_code
+    	and tt.station_code = st.station_code
+    	and tt.station_code = t1.station_code
+    	and dt.duty_code = t1.duty_code
+    	<if test="yearMonth != null">
+    		and tt.year_month = '${yearMonth}'
+    	</if>
+  </select>
+  <select id="findManageBaseListByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		t1.*,
+  		t3.staff_name,
+<!--   		(select t1.salary_amt from biz_duty_salary t1, biz_staff t2, biz_station t3  -->
+<!--   				where t1.duty_code = t2.duty_code and t1.area_code = t3.area_code  -->
+<!--   				and t2.station_code = t3.station_code) new_post_salary, -->
+  		(SELECT duty_name FROM biz_duty WHERE duty_code = t3.duty_code) new_duty_name
+  	FROM 
+  		biz_manage_base t1,
+  		biz_staff t3,
+  		biz_station t5
+  	WHERE 
+  		t1.year_month = '${yearMonth}'
+  	  and t1.staff_code = t3.staff_code
+      and t3.station_code = t5.station_code
+      and t5.district_code = '${districtCode}'
+<!--       <if test="staffName != null"> -->
+<!--     		and t3.staff_name like '%${staffName}%' -->
+<!--     	</if> -->
+  </select>
+  <select id="findStarEvaByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT top ${pageSize} *, t1.staff_name,dt.duty_name
+  	FROM  biz_manage_base as tt, biz_staff t1,biz_station st,biz_duty dt
+    <where>
+    	t1.staff_code = tt.staff_code
+    	and tt.station_code = st.station_code
+    	and tt.station_code = t1.station_code
+    	and dt.duty_code = t1.duty_code
+    	and tt.id not in (select top ${startIndex} ttt.id from biz_manage_base as ttt, biz_staff t2,biz_station st,biz_duty dt
+    		where t2.staff_code = ttt.staff_code
+    		and ttt.station_code = st.station_code
+    		and dt.duty_code = t2.duty_code
+    	<if test="yearMonth != null">
+    		and ttt.year_month = '${yearMonth}'
+    	</if>
+    	)
+    	<if test="yearMonth != null">
+    		and tt.year_month = '${yearMonth}'
+    	</if>
+    	order by tt.year_month desc, tt.id
+    </where>
+  </select>
+  <select id="findManageBaseListByCondition" parameterType="com.fh.entity.biz.ManageBase" resultMap="BaseResultMap">
+  	SELECT 
+  		t1.*
+  	FROM 
+  		biz_manage_base t1
+  	WHERE 1=1
+  		<if test="yearMonth != null">
+    		and t1.year_month = #{yearMonth,jdbcType=VARCHAR}
+    	</if>
+    	<if test="staffCode != null">
+  			and t1.staff_code = #{staffCode,jdbcType=VARCHAR}
+  		</if>
+  		<if test="stationCode != null">
+  			and t1.station_code = #{stationCode,jdbcType=VARCHAR}
+  		</if>
+  </select>
+  	
+  <!-- 获取管理岗位数据：油站经理 -->
+  <select id="deprecated_findManageList" parameterType="map" resultMap="BaseResultMap">
+  	select 
+  		t1.staff_name,
+        (select duty_name from biz_duty where duty_code = t1.duty_code) new_duty_name,
+        (select t2.salary_amt from biz_duty_salary t2, biz_station t3
+                  where t2.duty_code = t1.duty_code and t2.area_code = t3.area_code
+                  and t3.station_code = t1.station_code) new_post_salary,
+        (select phone_cost from biz_manage_base where staff_code = t1.staff_code and year_month = #{yearMonth,jdbcType=VARCHAR}) phone_cost
+    from biz_staff t1,
+		 biz_station t3 
+   where duty_code in ('ZW_0003','ZW_0011','ZW_0004')
+   	 and t1.station_code = t3.station_code
+     and t3.district_code = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="findManageList" parameterType="map" resultMap="BaseResultMap">
+	  		select t1.staff_name,dt.duty_name as new_duty_name,
+  		(case when t2.salary_amt is not null then t2.salary_amt else 0 end ) as new_post_salary,
+  		(case when mb.phone_cost is not null then mb.phone_cost else 0 end) as phone_cost,
+  		(case when mb.performance_coefficient is not null then mb.performance_coefficient else 0 end) as performance_coefficient,
+  		(case when mb.job_subsidies is not null then mb.job_subsidies else 0 end) as job_subsidies
+  		from biz_station st,biz_duty dt,
+  		biz_staff t1 left join biz_duty_salary t2
+  		on t2.duty_code = t1.duty_code and t2.job_level = t1.job_level
+  		LEFT JOIN biz_manage_base mb
+ 		on mb.staff_code = t1.staff_code 
+		and mb.station_code = t1.station_code
+		and mb.year_month = #{yearMonth,jdbcType=VARCHAR}
+  		where st.station_code = t1.station_code 
+		and dt.duty_code = t1.duty_code
+		and t1.duty_code in  ('ZW_0003','ZW_0011','ZW_0004')
+		and st.district_code =  #{districtCode,jdbcType=VARCHAR}; 
+  </select>
+  <!-- 获取管理岗位数据：油站会计 -->
+  <select id="deprecated_findBursarList" parameterType="map" resultMap="BaseResultMap">
+  	select 
+  		t1.staff_name,
+        (select duty_name from biz_duty where duty_code = t1.duty_code) new_duty_name,
+        (select t2.salary_amt from biz_duty_salary t2, biz_station t3
+                  where t2.duty_code = t1.duty_code and t2.area_code = t3.area_code
+                  and t3.station_code = t1.station_code) new_post_salary,
+        (select phone_cost from biz_manage_base where staff_code = t1.staff_code and year_month = #{yearMonth,jdbcType=VARCHAR}) phone_cost,
+    	(select job_subsidies from biz_manage_base where staff_code = t1.staff_code and year_month = #{yearMonth,jdbcType=VARCHAR}) job_subsidies
+    from biz_staff t1,
+		 biz_station t3 
+  where duty_code in ('ZW_0010','ZW_0012','ZW_0008')
+  	and t1.station_code = t3.station_code
+     and t3.district_code = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="findBursarList" parameterType="map" resultMap="BaseResultMap">
+  	select t1.staff_name,st.station_name,dt.duty_name as new_duty_name,
+  		(case when t2.salary_amt is not null then t2.salary_amt else 0 end ) as new_post_salary,
+  		(case when mb.phone_cost != null then mb.phone_cost else 0 end) as phone_cost,
+  		(case when mb.performance_coefficient is not null then mb.performance_coefficient else 0 end) as performance_coefficient,
+  		(case when psf.base_amt is not null then psf.base_amt else 0 end) as bonus_base,
+  		(case when mb.job_subsidies is not null then mb.job_subsidies else 0 end) as job_subsidies
+  		from biz_station st,biz_duty dt,
+  		biz_staff t1 
+  		left join biz_duty_salary t2
+  		on t2.duty_code = t1.duty_code 
+  		and t2.job_level = t1.job_level
+  		left join biz_part_station_fee psf
+ 		on psf.staff_code = t1.staff_code 
+ 		and  psf.station_code = t1.station_code
+ 		LEFT JOIN biz_manage_base mb
+ 		on mb.staff_code = t1.staff_code 
+		and mb.station_code = t1.station_code
+		and mb.year_month = #{yearMonth,jdbcType=VARCHAR}
+  		where st.station_code = t1.station_code 
+		and dt.duty_code = t1.duty_code
+		and t1.duty_code in ('ZW_0010','ZW_0012','ZW_0008')
+		and st.district_code =  #{districtCode,jdbcType=VARCHAR}; 
+  </select>
+  <!-- 获取管理岗位数据：兼站经理/会计 -->
+  <select id="deprecated_findPartList" parameterType="map" resultMap="BaseResultMap">
+  	select 
+  		t1.staff_name,
+  		(select station_name from biz_station where station_code = t1.station_code) station_name,
+        (select duty_name from biz_duty where duty_code = t1.duty_code) new_duty_name,
+        (select t2.salary_amt from biz_duty_salary t2, biz_station t3
+                  where t2.duty_code = t1.duty_code and t2.area_code = t3.area_code
+                  and t3.station_code = t1.station_code) new_post_salary,
+        (select phone_cost from biz_manage_base where staff_code = t1.staff_code and year_month = #{yearMonth,jdbcType=VARCHAR}) phone_cost,
+        (select base_amt from biz_part_station_fee t2, biz_station t3
+				  where t2.staff_code = t1.staff_code 
+				  and t3.station_code = t1.station_code) bonus_base
+    from biz_staff t1,
+		 biz_station t3 
+   where duty_code in ('ZW_0011','ZW_0012')
+   	and t1.station_code = t3.station_code
+     and t3.district_code = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  <!-- 获取管理岗位数据：兼站经理/会计 -->
+   <select id="findPartList" parameterType="map" resultMap="BaseResultMap">
+  	select t1.staff_name,st.station_name,dt.duty_name as new_duty_name,
+  		(case when t2.salary_amt is not null then t2.salary_amt else 0 end )as new_post_salary,
+  		(case when mb.phone_cost is not null then mb.phone_cost else 0 end) as phone_cost,
+  		(case when mb.performance_coefficient is not null then mb.performance_coefficient else 0 end) as performance_coefficient,
+  		(case when mb.bonus_base is not null then mb.bonus_base else 0 end) as bonus_base
+  		from biz_station st,biz_duty dt,
+  			 biz_staff t1 
+  	    left join biz_duty_salary t2
+  		on t2.duty_code = t1.duty_code 
+  		and t2.job_level = t1.job_level
+ 		LEFT JOIN biz_manage_base mb
+ 		on mb.staff_code = t1.staff_code 
+		and mb.station_code = t1.station_code
+		and mb.year_month = #{yearMonth,jdbcType=VARCHAR}
+  		where st.station_code = t1.station_code 
+		and dt.duty_code = t1.duty_code
+		and t1.duty_code in ('ZW_0011','ZW_0012')
+		and st.district_code =  #{districtCode,jdbcType=VARCHAR}; 
+  </select>
+</mapper>

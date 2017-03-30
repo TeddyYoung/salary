@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StaffCostDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.StaffCost" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_cost_year_month" property="staffCostYearMonth" jdbcType="VARCHAR" />
+    <result column="staff_cost_acc_fund" property="staffCostAccFund" jdbcType="DECIMAL" />
+    <result column="staff_cost_endowment" property="staffCostEndowment" jdbcType="DECIMAL" />
+    <result column="staff_cost_unemployment" property="staffCostUnemployment" jdbcType="DECIMAL" />
+    <result column="staff_cost_medical" property="staffCostMedical" jdbcType="DECIMAL" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, staff_code, station_code, staff_cost_year_month, staff_cost_acc_fund, staff_cost_endowment, 
+      staff_cost_unemployment, staff_cost_medical, total, sys_create_time, sys_update_time, 
+      remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StaffCostQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_staff_cost
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,staff_code,station_code,staff_cost_year_month,staff_cost_acc_fund,staff_cost_endowment,staff_cost_unemployment,staff_cost_medical,total,sys_create_time,sys_update_time,remark
+    from biz_staff_cost
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_staff_cost
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StaffCostQuery" >
+    delete from biz_staff_cost
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.StaffCost" >
+    insert into biz_staff_cost (id, staff_code, station_code, staff_cost_year_month, 
+      staff_cost_acc_fund, staff_cost_endowment, staff_cost_unemployment, 
+      staff_cost_medical, total, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=BIGINT}, #{staffCode,jdbcType=VARCHAR},#{stationCode,jdbcType=VARCHAR}, #{staffCostYearMonth,jdbcType=VARCHAR}, 
+      #{staffCostAccFund,jdbcType=DECIMAL}, #{staffCostEndowment,jdbcType=DECIMAL}, #{staffCostUnemployment,jdbcType=DECIMAL}, 
+      #{staffCostMedical,jdbcType=DECIMAL}, #{total,jdbcType=DECIMAL}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.StaffCost" >
+    insert into biz_staff_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="staffCostYearMonth != null" >
+        staff_cost_year_month,
+      </if>
+      <if test="staffCostAccFund != null" >
+        staff_cost_acc_fund,
+      </if>
+      <if test="staffCostEndowment != null" >
+        staff_cost_endowment,
+      </if>
+      <if test="staffCostUnemployment != null" >
+        staff_cost_unemployment,
+      </if>
+      <if test="staffCostMedical != null" >
+        staff_cost_medical,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+       <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCostYearMonth != null" >
+        #{staffCostYearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCostAccFund != null" >
+        #{staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostEndowment != null" >
+        #{staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostUnemployment != null" >
+        #{staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostMedical != null" >
+        #{staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StaffCostQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_staff_cost
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_staff_cost
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCostYearMonth != null" >
+        staff_cost_year_month = #{record.staffCostYearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCostAccFund != null" >
+        staff_cost_acc_fund = #{record.staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostEndowment != null" >
+        staff_cost_endowment = #{record.staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostUnemployment != null" >
+        staff_cost_unemployment = #{record.staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostMedical != null" >
+        staff_cost_medical = #{record.staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_staff_cost
+    set id = #{record.id,jdbcType=BIGINT},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      staff_cost_year_month = #{record.staffCostYearMonth,jdbcType=VARCHAR},
+      staff_cost_acc_fund = #{record.staffCostAccFund,jdbcType=DECIMAL},
+      staff_cost_endowment = #{record.staffCostEndowment,jdbcType=DECIMAL},
+      staff_cost_unemployment = #{record.staffCostUnemployment,jdbcType=DECIMAL},
+      staff_cost_medical = #{record.staffCostMedical,jdbcType=DECIMAL},
+      total = #{record.total,jdbcType=DECIMAL},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.StaffCost" >
+    update biz_staff_cost
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCostYearMonth != null" >
+        staff_cost_year_month = #{staffCostYearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCostAccFund != null" >
+        staff_cost_acc_fund = #{staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostEndowment != null" >
+        staff_cost_endowment = #{staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostUnemployment != null" >
+        staff_cost_unemployment = #{staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostMedical != null" >
+        staff_cost_medical = #{staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.StaffCost" >
+    update biz_staff_cost
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+    	station_code = #{stationCode,jdbcType=VARCHAR},
+      staff_cost_year_month = #{staffCostYearMonth,jdbcType=VARCHAR},
+      staff_cost_acc_fund = #{staffCostAccFund,jdbcType=DECIMAL},
+      staff_cost_endowment = #{staffCostEndowment,jdbcType=DECIMAL},
+      staff_cost_unemployment = #{staffCostUnemployment,jdbcType=DECIMAL},
+      staff_cost_medical = #{staffCostMedical,jdbcType=DECIMAL},
+      total = #{total,jdbcType=DECIMAL},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="VOResultMap" type="com.fh.entity.biz.StaffCostVO">
+		<result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+		<result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+		<result column="staffCode" property="staffCode" jdbcType="VARCHAR" />
+		<association property="staffCost" resultMap="BaseResultMap" ></association>
+	</resultMap>
+
+	<select id="findCountByCriteriaQuerySelf" parameterType="map" resultType="java.lang.Integer">
+		select count(*) from biz_staff_cost t3
+		where t3.staff_cost_year_month = '${yearMonth}' 
+		  and t3.station_code in (${stationCode})	
+		<if test="staffName != null" >
+			and t3.staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+		</if>
+	</select>
+
+
+	<select id="deprecated_findStaffCostByPageCriteriaQuerySelf" parameterType="map"
+		resultMap="VOResultMap">
+	select top ${pageSize} * from  (select t4.staff_code staffCode, t4.staff_name, t3.* from biz_staff t4 
+	LEFT OUTER JOIN biz_staff_cost t3
+	on t3.staff_code=t4.staff_code and t3.station_code = t4.station_code
+	where t3.staff_cost_year_month = '${yearMonth}' 
+	and t4.station_code in (${stationCode})	
+	<if test="staffName != null" >
+			and t3.staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+		</if>
+	) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select t4.staff_code staffCode, t4.staff_name, t3.* from biz_staff t4 
+	LEFT OUTER JOIN biz_staff_cost t3
+	on t3.staff_code=t4.staff_code and t3.station_code = t4.station_code
+	where t3.staff_cost_year_month = '${yearMonth}' 
+	and t4.station_code in (${stationCode})	 
+		<if test="staffName != null" >
+			and t3.staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+		</if>
+	) as ttt
+			order by ttt.station_code)
+			order by tt.station_code
+		</where>
+	</select>
+	
+	<select id="findStaffCostByPageCriteriaQuerySelf" parameterType="map"
+		resultMap="VOResultMap">
+	select top ${pageSize} * from  (select t4.staff_code staffCode, t4.staff_name, t3.* from biz_staff t4 
+	LEFT OUTER JOIN biz_staff_cost t3
+	on t3.staff_code=t4.staff_code and t3.station_code = t4.station_code
+	where t3.staff_cost_year_month = '${yearMonth}' 
+	and t4.station_code in (${stationCode})
+	<if test="staffName != null" >
+			and t3.staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+		</if>
+	) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select t4.id from biz_staff t4 
+	LEFT OUTER JOIN biz_staff_cost t3
+	on t3.staff_code=t4.staff_code and t3.station_code = t4.station_code
+	where t3.staff_cost_year_month = '${yearMonth}' 
+	and t4.station_code in (${stationCode}) 
+		<if test="staffName != null" >
+			and t3.staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+		</if>
+	) as ttt
+			)
+			order by tt.station_code
+		</where>
+	</select>
+	
+	<select id="findStaffCostAll" parameterType="map" resultMap="VOResultMap">
+	select t.*, t3.* from
+		(select t4.station_code, t4.staff_code staffCode, t4.staff_name, t4.duty_code from biz_staff t4 
+		where  t4.station_code in (${stationCode})
+		 and t4.staff_status != '2'
+		)t
+		LEFT OUTER JOIN biz_staff_cost t3
+		on t3.staff_code=t.staffCode and t3.station_code = t.station_code and t3.staff_cost_year_month = '${yearMonth}'
+		order by t.duty_code, t.staffCode
+	</select>
+	<select id="deprecated_findStaffCostByStaffIdCardAndYearMonth" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			*
+		FROM 
+			biz_staff_cost 
+		WHERE 
+			staff_code in (SELECT staff_code FROM biz_staff WHERE staff_idcard = '${idCardCellValue}')
+		AND 
+			staff_cost_year_month = '${yearMonth}'
+	</select>
+	<select id="findStaffCostByStaffIdCardAndYearMonth" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			sc.*
+		FROM 
+			biz_staff_cost sc,biz_staff sf
+		WHERE 
+		    sc.staff_code = sf.staff_code
+		    AND sc.station_code = sf.station_code
+		    AND sf.staff_idcard = '${idCardCellValue}'
+			AND staff_cost_year_month = '${yearMonth}'
+			AND sc.station_code = '${stationCode}'
+	</select>
+	<select id="findStaffCostsByYearMonth" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			t1.*,
+			t5.station_name,
+			t3.staff_name,
+			t3.staff_idcard
+<!-- 			(SELECT station_name FROM biz_station WHERE station_code = (SELECT station_code FROM biz_staff WHERE staff_code = t1.staff_code)) station_name, -->
+<!-- 			(SELECT staff_name FROM biz_staff WHERE staff_code = (SELECT staff_code FROM biz_staff WHERE staff_code = t1.staff_code)) staff_name, -->
+<!-- 			(SELECT staff_idcard FROM biz_staff WHERE staff_code = (SELECT staff_code FROM biz_staff WHERE staff_code = t1.staff_code)) staff_idcard -->
+		FROM 
+			biz_staff_cost t1,
+			biz_staff t3,
+			biz_station t5
+		WHERE 
+			t1.staff_cost_year_month = '${yearMonth}'
+		  and t5.station_code = t3.station_code
+	      and t1.staff_code = t3.staff_code
+	      and t1.station_code = t3.station_code
+	      and t5.district_code = '${districtCode}'
+	</select>
+	<select id="findAllStaffCostCountByYearMonth" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM biz_staff_cost WHERE staff_cost_year_month = '${yearMonth}'
+	</select>
+</mapper>

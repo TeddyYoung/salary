@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.AttendanceManagementDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.AttendanceManagement" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="station_level_name" property="stationLevelName" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="loss_amt" property="lossAmt" jdbcType="DECIMAL" />
+    <result column="holiday_money" property="holidayMoney" jdbcType="DECIMAL" />
+    <result column="subsidy_money" property="subsidyMoney" jdbcType="DECIMAL" />
+    <result column="working_day" property="workingDay" jdbcType="DECIMAL" />
+    <result column="is_staManage_foreman" property="isStamanageForeman" jdbcType="VARCHAR" />
+    <result column="is_internship" property="isInternship" jdbcType="VARCHAR" />
+    <result column="after_intership_working" property="afterIntershipWorking" jdbcType="DECIMAL" />
+    <result column="peacetime_timeout" property="peacetimeTimeout" jdbcType="DECIMAL" />
+    <result column="holiday_overtime" property="holidayOvertime" jdbcType="DECIMAL" />
+    <result column="is_family_reunion_dinner_on" property="isFamilyReunionDinnerOn" jdbcType="VARCHAR" />
+    <result column="on_the_spring_festiva_one" property="onTheSpringFestivaOne" jdbcType="DECIMAL" />
+    <result column="on_the_spring_festiva_two" property="onTheSpringFestivaTwo" jdbcType="DECIMAL" />
+    <result column="is_departure" property="isDeparture" jdbcType="VARCHAR" />
+    <result column="casual_leave" property="casualLeave" jdbcType="DECIMAL" />
+    <result column="absenteeism" property="absenteeism" jdbcType="DECIMAL" />
+    <result column="sick_leave" property="sickLeave" jdbcType="DECIMAL" />
+    <result column="annual_leave" property="annualLeave" jdbcType="DECIMAL" />
+    <result column="marriage_leave" property="marriageLeave" jdbcType="DECIMAL" />
+    <result column="maternity_leave" property="maternityLeave" jdbcType="DECIMAL" />
+    <result column="funeral_leave" property="funeralLeave" jdbcType="DECIMAL" />
+    <result column="days_off" property="daysOff" jdbcType="DECIMAL" />
+    <result column="verbal_warnings" property="verbalWarnings" jdbcType="DECIMAL" />
+    <result column="written_warning" property="writtenWarning" jdbcType="DECIMAL" />
+    <result column="major_accident" property="majorAccident" jdbcType="DECIMAL" />
+    <result column="is_accomodate" property="isAccomodate" jdbcType="VARCHAR" />
+    <result column="is_boarder" property="isBoarder" jdbcType="VARCHAR" />
+    <result column="splendor_card_blue" property="splendorCardBlue" jdbcType="INTEGER" />
+    <result column="splendor_card_green" property="splendorCardGreen" jdbcType="INTEGER" />
+    <result column="part_time_scale" property="partTimeScale" jdbcType="DECIMAL" />
+    <result column="month_performance" property="monthPerformance" jdbcType="DECIMAL" />
+    <result column="manager_bonus_scale" property="managerBonusScale" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_bankcard" property="staffBankcard" jdbcType="VARCHAR" />
+    <result column="staff_bank" property="staffBank" jdbcType="VARCHAR" />
+    <result column="staff_in_date" property="staffInDate" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="night_shift_days" property="nightShiftDays" jdbcType="DECIMAL" />
+    <result column="support_days" property="supportDays" jdbcType="DECIMAL" />
+    
+    <result column="loss_bonus_amt" property="lossBonusAmt" jdbcType="DECIMAL" />
+    <result column="job_subsidies" property="jobSubsidies" jdbcType="DECIMAL" />
+    <result column="inventory_deduct_amt" property="inventoryDeductAmt" jdbcType="DECIMAL" />
+    
+    <result column="phone_cost" property="phoneCost" jdbcType="DECIMAL" />
+    <result column="education_cost" property="educationCost" jdbcType="DECIMAL" />
+    
+    <result column="staff_cost_acc_fund" property="staffCostAccFund" jdbcType="DECIMAL" />
+    <result column="staff_cost_endowment" property="staffCostEndowment" jdbcType="DECIMAL" />
+    <result column="staff_cost_unemployment" property="staffCostUnemployment" jdbcType="DECIMAL" />
+    <result column="staff_cost_medical" property="staffCostMedical" jdbcType="DECIMAL" />
+    <result column="duty_nature" property="dutyNature" jdbcType="VARCHAR" />
+    <result column="accommodation_subsidy" property="accommodationSubsidy" jdbcType="DECIMAL" />
+    <result column="is_accommo_subsidy_arti" property="isAccommoSubsidyArti" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, staff_code, station_code, working_day, is_staManage_foreman, is_internship, after_intership_working, 
+      peacetime_timeout, holiday_overtime,is_family_reunion_dinner_on, on_the_spring_festiva_one, 
+      on_the_spring_festiva_two, is_departure, casual_leave, absenteeism, sick_leave, 
+      annual_leave, marriage_leave, maternity_leave, funeral_leave, days_off, verbal_warnings, 
+      written_warning, major_accident, is_accomodate, is_boarder, splendor_card_blue, splendor_card_green, 
+      part_time_scale, month_performance, manager_bonus_scale, remark, year_month, sys_create_time, 
+      sys_update_time
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.AttendanceManagementQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_attendance_management
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,staff_code,station_code,working_day,is_staManage_foreman,is_internship,after_intership_working,peacetime_timeout,holiday_overtime,is_family_reunion_dinner_on,on_the_spring_festiva_one,on_the_spring_festiva_two,is_departure,casual_leave,absenteeism,sick_leave,annual_leave,marriage_leave,maternity_leave,funeral_leave,days_off,verbal_warnings,written_warning,major_accident,is_accomodate,is_boarder,splendor_card_blue,splendor_card_green,part_time_scale,month_performance,manager_bonus_scale,remark,year_month,sys_create_time,sys_update_time
+    from biz_attendance_management
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_attendance_management
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.AttendanceManagementQuery" >
+    delete from biz_attendance_management
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.AttendanceManagement" >
+    insert into biz_attendance_management (id, staff_code, station_code, 
+      working_day, is_staManage_foreman, is_internship, 
+      after_intership_working, peacetime_timeout, 
+      holiday_overtime, is_family_reunion_dinner_on, 
+      on_the_spring_festiva_one, on_the_spring_festiva_two, 
+      is_departure, casual_leave, absenteeism, 
+      sick_leave, annual_leave, marriage_leave, 
+      maternity_leave, funeral_leave, days_off, 
+      verbal_warnings, written_warning, major_accident, 
+      is_accomodate, is_boarder, splendor_card_blue, 
+      splendor_card_green, part_time_scale, month_performance, 
+      manager_bonus_scale, remark, year_month, 
+      sys_create_time, sys_update_time)
+    values (#{id,jdbcType=BIGINT}, #{staffCode,jdbcType=VARCHAR}, #{stationCode,jdbcType=VARCHAR}, 
+      #{workingDay,jdbcType=DECIMAL}, #{isStamanageForeman,jdbcType=VARCHAR}, #{isInternship,jdbcType=VARCHAR}, 
+      #{afterIntershipWorking,jdbcType=DECIMAL}, #{peacetimeTimeout,jdbcType=DECIMAL}, 
+      #{holidayOvertime,jdbcType=DECIMAL}, #{isFamilyReunionDinnerOn,jdbcType=DECIMAL}, 
+      #{onTheSpringFestivaOne,jdbcType=DECIMAL}, #{onTheSpringFestivaTwo,jdbcType=DECIMAL}, 
+      #{isDeparture,jdbcType=VARCHAR}, #{casualLeave,jdbcType=DECIMAL}, #{absenteeism,jdbcType=DECIMAL}, 
+      #{sickLeave,jdbcType=DECIMAL}, #{annualLeave,jdbcType=DECIMAL}, #{marriageLeave,jdbcType=DECIMAL}, 
+      #{maternityLeave,jdbcType=DECIMAL}, #{funeralLeave,jdbcType=DECIMAL}, #{daysOff,jdbcType=DECIMAL}, 
+      #{verbalWarnings,jdbcType=DECIMAL}, #{writtenWarning,jdbcType=DECIMAL}, #{majorAccident,jdbcType=DECIMAL}, 
+      #{isAccomodate,jdbcType=VARCHAR}, #{isBoarder,jdbcType=VARCHAR}, #{splendorCardBlue,jdbcType=INTEGER}, 
+      #{splendorCardGreen,jdbcType=INTEGER}, #{partTimeScale,jdbcType=DECIMAL}, #{monthPerformance,jdbcType=DECIMAL}, 
+      #{managerBonusScale,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{yearMonth,jdbcType=VARCHAR}, 
+      #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.AttendanceManagement" >
+    insert into biz_attendance_management
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="workingDay != null" >
+        working_day,
+      </if>
+      <if test="isStamanageForeman != null" >
+        is_staManage_foreman,
+      </if>
+      <if test="isInternship != null" >
+        is_internship,
+      </if>
+      <if test="afterIntershipWorking != null" >
+        after_intership_working,
+      </if>
+      <if test="peacetimeTimeout != null" >
+        peacetime_timeout,
+      </if>
+      <if test="holidayOvertime != null" >
+        holiday_overtime,
+      </if>
+      <if test="isFamilyReunionDinnerOn != null" >
+        is_family_reunion_dinner_on,
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one,
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two,
+      </if>
+      <if test="isDeparture != null" >
+        is_departure,
+      </if>
+      <if test="casualLeave != null" >
+        casual_leave,
+      </if>
+      <if test="absenteeism != null" >
+        absenteeism,
+      </if>
+      <if test="sickLeave != null" >
+        sick_leave,
+      </if>
+      <if test="annualLeave != null" >
+        annual_leave,
+      </if>
+      <if test="marriageLeave != null" >
+        marriage_leave,
+      </if>
+      <if test="maternityLeave != null" >
+        maternity_leave,
+      </if>
+      <if test="funeralLeave != null" >
+        funeral_leave,
+      </if>
+      <if test="daysOff != null" >
+        days_off,
+      </if>
+      <if test="verbalWarnings != null" >
+        verbal_warnings,
+      </if>
+      <if test="writtenWarning != null" >
+        written_warning,
+      </if>
+      <if test="majorAccident != null" >
+        major_accident,
+      </if>
+      <if test="isAccomodate != null" >
+        is_accomodate,
+      </if>
+      <if test="isBoarder != null" >
+        is_boarder,
+      </if>
+      <if test="splendorCardBlue != null" >
+        splendor_card_blue,
+      </if>
+      <if test="splendorCardGreen != null" >
+        splendor_card_green,
+      </if>
+      <if test="partTimeScale != null" >
+        part_time_scale,
+      </if>
+      <if test="monthPerformance != null" >
+        month_performance,
+      </if>
+      <if test="managerBonusScale != null" >
+        manager_bonus_scale,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="nightShiftDays != null" >
+        night_shift_days,
+      </if>
+      <if test="supportDays != null" >
+        support_days,
+      </if>
+      status
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workingDay != null" >
+        #{workingDay,jdbcType=DECIMAL},
+      </if>
+      <if test="isStamanageForeman != null" >
+        #{isStamanageForeman,jdbcType=VARCHAR},
+      </if>
+      <if test="isInternship != null" >
+        #{isInternship,jdbcType=VARCHAR},
+      </if>
+      <if test="afterIntershipWorking != null" >
+        #{afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="peacetimeTimeout != null" >
+        #{peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayOvertime != null" >
+        #{holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="isFamilyReunionDinnerOn != null" >
+        #{isFamilyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeparture != null" >
+        #{isDeparture,jdbcType=VARCHAR},
+      </if>
+      <if test="casualLeave != null" >
+        #{casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="absenteeism != null" >
+        #{absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="sickLeave != null" >
+        #{sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="annualLeave != null" >
+        #{annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="marriageLeave != null" >
+        #{marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="maternityLeave != null" >
+        #{maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="funeralLeave != null" >
+        #{funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="daysOff != null" >
+        #{daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="verbalWarnings != null" >
+        #{verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="writtenWarning != null" >
+        #{writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="majorAccident != null" >
+        #{majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccomodate != null" >
+        #{isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoarder != null" >
+        #{isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="splendorCardBlue != null" >
+        #{splendorCardBlue,jdbcType=INTEGER},
+      </if>
+      <if test="splendorCardGreen != null" >
+        #{splendorCardGreen,jdbcType=INTEGER},
+      </if>
+      <if test="partTimeScale != null" >
+        #{partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="monthPerformance != null" >
+        #{monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonusScale != null" >
+        #{managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nightShiftDays != null" >
+       #{nightShiftDays,jdbcType=DECIMAL},
+      </if>
+      <if test="supportDays != null" >
+       #{supportDays,jdbcType=DECIMAL},
+      </if>
+      #{status,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.AttendanceManagementQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_attendance_management
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_attendance_management
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workingDay != null" >
+        working_day = #{record.workingDay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isStamanageForeman != null" >
+        is_staManage_foreman = #{record.isStamanageForeman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isInternship != null" >
+        is_internship = #{record.isInternship,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterIntershipWorking != null" >
+        after_intership_working = #{record.afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="record.peacetimeTimeout != null" >
+        peacetime_timeout = #{record.peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="record.holidayOvertime != null" >
+        holiday_overtime = #{record.holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isFamilyReunionDinnerOn != null" >
+        is_family_reunion_dinner_on = #{record.isFamilyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one = #{record.onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two = #{record.onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDeparture != null" >
+        is_departure = #{record.isDeparture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.casualLeave != null" >
+        casual_leave = #{record.casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.absenteeism != null" >
+        absenteeism = #{record.absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sickLeave != null" >
+        sick_leave = #{record.sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.annualLeave != null" >
+        annual_leave = #{record.annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marriageLeave != null" >
+        marriage_leave = #{record.marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maternityLeave != null" >
+        maternity_leave = #{record.maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.funeralLeave != null" >
+        funeral_leave = #{record.funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.daysOff != null" >
+        days_off = #{record.daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="record.verbalWarnings != null" >
+        verbal_warnings = #{record.verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="record.writtenWarning != null" >
+        written_warning = #{record.writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="record.majorAccident != null" >
+        major_accident = #{record.majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isAccomodate != null" >
+        is_accomodate = #{record.isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isBoarder != null" >
+        is_boarder = #{record.isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.splendorCardBlue != null" >
+        splendor_card_blue = #{record.splendorCardBlue,jdbcType=INTEGER},
+      </if>
+      <if test="record.splendorCardGreen != null" >
+        splendor_card_green = #{record.splendorCardGreen,jdbcType=INTEGER},
+      </if>
+      <if test="record.partTimeScale != null" >
+        part_time_scale = #{record.partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthPerformance != null" >
+        month_performance = #{record.monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managerBonusScale != null" >
+        manager_bonus_scale = #{record.managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_attendance_management
+    set id = #{record.id,jdbcType=BIGINT},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      working_day = #{record.workingDay,jdbcType=DECIMAL},
+      is_staManage_foreman = #{record.isStamanageForeman,jdbcType=VARCHAR},
+      is_internship = #{record.isInternship,jdbcType=VARCHAR},
+      after_intership_working = #{record.afterIntershipWorking,jdbcType=DECIMAL},
+      peacetime_timeout = #{record.peacetimeTimeout,jdbcType=DECIMAL},
+      holiday_overtime = #{record.holidayOvertime,jdbcType=DECIMAL},
+      is_family_reunion_dinner_on = #{record.is_familyReunionDinnerOn,jdbcType=VARCHAR},
+      on_the_spring_festiva_one = #{record.onTheSpringFestivaOne,jdbcType=DECIMAL},
+      on_the_spring_festiva_two = #{record.onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      is_departure = #{record.isDeparture,jdbcType=VARCHAR},
+      casual_leave = #{record.casualLeave,jdbcType=DECIMAL},
+      absenteeism = #{record.absenteeism,jdbcType=DECIMAL},
+      sick_leave = #{record.sickLeave,jdbcType=DECIMAL},
+      annual_leave = #{record.annualLeave,jdbcType=DECIMAL},
+      marriage_leave = #{record.marriageLeave,jdbcType=DECIMAL},
+      maternity_leave = #{record.maternityLeave,jdbcType=DECIMAL},
+      funeral_leave = #{record.funeralLeave,jdbcType=DECIMAL},
+      days_off = #{record.daysOff,jdbcType=DECIMAL},
+      verbal_warnings = #{record.verbalWarnings,jdbcType=DECIMAL},
+      written_warning = #{record.writtenWarning,jdbcType=DECIMAL},
+      major_accident = #{record.majorAccident,jdbcType=DECIMAL},
+      is_accomodate = #{record.isAccomodate,jdbcType=VARCHAR},
+      is_boarder = #{record.isBoarder,jdbcType=VARCHAR},
+      splendor_card_blue = #{record.splendorCardBlue,jdbcType=INTEGER},
+      splendor_card_green = #{record.splendorCardGreen,jdbcType=INTEGER},
+      part_time_scale = #{record.partTimeScale,jdbcType=DECIMAL},
+      month_performance = #{record.monthPerformance,jdbcType=DECIMAL},
+      manager_bonus_scale = #{record.managerBonusScale,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.AttendanceManagement" >
+    update biz_attendance_management
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workingDay != null" >
+        working_day = #{workingDay,jdbcType=DECIMAL},
+      </if>
+        is_staManage_foreman = #{isStamanageForeman,jdbcType=VARCHAR},
+        is_internship = #{isInternship,jdbcType=VARCHAR},
+      <if test="afterIntershipWorking != null" >
+        after_intership_working = #{afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="peacetimeTimeout != null" >
+        peacetime_timeout = #{peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayOvertime != null" >
+        holiday_overtime = #{holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="isFamilyReunionDinnerOn != null" >
+        is_family_reunion_dinner_on = #{isFamilyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one = #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two = #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeparture != null" >
+        is_departure = #{isDeparture,jdbcType=VARCHAR},
+      </if>
+      <if test="casualLeave != null" >
+        casual_leave = #{casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="absenteeism != null" >
+        absenteeism = #{absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="sickLeave != null" >
+        sick_leave = #{sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="annualLeave != null" >
+        annual_leave = #{annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="marriageLeave != null" >
+        marriage_leave = #{marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="maternityLeave != null" >
+        maternity_leave = #{maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="funeralLeave != null" >
+        funeral_leave = #{funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="daysOff != null" >
+        days_off = #{daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="verbalWarnings != null" >
+        verbal_warnings = #{verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="writtenWarning != null" >
+        written_warning = #{writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="majorAccident != null" >
+        major_accident = #{majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccomodate != null" >
+        is_accomodate = #{isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoarder != null" >
+        is_boarder = #{isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="splendorCardBlue != null" >
+        splendor_card_blue = #{splendorCardBlue,jdbcType=INTEGER},
+      </if>
+      <if test="splendorCardGreen != null" >
+        splendor_card_green = #{splendorCardGreen,jdbcType=INTEGER},
+      </if>
+      <if test="partTimeScale != null" >
+        part_time_scale = #{partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="monthPerformance != null" >
+        month_performance = #{monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonusScale != null" >
+        manager_bonus_scale = #{managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nightShiftDays != null" >
+        night_shift_days = #{nightShiftDays,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supportDays != null" >
+        support_days = #{supportDays,jdbcType=DECIMAL},
+      </if>
+      status = #{status,jdbcType=VARCHAR},
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.AttendanceManagement" >
+    update biz_attendance_management
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      working_day = #{workingDay,jdbcType=DECIMAL},
+      is_staManage_foreman = #{isStamanageForeman,jdbcType=VARCHAR},
+      is_internship = #{isInternship,jdbcType=VARCHAR},
+      after_intership_working = #{afterIntershipWorking,jdbcType=DECIMAL},
+      peacetime_timeout = #{peacetimeTimeout,jdbcType=DECIMAL},
+      holiday_overtime = #{holidayOvertime,jdbcType=DECIMAL},
+      is_family_reunion_dinner_on = #{isFamilyReunionDinnerOn,jdbcType=VARCHAR},
+      on_the_spring_festiva_one = #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      on_the_spring_festiva_two = #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      is_departure = #{isDeparture,jdbcType=VARCHAR},
+      casual_leave = #{casualLeave,jdbcType=DECIMAL},
+      absenteeism = #{absenteeism,jdbcType=DECIMAL},
+      sick_leave = #{sickLeave,jdbcType=DECIMAL},
+      annual_leave = #{annualLeave,jdbcType=DECIMAL},
+      marriage_leave = #{marriageLeave,jdbcType=DECIMAL},
+      maternity_leave = #{maternityLeave,jdbcType=DECIMAL},
+      funeral_leave = #{funeralLeave,jdbcType=DECIMAL},
+      days_off = #{daysOff,jdbcType=DECIMAL},
+      verbal_warnings = #{verbalWarnings,jdbcType=DECIMAL},
+      written_warning = #{writtenWarning,jdbcType=DECIMAL},
+      major_accident = #{majorAccident,jdbcType=DECIMAL},
+      is_accomodate = #{isAccomodate,jdbcType=VARCHAR},
+      is_boarder = #{isBoarder,jdbcType=VARCHAR},
+      splendor_card_blue = #{splendorCardBlue,jdbcType=INTEGER},
+      splendor_card_green = #{splendorCardGreen,jdbcType=INTEGER},
+      part_time_scale = #{partTimeScale,jdbcType=DECIMAL},
+      month_performance = #{monthPerformance,jdbcType=DECIMAL},
+      manager_bonus_scale = #{managerBonusScale,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      year_month = #{yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findAttendanceManagementCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_attendance_management
+  	<if test="stationCode != null">
+  		<where>
+  			station_code = '${stationCode}'
+  		</where>
+  		<if test="yearMonth != null">
+  			and year_month = '${yearMonth}'
+  		</if>
+  	</if>
+  	<if test="stationCode == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month = '${yearMonth}'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  <select id="findAttendanceManagementByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} *, 
+  		(select station_name from biz_station where station_code = t2.station_code) station_name, 
+  		t2.station_code, 
+  		(SELECT 
+  			area_name 
+  		 FROM 
+  		 	biz_area 
+  		 WHERE area_code = (SELECT area_code FROM biz_station WHERE station_code = tt.station_code)) area_name,
+  		(SELECT 
+  		 	station_level_name 
+  		 FROM 
+  		 	biz_station_level 
+  		 WHERE 
+  		 	station_level_code = (SELECT station_level_code FROM biz_station WHERE station_code = tt.station_code)) station_level_name,
+  		 t2.staff_code,
+  		 t2.staff_name,
+  		 t2.staff_idcard,
+  		 t2.staff_bankcard,
+  		 t2.staff_bank,
+  		 t2.duty_code,
+  		 (SELECT duty_name FROM biz_duty WHERE duty_code = t2.duty_code) duty_name,
+  		 t2.staff_in_date
+  	FROM  
+  		biz_attendance_management as tt, biz_staff t2
+    <where>
+    	t2.staff_code = tt.staff_code
+    	and t2.station_code = tt.station_code
+    	and tt.id not in (
+    	SELECT top ${startIndex} ttt.id FROM biz_attendance_management as ttt, biz_staff t3
+    	 where t3.staff_code = ttt.staff_code
+    	and t3.station_code = ttt.station_code
+    	<if test="stationCode != null">
+    		and	ttt.station_code = '${stationCode}'
+    	</if>
+    	<if test="yearMonth != null">
+			and ttt.year_month like '%${yearMonth}%'
+    	</if>
+    	order by ttt.year_month, t3.duty_code, ttt.staff_code)
+    	<if test="stationCode != null">
+    		and tt.station_code = '${stationCode}'
+    	</if>
+    	<if test="yearMonth != null">
+    		and tt.year_month like '${yearMonth}'
+    	</if>
+    	order by tt.year_month, t2.duty_code, tt.staff_code
+    </where>
+  </select>
+  
+  <select id="findAllAttendanceManagementByCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+		t3.station_name,
+		(SELECT area_name FROM biz_area WHERE area_code = t3.area_code) area_name, 
+		(SELECT station_level_name FROM biz_station_level WHERE station_level_code = t3.station_level_code) station_level_name,
+		t1.staff_code, t1.staff_name, t1.staff_idcard, t1.staff_bankcard, t1.staff_bank, t1.staff_in_date,
+		(SELECT duty_name FROM biz_duty WHERE duty_code = t1.duty_code) duty_name,
+		t2.id, t2.staff_code, t3.station_code,
+		t2.working_day, t2.is_staManage_foreman, t2.is_internship, t2.after_intership_working, t2.peacetime_timeout,
+		t2.holiday_overtime,t2.is_family_reunion_dinner_on, t2.on_the_spring_festiva_one, t2.on_the_spring_festiva_two,
+		t2.is_departure, t2.casual_leave, t2.absenteeism, t2.sick_leave, t2.annual_leave, t2.marriage_leave,
+		t2.maternity_leave, t2.funeral_leave, t2.days_off, t2.verbal_warnings, t2.written_warning, t2.major_accident,
+		t2.is_accomodate, t2.is_boarder, t2.splendor_card_blue, t2.splendor_card_green, t2.part_time_scale, 
+		t2.month_performance, t2.manager_bonus_scale, t2.remark, t2.year_month, t2.sys_create_time, t2.sys_update_time 	
+	FROM    
+		biz_station t3,
+		biz_staff t1 
+	LEFT OUTER JOIN 
+		biz_attendance_management t2 
+	ON 
+		t1.staff_code = t2.staff_code AND t2.year_month = '${yearMonth}' and t1.station_code = t2.station_code
+	WHERE 
+		t1.station_code = t3.station_code
+	and t1.staff_status != '2'
+<!-- 	  and (t1.staff_status != '2' or t1.staff_out_date is null  -->
+<!-- 	  		or DATEPART(month,t1.staff_out_date) >= DATEPART(month, '${yearMonth}-01')) -->
+		<if test="stationCode != null">
+			AND t1.station_code = '${stationCode}'
+		</if>
+		order by t1.duty_code, t1.staff_code
+  </select>
+  <select id="findAllAttendanceManagementByYearMonth" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_attendance_management WHERE year_month = '${yearMonth}'
+  </select>
+  <select id="deprecated_findAllAttendanceManagementsByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+		t2.staff_name,
+		t2.staff_idcard,
+		t2.staff_bankcard,
+		t2.staff_bank,
+        t2.duty_code,
+		t2.staff_in_date,
+		t3.loss_amt,
+		(select station_name from biz_station where station_code = t1.station_code) station_name,
+		(select area_name from biz_area where area_code = t4.area_code) area_name,
+		(select station_level_name from biz_station_level sl, biz_station_target staff where sl.station_level_code = staff.station_level_code and staff.staff_code = t1.staff_code) station_level_name,
+		(select duty_name from biz_duty duty where duty.duty_code = t2.duty_code) duty_name,
+		(select sum(holiday_money) from biz_holiday_cost where year_month = '${yearMonth}' and type = '0') holiday_money,
+		(select sum(holiday_money) from biz_holiday_cost where year_month = '${yearMonth}' and type = '1') subsidy_money,
+        t1.*
+    FROM
+		biz_attendance_management t1,
+		biz_staff t2,
+		biz_station t4,
+		biz_staff_cost t3
+    WHERE
+			t4.station_code = t1.station_code
+		AND t1.staff_code = t2.staff_code
+		AND t3.staff_code = t1.staff_code
+		AND t3.staff_cost_year_month = '${yearMonth}'
+		AND t1.year_month = '${yearMonth}'
+		AND t4.district_code = '${districtCode}'
+		
+	ORDER BY t1.station_code ASC
+  </select>
+  <select id="findAllAttendanceManagementsByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+		t2.staff_name,
+		t2.staff_idcard,
+		t2.staff_bankcard,
+		t2.staff_bank,
+        t2.duty_code,
+		t2.staff_in_date,
+		t3.loss_amt,
+		t4.station_name,
+		(select area_name from biz_area where area_code = t4.area_code) area_name,
+		(select station_level_name from biz_station_level sl, biz_station_target staff where sl.station_level_code = staff.station_level_code and staff.staff_code = t1.staff_code) station_level_name,
+		duty.duty_name,
+		duty.duty_nature,
+		(select sum(holiday_money) from biz_holiday_cost where year_month = '${yearMonth}' and type = '0') holiday_money,
+<!-- 		(select sum(holiday_money) from biz_holiday_cost where year_month = '${yearMonth}' and type = '1') subsidy_money, -->
+		(case when lb.loss_bonus_amt is not null then lb.loss_bonus_amt else 0 end) as loss_bonus_amt,
+		(case when lb1.loss_bonus_amt is not null then lb1.loss_bonus_amt else 0 end) as inventory_deduct_amt,
+		(case when t3.staff_cost_acc_fund is not null then t3.staff_cost_acc_fund else 0 end) as staff_cost_acc_fund,
+		(case when t3.staff_cost_endowment is not null then t3.staff_cost_endowment else 0 end) as staff_cost_endowment,
+		(case when t3.staff_cost_unemployment is not null then t3.staff_cost_unemployment else 0 end) as staff_cost_unemployment,
+		(case when t3.staff_cost_medical is not null then t3.staff_cost_medical else 0 end) as staff_cost_medical,
+		(case when mb.phone_cost is not null then mb.phone_cost else 0 end) as phone_cost,
+		(case when mb.education_cost is not null then mb.education_cost else 0 end) as education_cost,
+		(case when mb.job_subsidies is not null then mb.job_subsidies else 0 end) as job_subsidies,
+		(case when st.accommodation_subsidy is not null then st.accommodation_subsidy else 0 end) as accommodation_subsidy,
+		st.is_accommo_subsidy_arti,
+        t1.*
+    FROM
+		biz_attendance_management t1,
+		biz_station t4,
+		biz_duty duty,
+		biz_station_target st,
+		biz_staff t2
+		LEFT JOIN biz_loss_bonus lb
+		ON lb.staff_code = t2.staff_code
+		AND lb.station_code = t2.station_code
+		AND lb.type = '0'
+		LEFT JOIN biz_loss_bonus lb1
+		ON lb1.staff_code = t2.staff_code
+		AND lb1.station_code = t2.station_code
+		AND lb1.type = '1'
+		LEFT JOIN biz_staff_cost t3
+		ON t3.staff_code = t2.staff_code
+		AND t3.station_code = t2.station_code
+		AND t3.staff_cost_year_month = '${yearMonth}'
+		LEFT JOIN biz_manage_base mb
+		ON mb.staff_code = t2.staff_code
+		AND mb.station_code = t2.station_code
+    WHERE
+			t4.station_code = t1.station_code
+		AND t1.staff_code = t2.staff_code
+		AND t1.station_code = t2.station_code
+		AND duty.duty_code = t2.duty_code
+		AND st.station_code = t4.station_code
+		AND st.year_month = '${yearMonth}'
+		AND t1.year_month = '${yearMonth}'
+		AND t4.district_code = '${districtCode}'
+	ORDER BY t1.station_code ASC,duty.sort ASC
+  </select>
+  
+  <select id="countByYearMonth" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_attendance_management 
+  	 WHERE station_code = '${stationCode}'
+  	   AND year_month = '${yearMonth}' 
+  	   AND status in ('0','1')
+  </select>
+</mapper>

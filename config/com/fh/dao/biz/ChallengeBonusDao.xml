@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.ChallengeBonusDao" >
+
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.ChallengeBonus" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="plan_day" property="planDay" jdbcType="BIGINT" />
+    <result column="base_target" property="baseTarget" jdbcType="BIGINT" />
+    <result column="base_bonus_amt" property="baseBonusAmt" jdbcType="DECIMAL" />
+    <result column="middle_target" property="middleTarget" jdbcType="BIGINT" />
+    <result column="middle_bonus_amt" property="middleBonusAmt" jdbcType="DECIMAL" />
+    <result column="challenge_target" property="challengeTarget" jdbcType="BIGINT" />
+    <result column="challenge_bonus_amt" property="challengeBonusAmt" jdbcType="DECIMAL" />
+    <result column="non_oil_total_amt" property="nonOilTotalAmt" jdbcType="DECIMAL" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getChallengeBonus" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from biz_challenge_bonus
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from biz_challenge_bonus where id = #{id, jdbcType=BIGINT}
+  </delete>
+
+  <insert id="save" parameterType="com.fh.entity.biz.ChallengeBonus" >
+    insert into biz_challenge_bonus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="planDay != null" >
+        plan_day,
+      </if>
+      <if test="baseTarget != null" >
+        base_target,
+      </if>
+      <if test="baseBonusAmt != null" >
+        base_bonus_amt,
+      </if>
+      <if test="middleTarget != null" >
+        middle_target,
+      </if>
+      <if test="middleBonusAmt != null" >
+        middle_bonus_amt,
+      </if>
+      <if test="challengeTarget != null" >
+        challenge_target,
+      </if>
+      <if test="challengeBonusAmt != null" >
+        challenge_bonus_amt,
+      </if>
+      <if test="nonOilTotalAmt != null" >
+        non_oil_total_amt,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="type != null" >
+        type
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="planDay != null" >
+        #{planDay,jdbcType=VARCHAR},
+      </if>
+      <if test="baseTarget != null" >
+        #{baseTarget,jdbcType=BIGINT},
+      </if>
+      <if test="baseBonusAmt != null" >
+        #{baseBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="middleTarget != null" >
+        #{middleTarget,jdbcType=BIGINT},
+      </if>
+      <if test="middleBonusAmt != null" >
+        #{middleBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeTarget != null" >
+        #{challengeTarget,jdbcType=BIGINT},
+      </if>
+      <if test="challengeBonusAmt != null" >
+        #{challengeBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilTotalAmt != null" >
+        #{nonOilTotalAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="type != null" >
+        #{type,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <select id="findCount" parameterType="com.fh.entity.biz.ChallengeBonus" resultType="java.lang.Integer" >
+    select count(*) from biz_challenge_bonus where 1=1
+    <if test="stationCode != null">
+		and station_code = #{stationCode}
+  	</if>
+  	<if test="type != null">
+    		and type = '${type}'
+   	</if>
+  </select>
+  <update id="update" parameterType="com.fh.entity.biz.ChallengeBonus" >
+    update biz_challenge_bonus
+    <set >
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="planDay != null" >
+        plan_day = #{planDay,jdbcType=VARCHAR},
+      </if>
+      <if test="baseTarget != null" >
+        base_Target = #{baseTarget,jdbcType=BIGINT},
+      </if>
+      <if test="baseBonusAmt != null" >
+        base_Bonus_Amt = #{baseBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="middleTarget != null" >
+        middle_Target = #{middleTarget,jdbcType=BIGINT},
+      </if>
+      <if test="middleBonusAmt != null" >
+        middle_Bonus_Amt = #{middleBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeTarget != null" >
+        challenge_Target = #{challengeTarget,jdbcType=BIGINT},
+      </if>
+      <if test="challengeBonusAmt != null" >
+        challenge_Bonus_Amt = #{challengeBonusAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilTotalAmt != null" >
+        non_oil_total_amt = #{nonOilTotalAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findChallengeBonusList" parameterType="com.fh.entity.biz.ChallengeBonus" resultMap="BaseResultMap">
+  	select * from biz_challenge_bonus as tt
+  	 where 1=1
+  	   <if test="stationCode != null">
+    		and tt.station_Code = '${stationCode}'
+    	</if>
+    	<if test="yearMonth != null">
+    		and tt.year_month = '${yearMonth}'
+    	</if>
+    	<if test="type != null">
+    		and tt.type = '${type}'
+    	</if>
+  </select>
+  
+  <select id="findChallengeBonusPage" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from biz_challenge_bonus as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from biz_challenge_bonus as ttt
+    	<where>
+    	 1=1
+    	</where>
+    	<if test="stationCode != null">
+    		and	ttt.station_Code = '${stationCode}'
+    	</if>
+    	<if test="type != null">
+    		and ttt.type = '${type}'
+    	</if>
+    	)
+    	<if test="stationCode != null">
+    		and tt.station_Code = '${stationCode}'
+    	</if>
+    	<if test="type != null">
+    		and tt.type = '${type}'
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

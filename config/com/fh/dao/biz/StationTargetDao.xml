@@ -1,0 +1,1968 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StationTargetDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.StationTarget" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="station_staff_num" property="stationStaffNum" jdbcType="INTEGER" />
+    <result column="station_staff_num_float" property="stationStaffNumFloat" jdbcType="INTEGER" />
+    <result column="station_level_code" property="stationLevelCode" jdbcType="VARCHAR" />
+    <result column="station_level_name" property="stationLevelName" jdbcType="VARCHAR" />
+    <result column="mmp" property="mmp" jdbcType="DOUBLE" />
+    <result column="nps" property="nps" jdbcType="DOUBLE" />
+    <result column="oil_target_volume" property="oilTargetVolume" jdbcType="DECIMAL" />
+    <result column="oil_real_volume" property="oilRealVolume" jdbcType="DECIMAL" />
+    <result column="oil_day_average_volume" property="oilDayAverageVolume" jdbcType="DECIMAL" />
+    <result column="non_oil_target_volume" property="nonOilTargetVolume" jdbcType="DECIMAL" />
+    <result column="non_oil_real_volume" property="nonOilRealVolume" jdbcType="DECIMAL" />
+    <result column="non_oil_day_average_volume" property="nonOilDayAverageVolume" jdbcType="DECIMAL" />
+    <result column="store_mark_score" property="storeMarkScore" jdbcType="DECIMAL" />
+    <result column="store_manage_score" property="storeManageScore" jdbcType="DECIMAL" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="gasoline_target_volume" property="gasolineTargetVolume" jdbcType="DECIMAL" />
+    <result column="diesel_target_volume" property="dieselTargetVolume" jdbcType="DECIMAL" />
+    <result column="gasoline_day_average_volume" property="gasolineDayAverageVolume" jdbcType="DECIMAL" />
+    <result column="diesel_day_average_volume" property="dieselDayAverageVolume" jdbcType="DECIMAL" />
+    <result column="is_keep_dormitory" property="isKeepDormitory" jdbcType="CHAR" />
+    <result column="dormitory_subsidies" property="dormitorySubsidies" jdbcType="DECIMAL" />
+    <result column="monthly_store_allowance" property="monthlyStoreAllowance" jdbcType="DECIMAL" />
+    <result column="oil_standard_rate" property="oilStandardRate" jdbcType="DECIMAL" />
+    <result column="non_oil_standard_rate" property="nonOilStandardRate" jdbcType="DECIMAL" />
+    <result column="direct_selling_bonus" property="directSellingBonus" jdbcType="DECIMAL" />
+    <result column="upper_limit" property="upperLimit" jdbcType="DECIMAL" />
+    <result column="mmp_coefficient" property="mmpCoefficient" jdbcType="DECIMAL" />
+    <result column="nps_coefficient" property="npsCoefficient" jdbcType="DECIMAL" />
+    <result column="weighting_coefficient" property="weightingCoefficient" jdbcType="DECIMAL" />
+    <result column="monthly_manager_bonus" property="monthlyManagerBonus" jdbcType="DECIMAL" />
+    <result column="monthly_manager_oil_standard_bonus" property="monthlyManagerOilStandardBonus" jdbcType="DECIMAL" />
+    <result column="monthly_manager_non_oil_standard_bonus" property="monthlyManagerNonOilStandardBonus" jdbcType="DECIMAL" />
+    <result column="total_monthly_manager_bonus" property="totalMonthlyManagerBonus" jdbcType="DECIMAL" />
+    <result column="monthly_sale_oil_bonus" property="monthlySaleOilBonus" jdbcType="DECIMAL" />
+    <result column="monthly_non_sale_oil_bonus" property="monthlyNonSaleOilBonus" jdbcType="DECIMAL" />
+    <result column="current_month_oil_bonus" property="currentMonthOilBonus" jdbcType="DECIMAL" />
+    <result column="current_month_non_oil_bonus" property="currentMonthNonOilBonus" jdbcType="DECIMAL" />
+    <result column="safeguard_procedures" property="safeguardProcedures" jdbcType="DECIMAL" />
+    <result column="current_month_payable_oil_bonus" property="currentMonthPayableOilBonus" jdbcType="DECIMAL" />
+    <result column="station_accountant_data_one" property="stationAccountantDataOne" jdbcType="VARCHAR" />
+    <result column="station_accountant_data_two" property="stationAccountantDataTwo" jdbcType="VARCHAR" />
+    <result column="station_accountant_base_bonus" property="stationAccountantBaseBonus" jdbcType="DECIMAL" />
+    <result column="accountant_bonus_station_type" property="accountantBonusStationType" jdbcType="VARCHAR" />
+    <result column="performance_challenge_bonus" property="performanceChallengeBonus" jdbcType="DECIMAL" />
+    <result column="station_staff_num_and_admin" property="stationStaffNumAndAdmin" jdbcType="INTEGER" />
+    <result column="boarder_subsidies" property="boarderSubsidies" jdbcType="DECIMAL" />
+    <result column="managerial_position_population" property="managerialPositionPopulation" jdbcType="INTEGER" />
+    <result column="managerial_position_real_population" property="managerialPositionRealPopulation" jdbcType="INTEGER" />
+    <result column="managerial_position_count_base_one" property="managerialPositionCountBaseOne" jdbcType="VARCHAR" />
+    <result column="managerial_position_count_base_two" property="managerialPositionCountBaseTwo" jdbcType="VARCHAR" />
+    <result column="managerial_position_count_base_three" property="managerialPositionCountBaseThree" jdbcType="VARCHAR" />
+    <result column="managerial_position_count_base_four" property="managerialPositionCountBaseFour" jdbcType="VARCHAR" />
+    <result column="base_target" property="baseTarget" jdbcType="DECIMAL" />
+    <result column="challenge_target" property="challengeTarget" jdbcType="DECIMAL" />
+    <result column="base_bonus" property="baseBonus" jdbcType="DECIMAL" />
+    <result column="challenge_bonus" property="challengeBonus" jdbcType="DECIMAL" />
+    <result column="current_month_bonus" property="currentMonthBonus" jdbcType="DECIMAL" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_in_date" property="staffInDate" jdbcType="VARCHAR" />
+    <result column="staff_cost_acc_fund" property="staffCostAccFund" jdbcType="DECIMAL" />
+    <result column="staff_cost_endowment" property="staffCostEndowment" jdbcType="DECIMAL" />
+    <result column="staff_cost_unemployment" property="staffCostUnemployment" jdbcType="DECIMAL" />
+    <result column="staff_cost_medical" property="staffCostMedical" jdbcType="DECIMAL" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="food_way" property="foodWay" jdbcType="VARCHAR" />
+    <result column="boarder_subsidies_remark" property="boarderSubsidiesRemark" jdbcType="VARCHAR" />
+    <result column="station_type" property="stationType" jdbcType="VARCHAR" />
+    <result column="is_oil_standard_rate_artificial" property="isOilStandardRateArtificial" jdbcType="VARCHAR" />
+    <result column="is_non_oil_standard_rate_artificial" property="isNonOilStandardRateArtificial" jdbcType="VARCHAR" />
+    <result column="accommodation_subsidy" property="accommodationSubsidy" jdbcType="DECIMAL" />
+    <result column="is_accommo_subsidy_arti" property="isAccommoSubsidyArti" jdbcType="VARCHAR" />
+    
+    <result column="base_target" property="baseTarget" jdbcType="VARCHAR" />
+    <result column="middle_target" property="middleTarget" jdbcType="VARCHAR" />
+    <result column="challenge_target" property="challengeTarget" jdbcType="VARCHAR" />
+    <result column="planDay" property="planDay" jdbcType="VARCHAR" />
+    
+    <result column="base_bonus_amt" property="baseBonusAmt" jdbcType="DECIMAL" />
+    <result column="middle_bonus_amt" property="middleBonusAmt" jdbcType="DECIMAL" />
+    <result column="challenge_bonus_amt" property="challengeBonusAmt" jdbcType="DECIMAL" />
+    <result column="non_oil_total_amt" property="nonOilTotalAmt" jdbcType="DECIMAL" />
+    
+    <result column="non_oil_base_target" property="nonOilBaseTarget" jdbcType="BIGINT" />
+    <result column="non_oil_base_bonus_amt" property="nonOilBaseBonusAmt" jdbcType="DECIMAL" />
+    <result column="non_oil_challenge_target" property="nonOilChallengeTarget" jdbcType="BIGINT" />
+    <result column="non_oil_challenge_bonus_amt" property="nonOilChallengeBonusAmt" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, station_staff_num, station_staff_num_float, station_level_code, mmp, nps, oil_target_volume, 
+      oil_real_volume, oil_day_average_volume, non_oil_target_volume, non_oil_real_volume, 
+      non_oil_day_average_volume, store_mark_score, store_manage_score, year_month, sys_create_time, 
+      sys_update_time, remark, gasoline_target_volume, diesel_target_volume, gasoline_day_average_volume, 
+      diesel_day_average_volume, is_keep_dormitory, dormitory_subsidies, monthly_store_allowance, 
+      oil_standard_rate, non_oil_standard_rate, direct_selling_bonus, upper_limit, mmp_coefficient, 
+      nps_coefficient, weighting_coefficient, monthly_manager_bonus, monthly_manager_oil_standard_bonus, 
+      monthly_manager_non_oil_standard_bonus, total_monthly_manager_bonus, monthly_sale_oil_bonus, 
+      monthly_non_sale_oil_bonus, current_month_oil_bonus, current_month_non_oil_bonus, 
+      safeguard_procedures, current_month_payable_oil_bonus, station_accountant_data_one, 
+      station_accountant_data_two, station_accountant_base_bonus, accountant_bonus_station_type, 
+      performance_challenge_bonus, station_staff_num_and_admin, boarder_subsidies, managerial_position_population, 
+      managerial_position_real_population, managerial_position_count_base_one, managerial_position_count_base_two, 
+      managerial_position_count_base_three, managerial_position_count_base_four, base_target, 
+      challenge_target, base_bonus, challenge_bonus, current_month_bonus, station_code, 
+      area_code, staff_code, duty_code, district_code, food_way, boarder_subsidies_remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StationTargetQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_station_target
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,station_staff_num,
+    station_staff_num_float,
+    station_level_code,
+    mmp,
+    nps,
+    oil_target_volume,oil_real_volume,oil_day_average_volume,non_oil_target_volume,
+    non_oil_real_volume,non_oil_day_average_volume,store_mark_score,store_manage_score,
+    year_month,sys_create_time,sys_update_time,remark,gasoline_target_volume,
+    diesel_target_volume,gasoline_day_average_volume,diesel_day_average_volume,
+    is_keep_dormitory,dormitory_subsidies,monthly_store_allowance,oil_standard_rate,
+    non_oil_standard_rate,direct_selling_bonus,upper_limit,mmp_coefficient,nps_coefficient,
+    weighting_coefficient,monthly_manager_bonus,monthly_manager_oil_standard_bonus,
+    monthly_manager_non_oil_standard_bonus,total_monthly_manager_bonus,monthly_sale_oil_bonus,
+    monthly_non_sale_oil_bonus,current_month_oil_bonus,current_month_non_oil_bonus,
+    safeguard_procedures,current_month_payable_oil_bonus,station_accountant_data_one,
+    station_accountant_data_two,station_accountant_base_bonus,accountant_bonus_station_type,
+    performance_challenge_bonus,station_staff_num_and_admin,boarder_subsidies,
+    managerial_position_population,managerial_position_real_population,
+    managerial_position_count_base_one,managerial_position_count_base_two,
+    managerial_position_count_base_three,managerial_position_count_base_four,
+    base_target,challenge_target,base_bonus,challenge_bonus,current_month_bonus,station_code,
+    area_code,staff_code,duty_code,district_code,food_way,boarder_subsidies_remark,
+    is_oil_standard_rate_artificial,is_non_oil_standard_rate_artificial
+    from biz_station_target
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_station_target
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StationTargetQuery" >
+    delete from biz_station_target
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.StationTarget" >
+    insert into biz_station_target (id, station_staff_num, station_staff_num_float, 
+      station_level_code, mmp, nps, 
+      oil_target_volume, oil_real_volume, oil_day_average_volume, 
+      non_oil_target_volume, non_oil_real_volume, non_oil_day_average_volume, 
+      store_mark_score, store_manage_score, year_month, 
+      sys_create_time, sys_update_time, remark, 
+      gasoline_target_volume, diesel_target_volume, 
+      gasoline_day_average_volume, diesel_day_average_volume, 
+      is_keep_dormitory, dormitory_subsidies, monthly_store_allowance, 
+      oil_standard_rate, non_oil_standard_rate, direct_selling_bonus, 
+      upper_limit, mmp_coefficient, nps_coefficient, 
+      weighting_coefficient, monthly_manager_bonus, 
+      monthly_manager_oil_standard_bonus, monthly_manager_non_oil_standard_bonus, 
+      total_monthly_manager_bonus, monthly_sale_oil_bonus, 
+      monthly_non_sale_oil_bonus, current_month_oil_bonus, 
+      current_month_non_oil_bonus, safeguard_procedures, 
+      current_month_payable_oil_bonus, station_accountant_data_one, 
+      station_accountant_data_two, station_accountant_base_bonus, 
+      accountant_bonus_station_type, performance_challenge_bonus, 
+      station_staff_num_and_admin, boarder_subsidies, 
+      managerial_position_population, managerial_position_real_population, 
+      managerial_position_count_base_one, managerial_position_count_base_two, 
+      managerial_position_count_base_three, managerial_position_count_base_four, 
+      base_target, challenge_target, base_bonus, 
+      challenge_bonus, current_month_bonus, station_code, 
+      area_code, staff_code, duty_code, 
+      district_code, food_way, boarder_subsidies_remark
+      )
+    values (#{id,jdbcType=BIGINT}, #{stationStaffNum,jdbcType=INTEGER}, #{stationStaffNumFloat,jdbcType=INTEGER}, 
+      #{stationLevelCode,jdbcType=VARCHAR}, #{mmp,jdbcType=DOUBLE}, #{nps,jdbcType=DOUBLE}, 
+      #{oilTargetVolume,jdbcType=DECIMAL}, #{oilRealVolume,jdbcType=DECIMAL}, #{oilDayAverageVolume,jdbcType=DECIMAL}, 
+      #{nonOilTargetVolume,jdbcType=DECIMAL}, #{nonOilRealVolume,jdbcType=DECIMAL}, #{nonOilDayAverageVolume,jdbcType=DECIMAL}, 
+      #{storeMarkScore,jdbcType=DECIMAL}, #{storeManageScore,jdbcType=DECIMAL}, #{yearMonth,jdbcType=VARCHAR}, 
+      #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{gasolineTargetVolume,jdbcType=DECIMAL}, #{dieselTargetVolume,jdbcType=DECIMAL}, 
+      #{gasolineDayAverageVolume,jdbcType=DECIMAL}, #{dieselDayAverageVolume,jdbcType=DECIMAL}, 
+      #{isKeepDormitory,jdbcType=CHAR}, #{dormitorySubsidies,jdbcType=DECIMAL}, #{monthlyStoreAllowance,jdbcType=DECIMAL}, 
+      #{oilStandardRate,jdbcType=DECIMAL}, #{nonOilStandardRate,jdbcType=DECIMAL}, #{directSellingBonus,jdbcType=DECIMAL}, 
+      #{upperLimit,jdbcType=DECIMAL}, #{mmpCoefficient,jdbcType=DECIMAL}, #{npsCoefficient,jdbcType=DECIMAL}, 
+      #{weightingCoefficient,jdbcType=DECIMAL}, #{monthlyManagerBonus,jdbcType=DECIMAL}, 
+      #{monthlyManagerOilStandardBonus,jdbcType=DECIMAL}, #{monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL}, 
+      #{totalMonthlyManagerBonus,jdbcType=DECIMAL}, #{monthlySaleOilBonus,jdbcType=DECIMAL}, 
+      #{monthlyNonSaleOilBonus,jdbcType=DECIMAL}, #{currentMonthOilBonus,jdbcType=DECIMAL}, 
+      #{currentMonthNonOilBonus,jdbcType=DECIMAL}, #{safeguardProcedures,jdbcType=DECIMAL}, 
+      #{currentMonthPayableOilBonus,jdbcType=DECIMAL}, #{stationAccountantDataOne,jdbcType=VARCHAR}, 
+      #{stationAccountantDataTwo,jdbcType=VARCHAR}, #{stationAccountantBaseBonus,jdbcType=DECIMAL}, 
+      #{accountantBonusStationType,jdbcType=VARCHAR}, #{performanceChallengeBonus,jdbcType=DECIMAL}, 
+      #{stationStaffNumAndAdmin,jdbcType=INTEGER}, #{boarderSubsidies,jdbcType=DECIMAL}, 
+      #{managerialPositionPopulation,jdbcType=INTEGER}, #{managerialPositionRealPopulation,jdbcType=INTEGER}, 
+      #{managerialPositionCountBaseOne,jdbcType=VARCHAR}, #{managerialPositionCountBaseTwo,jdbcType=VARCHAR}, 
+      #{managerialPositionCountBaseThree,jdbcType=VARCHAR}, #{managerialPositionCountBaseFour,jdbcType=VARCHAR}, 
+      #{baseTarget,jdbcType=DECIMAL}, #{challengeTarget,jdbcType=DECIMAL}, #{baseBonus,jdbcType=DECIMAL}, 
+      #{challengeBonus,jdbcType=DECIMAL}, #{currentMonthBonus,jdbcType=DECIMAL}, #{stationCode,jdbcType=VARCHAR}, 
+      #{areaCode,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, #{dutyCode,jdbcType=VARCHAR}, 
+      #{districtCode,jdbcType=VARCHAR}, #{foodWay,jdbcType=VARCHAR}, #{boarderSubsidiesRemark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.StationTarget" >
+    insert into biz_station_target
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stationStaffNum != null" >
+        station_staff_num,
+      </if>
+      <if test="stationStaffNumFloat != null" >
+        station_staff_num_float,
+      </if>
+      <if test="stationLevelCode != null" >
+        station_level_code,
+      </if>
+      <if test="mmp != null" >
+        mmp,
+      </if>
+      <if test="nps != null" >
+        nps,
+      </if>
+      <if test="oilTargetVolume != null" >
+        oil_target_volume,
+      </if>
+      <if test="oilRealVolume != null" >
+        oil_real_volume,
+      </if>
+      <if test="oilDayAverageVolume != null" >
+        oil_day_average_volume,
+      </if>
+      <if test="nonOilTargetVolume != null" >
+        non_oil_target_volume,
+      </if>
+      <if test="nonOilRealVolume != null" >
+        non_oil_real_volume,
+      </if>
+      <if test="nonOilDayAverageVolume != null" >
+        non_oil_day_average_volume,
+      </if>
+      <if test="storeMarkScore != null" >
+        store_mark_score,
+      </if>
+      <if test="storeManageScore != null" >
+        store_manage_score,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="gasolineTargetVolume != null" >
+        gasoline_target_volume,
+      </if>
+      <if test="dieselTargetVolume != null" >
+        diesel_target_volume,
+      </if>
+      <if test="gasolineDayAverageVolume != null" >
+        gasoline_day_average_volume,
+      </if>
+      <if test="dieselDayAverageVolume != null" >
+        diesel_day_average_volume,
+      </if>
+      <if test="isKeepDormitory != null" >
+        is_keep_dormitory,
+      </if>
+      <if test="dormitorySubsidies != null" >
+        dormitory_subsidies,
+      </if>
+      <if test="monthlyStoreAllowance != null" >
+        monthly_store_allowance,
+      </if>
+      <if test="oilStandardRate != null" >
+        oil_standard_rate,
+      </if>
+      <if test="nonOilStandardRate != null" >
+        non_oil_standard_rate,
+      </if>
+      <if test="directSellingBonus != null" >
+        direct_selling_bonus,
+      </if>
+      <if test="upperLimit != null" >
+        upper_limit,
+      </if>
+      <if test="mmpCoefficient != null" >
+        mmp_coefficient,
+      </if>
+      <if test="npsCoefficient != null" >
+        nps_coefficient,
+      </if>
+      <if test="weightingCoefficient != null" >
+        weighting_coefficient,
+      </if>
+      <if test="monthlyManagerBonus != null" >
+        monthly_manager_bonus,
+      </if>
+      <if test="monthlyManagerOilStandardBonus != null" >
+        monthly_manager_oil_standard_bonus,
+      </if>
+      <if test="monthlyManagerNonOilStandardBonus != null" >
+        monthly_manager_non_oil_standard_bonus,
+      </if>
+      <if test="totalMonthlyManagerBonus != null" >
+        total_monthly_manager_bonus,
+      </if>
+      <if test="monthlySaleOilBonus != null" >
+        monthly_sale_oil_bonus,
+      </if>
+      <if test="monthlyNonSaleOilBonus != null" >
+        monthly_non_sale_oil_bonus,
+      </if>
+      <if test="currentMonthOilBonus != null" >
+        current_month_oil_bonus,
+      </if>
+      <if test="currentMonthNonOilBonus != null" >
+        current_month_non_oil_bonus,
+      </if>
+      <if test="safeguardProcedures != null" >
+        safeguard_procedures,
+      </if>
+      <if test="currentMonthPayableOilBonus != null" >
+        current_month_payable_oil_bonus,
+      </if>
+      <if test="stationAccountantDataOne != null" >
+        station_accountant_data_one,
+      </if>
+      <if test="stationAccountantDataTwo != null" >
+        station_accountant_data_two,
+      </if>
+      <if test="stationAccountantBaseBonus != null" >
+        station_accountant_base_bonus,
+      </if>
+      <if test="accountantBonusStationType != null" >
+        accountant_bonus_station_type,
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        performance_challenge_bonus,
+      </if>
+      <if test="stationStaffNumAndAdmin != null" >
+        station_staff_num_and_admin,
+      </if>
+      <if test="boarderSubsidies != null" >
+        boarder_subsidies,
+      </if>
+      <if test="managerialPositionPopulation != null" >
+        managerial_position_population,
+      </if>
+      <if test="managerialPositionRealPopulation != null" >
+        managerial_position_real_population,
+      </if>
+      <if test="managerialPositionCountBaseOne != null" >
+        managerial_position_count_base_one,
+      </if>
+      <if test="managerialPositionCountBaseTwo != null" >
+        managerial_position_count_base_two,
+      </if>
+      <if test="managerialPositionCountBaseThree != null" >
+        managerial_position_count_base_three,
+      </if>
+      <if test="managerialPositionCountBaseFour != null" >
+        managerial_position_count_base_four,
+      </if>
+      <if test="baseTarget != null" >
+        base_target,
+      </if>
+      <if test="challengeTarget != null" >
+        challenge_target,
+      </if>
+      <if test="baseBonus != null" >
+        base_bonus,
+      </if>
+      <if test="challengeBonus != null" >
+        challenge_bonus,
+      </if>
+      <if test="currentMonthBonus != null" >
+        current_month_bonus,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="dutyCode != null" >
+        duty_code,
+      </if>
+      <if test="districtCode != null" >
+        district_code,
+      </if>
+      <if test="foodWay != null" >
+        food_way,
+      </if>
+      <if test="boarderSubsidiesRemark != null" >
+        boarder_subsidies_remark,
+      </if>
+      <if test="isOilStandardRateArtificial != null" >
+        is_oil_standard_rate_artificial,
+      </if>
+      <if test="isNonOilStandardRateArtificial != null" >
+        is_non_oil_standard_rate_artificial,
+      </if>
+       <if test="accommodationSubsidy != null" >
+        accommodation_subsidy,
+      </if>
+       <if test="isAccommoSubsidyArti != null" >
+        is_accommo_subsidy_arti,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="stationStaffNum != null" >
+        #{stationStaffNum,jdbcType=INTEGER},
+      </if>
+      <if test="stationStaffNumFloat != null" >
+        #{stationStaffNumFloat,jdbcType=INTEGER},
+      </if>
+      <if test="stationLevelCode != null" >
+        #{stationLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mmp != null" >
+        #{mmp,jdbcType=DOUBLE},
+      </if>
+      <if test="nps != null" >
+        #{nps,jdbcType=DOUBLE},
+      </if>
+      <if test="oilTargetVolume != null" >
+        #{oilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="oilRealVolume != null" >
+        #{oilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="oilDayAverageVolume != null" >
+        #{oilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilTargetVolume != null" >
+        #{nonOilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilRealVolume != null" >
+        #{nonOilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilDayAverageVolume != null" >
+        #{nonOilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="storeMarkScore != null" >
+        #{storeMarkScore,jdbcType=DECIMAL},
+      </if>
+      <if test="storeManageScore != null" >
+        #{storeManageScore,jdbcType=DECIMAL},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gasolineTargetVolume != null" >
+        #{gasolineTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dieselTargetVolume != null" >
+        #{dieselTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="gasolineDayAverageVolume != null" >
+        #{gasolineDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dieselDayAverageVolume != null" >
+        #{dieselDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="isKeepDormitory != null" >
+        #{isKeepDormitory,jdbcType=CHAR},
+      </if>
+      <if test="dormitorySubsidies != null" >
+        #{dormitorySubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyStoreAllowance != null" >
+        #{monthlyStoreAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="oilStandardRate != null" >
+        #{oilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilStandardRate != null" >
+        #{nonOilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="directSellingBonus != null" >
+        #{directSellingBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="upperLimit != null" >
+        #{upperLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="mmpCoefficient != null" >
+        #{mmpCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="npsCoefficient != null" >
+        #{npsCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="weightingCoefficient != null" >
+        #{weightingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerBonus != null" >
+        #{monthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerOilStandardBonus != null" >
+        #{monthlyManagerOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerNonOilStandardBonus != null" >
+        #{monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMonthlyManagerBonus != null" >
+        #{totalMonthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlySaleOilBonus != null" >
+        #{monthlySaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyNonSaleOilBonus != null" >
+        #{monthlyNonSaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthOilBonus != null" >
+        #{currentMonthOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthNonOilBonus != null" >
+        #{currentMonthNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="safeguardProcedures != null" >
+        #{safeguardProcedures,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthPayableOilBonus != null" >
+        #{currentMonthPayableOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationAccountantDataOne != null" >
+        #{stationAccountantDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAccountantDataTwo != null" >
+        #{stationAccountantDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAccountantBaseBonus != null" >
+        #{stationAccountantBaseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="accountantBonusStationType != null" >
+        #{accountantBonusStationType,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        #{performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationStaffNumAndAdmin != null" >
+        #{stationStaffNumAndAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="boarderSubsidies != null" >
+        #{boarderSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="managerialPositionPopulation != null" >
+        #{managerialPositionPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="managerialPositionRealPopulation != null" >
+        #{managerialPositionRealPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="managerialPositionCountBaseOne != null" >
+        #{managerialPositionCountBaseOne,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseTwo != null" >
+        #{managerialPositionCountBaseTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseThree != null" >
+        #{managerialPositionCountBaseThree,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseFour != null" >
+        #{managerialPositionCountBaseFour,jdbcType=VARCHAR},
+      </if>
+      <if test="baseTarget != null" >
+        #{baseTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeTarget != null" >
+        #{challengeTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="baseBonus != null" >
+        #{baseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeBonus != null" >
+        #{challengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthBonus != null" >
+        #{currentMonthBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtCode != null" >
+        #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="foodWay != null" >
+        #{foodWay,jdbcType=VARCHAR},
+      </if>
+      <if test="boarderSubsidiesRemark != null" >
+        #{boarderSubsidiesRemark,jdbcType=VARCHAR},
+      </if>
+       <if test="boarderSubsidiesRemark != null" >
+        #{boarderSubsidiesRemark,jdbcType=VARCHAR},
+      </if>
+       <if test="isNonOilStandardRateArtificial != null" >
+        #{isNonOilStandardRateArtificial,jdbcType=VARCHAR},
+      </if>
+      <if test="accommodationSubsidy != null" >
+       #{accommodationSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccommoSubsidyArti != null" >
+       #{isAccommoSubsidyArti,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StationTargetQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_station_target
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_station_target
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.stationStaffNum != null" >
+        station_staff_num = #{record.stationStaffNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.stationStaffNumFloat != null" >
+        station_staff_num_float = #{record.stationStaffNumFloat,jdbcType=INTEGER},
+      </if>
+      <if test="record.stationLevelCode != null" >
+        station_level_code = #{record.stationLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mmp != null" >
+        mmp = #{record.mmp,jdbcType=DOUBLE},
+      </if>
+      <if test="record.nps != null" >
+        nps = #{record.nps,jdbcType=DOUBLE},
+      </if>
+      <if test="record.oilTargetVolume != null" >
+        oil_target_volume = #{record.oilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oilRealVolume != null" >
+        oil_real_volume = #{record.oilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oilDayAverageVolume != null" >
+        oil_day_average_volume = #{record.oilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nonOilTargetVolume != null" >
+        non_oil_target_volume = #{record.nonOilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nonOilRealVolume != null" >
+        non_oil_real_volume = #{record.nonOilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nonOilDayAverageVolume != null" >
+        non_oil_day_average_volume = #{record.nonOilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.storeMarkScore != null" >
+        store_mark_score = #{record.storeMarkScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.storeManageScore != null" >
+        store_manage_score = #{record.storeManageScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gasolineTargetVolume != null" >
+        gasoline_target_volume = #{record.gasolineTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dieselTargetVolume != null" >
+        diesel_target_volume = #{record.dieselTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.gasolineDayAverageVolume != null" >
+        gasoline_day_average_volume = #{record.gasolineDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dieselDayAverageVolume != null" >
+        diesel_day_average_volume = #{record.dieselDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isKeepDormitory != null" >
+        is_keep_dormitory = #{record.isKeepDormitory,jdbcType=CHAR},
+      </if>
+      <if test="record.dormitorySubsidies != null" >
+        dormitory_subsidies = #{record.dormitorySubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyStoreAllowance != null" >
+        monthly_store_allowance = #{record.monthlyStoreAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oilStandardRate != null" >
+        oil_standard_rate = #{record.oilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nonOilStandardRate != null" >
+        non_oil_standard_rate = #{record.nonOilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.directSellingBonus != null" >
+        direct_selling_bonus = #{record.directSellingBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upperLimit != null" >
+        upper_limit = #{record.upperLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mmpCoefficient != null" >
+        mmp_coefficient = #{record.mmpCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.npsCoefficient != null" >
+        nps_coefficient = #{record.npsCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weightingCoefficient != null" >
+        weighting_coefficient = #{record.weightingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyManagerBonus != null" >
+        monthly_manager_bonus = #{record.monthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyManagerOilStandardBonus != null" >
+        monthly_manager_oil_standard_bonus = #{record.monthlyManagerOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyManagerNonOilStandardBonus != null" >
+        monthly_manager_non_oil_standard_bonus = #{record.monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalMonthlyManagerBonus != null" >
+        total_monthly_manager_bonus = #{record.totalMonthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlySaleOilBonus != null" >
+        monthly_sale_oil_bonus = #{record.monthlySaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthlyNonSaleOilBonus != null" >
+        monthly_non_sale_oil_bonus = #{record.monthlyNonSaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentMonthOilBonus != null" >
+        current_month_oil_bonus = #{record.currentMonthOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentMonthNonOilBonus != null" >
+        current_month_non_oil_bonus = #{record.currentMonthNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.safeguardProcedures != null" >
+        safeguard_procedures = #{record.safeguardProcedures,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentMonthPayableOilBonus != null" >
+        current_month_payable_oil_bonus = #{record.currentMonthPayableOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stationAccountantDataOne != null" >
+        station_accountant_data_one = #{record.stationAccountantDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationAccountantDataTwo != null" >
+        station_accountant_data_two = #{record.stationAccountantDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationAccountantBaseBonus != null" >
+        station_accountant_base_bonus = #{record.stationAccountantBaseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.accountantBonusStationType != null" >
+        accountant_bonus_station_type = #{record.accountantBonusStationType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.performanceChallengeBonus != null" >
+        performance_challenge_bonus = #{record.performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stationStaffNumAndAdmin != null" >
+        station_staff_num_and_admin = #{record.stationStaffNumAndAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="record.boarderSubsidies != null" >
+        boarder_subsidies = #{record.boarderSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managerialPositionPopulation != null" >
+        managerial_position_population = #{record.managerialPositionPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerialPositionRealPopulation != null" >
+        managerial_position_real_population = #{record.managerialPositionRealPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerialPositionCountBaseOne != null" >
+        managerial_position_count_base_one = #{record.managerialPositionCountBaseOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerialPositionCountBaseTwo != null" >
+        managerial_position_count_base_two = #{record.managerialPositionCountBaseTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerialPositionCountBaseThree != null" >
+        managerial_position_count_base_three = #{record.managerialPositionCountBaseThree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerialPositionCountBaseFour != null" >
+        managerial_position_count_base_four = #{record.managerialPositionCountBaseFour,jdbcType=VARCHAR},
+      </if>
+      <if test="record.baseTarget != null" >
+        base_target = #{record.baseTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="record.challengeTarget != null" >
+        challenge_target = #{record.challengeTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="record.baseBonus != null" >
+        base_bonus = #{record.baseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.challengeBonus != null" >
+        challenge_bonus = #{record.challengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentMonthBonus != null" >
+        current_month_bonus = #{record.currentMonthBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null" >
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyCode != null" >
+        duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtCode != null" >
+        district_code = #{record.districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foodWay != null" >
+        food_way = #{record.foodWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boarderSubsidiesRemark != null" >
+        boarder_subsidies_remark = #{record.boarderSubsidiesRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_station_target
+    set id = #{record.id,jdbcType=BIGINT},
+      station_staff_num = #{record.stationStaffNum,jdbcType=INTEGER},
+      station_staff_num_float = #{record.stationStaffNumFloat,jdbcType=INTEGER},
+      station_level_code = #{record.stationLevelCode,jdbcType=VARCHAR},
+      mmp = #{record.mmp,jdbcType=DOUBLE},
+      nps = #{record.nps,jdbcType=DOUBLE},
+      oil_target_volume = #{record.oilTargetVolume,jdbcType=DECIMAL},
+      oil_real_volume = #{record.oilRealVolume,jdbcType=DECIMAL},
+      oil_day_average_volume = #{record.oilDayAverageVolume,jdbcType=DECIMAL},
+      non_oil_target_volume = #{record.nonOilTargetVolume,jdbcType=DECIMAL},
+      non_oil_real_volume = #{record.nonOilRealVolume,jdbcType=DECIMAL},
+      non_oil_day_average_volume = #{record.nonOilDayAverageVolume,jdbcType=DECIMAL},
+      store_mark_score = #{record.storeMarkScore,jdbcType=DECIMAL},
+      store_manage_score = #{record.storeManageScore,jdbcType=DECIMAL},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      gasoline_target_volume = #{record.gasolineTargetVolume,jdbcType=DECIMAL},
+      diesel_target_volume = #{record.dieselTargetVolume,jdbcType=DECIMAL},
+      gasoline_day_average_volume = #{record.gasolineDayAverageVolume,jdbcType=DECIMAL},
+      diesel_day_average_volume = #{record.dieselDayAverageVolume,jdbcType=DECIMAL},
+      is_keep_dormitory = #{record.isKeepDormitory,jdbcType=CHAR},
+      dormitory_subsidies = #{record.dormitorySubsidies,jdbcType=DECIMAL},
+      monthly_store_allowance = #{record.monthlyStoreAllowance,jdbcType=DECIMAL},
+      oil_standard_rate = #{record.oilStandardRate,jdbcType=DECIMAL},
+      non_oil_standard_rate = #{record.nonOilStandardRate,jdbcType=DECIMAL},
+      direct_selling_bonus = #{record.directSellingBonus,jdbcType=DECIMAL},
+      upper_limit = #{record.upperLimit,jdbcType=DECIMAL},
+      mmp_coefficient = #{record.mmpCoefficient,jdbcType=DECIMAL},
+      nps_coefficient = #{record.npsCoefficient,jdbcType=DECIMAL},
+      weighting_coefficient = #{record.weightingCoefficient,jdbcType=DECIMAL},
+      monthly_manager_bonus = #{record.monthlyManagerBonus,jdbcType=DECIMAL},
+      monthly_manager_oil_standard_bonus = #{record.monthlyManagerOilStandardBonus,jdbcType=DECIMAL},
+      monthly_manager_non_oil_standard_bonus = #{record.monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL},
+      total_monthly_manager_bonus = #{record.totalMonthlyManagerBonus,jdbcType=DECIMAL},
+      monthly_sale_oil_bonus = #{record.monthlySaleOilBonus,jdbcType=DECIMAL},
+      monthly_non_sale_oil_bonus = #{record.monthlyNonSaleOilBonus,jdbcType=DECIMAL},
+      current_month_oil_bonus = #{record.currentMonthOilBonus,jdbcType=DECIMAL},
+      current_month_non_oil_bonus = #{record.currentMonthNonOilBonus,jdbcType=DECIMAL},
+      safeguard_procedures = #{record.safeguardProcedures,jdbcType=DECIMAL},
+      current_month_payable_oil_bonus = #{record.currentMonthPayableOilBonus,jdbcType=DECIMAL},
+      station_accountant_data_one = #{record.stationAccountantDataOne,jdbcType=VARCHAR},
+      station_accountant_data_two = #{record.stationAccountantDataTwo,jdbcType=VARCHAR},
+      station_accountant_base_bonus = #{record.stationAccountantBaseBonus,jdbcType=DECIMAL},
+      accountant_bonus_station_type = #{record.accountantBonusStationType,jdbcType=VARCHAR},
+      performance_challenge_bonus = #{record.performanceChallengeBonus,jdbcType=DECIMAL},
+      station_staff_num_and_admin = #{record.stationStaffNumAndAdmin,jdbcType=INTEGER},
+      boarder_subsidies = #{record.boarderSubsidies,jdbcType=DECIMAL},
+      managerial_position_population = #{record.managerialPositionPopulation,jdbcType=INTEGER},
+      managerial_position_real_population = #{record.managerialPositionRealPopulation,jdbcType=INTEGER},
+      managerial_position_count_base_one = #{record.managerialPositionCountBaseOne,jdbcType=VARCHAR},
+      managerial_position_count_base_two = #{record.managerialPositionCountBaseTwo,jdbcType=VARCHAR},
+      managerial_position_count_base_three = #{record.managerialPositionCountBaseThree,jdbcType=VARCHAR},
+      managerial_position_count_base_four = #{record.managerialPositionCountBaseFour,jdbcType=VARCHAR},
+      base_target = #{record.baseTarget,jdbcType=DECIMAL},
+      challenge_target = #{record.challengeTarget,jdbcType=DECIMAL},
+      base_bonus = #{record.baseBonus,jdbcType=DECIMAL},
+      challenge_bonus = #{record.challengeBonus,jdbcType=DECIMAL},
+      current_month_bonus = #{record.currentMonthBonus,jdbcType=DECIMAL},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      district_code = #{record.districtCode,jdbcType=VARCHAR},
+      food_way = #{record.foodWay,jdbcType=VARCHAR},
+      boarder_subsidies_remark = #{record.boarderSubsidiesRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.StationTarget" >
+    update biz_station_target
+    <set >
+      <if test="stationStaffNum != null" >
+        station_staff_num = #{stationStaffNum,jdbcType=INTEGER},
+      </if>
+      <if test="stationStaffNumFloat != null" >
+        station_staff_num_float = #{stationStaffNumFloat,jdbcType=INTEGER},
+      </if>
+      <if test="stationLevelCode != null" >
+        station_level_code = #{stationLevelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mmp != null" >
+        mmp = #{mmp,jdbcType=DOUBLE},
+      </if>
+      <if test="nps != null" >
+        nps = #{nps,jdbcType=DOUBLE},
+      </if>
+      <if test="oilTargetVolume != null" >
+        oil_target_volume = #{oilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="oilRealVolume != null" >
+        oil_real_volume = #{oilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="oilDayAverageVolume != null" >
+        oil_day_average_volume = #{oilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilTargetVolume != null" >
+        non_oil_target_volume = #{nonOilTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilRealVolume != null" >
+        non_oil_real_volume = #{nonOilRealVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilDayAverageVolume != null" >
+        non_oil_day_average_volume = #{nonOilDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="storeMarkScore != null" >
+        store_mark_score = #{storeMarkScore,jdbcType=DECIMAL},
+      </if>
+      <if test="storeManageScore != null" >
+        store_manage_score = #{storeManageScore,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gasolineTargetVolume != null" >
+        gasoline_target_volume = #{gasolineTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dieselTargetVolume != null" >
+        diesel_target_volume = #{dieselTargetVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="gasolineDayAverageVolume != null" >
+        gasoline_day_average_volume = #{gasolineDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="dieselDayAverageVolume != null" >
+        diesel_day_average_volume = #{dieselDayAverageVolume,jdbcType=DECIMAL},
+      </if>
+      <if test="isKeepDormitory != null" >
+        is_keep_dormitory = #{isKeepDormitory,jdbcType=CHAR},
+      </if>
+      <if test="dormitorySubsidies != null" >
+        dormitory_subsidies = #{dormitorySubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyStoreAllowance != null" >
+        monthly_store_allowance = #{monthlyStoreAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="oilStandardRate != null" >
+        oil_standard_rate = #{oilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilStandardRate != null" >
+        non_oil_standard_rate = #{nonOilStandardRate,jdbcType=DECIMAL},
+      </if>
+      <if test="directSellingBonus != null" >
+        direct_selling_bonus = #{directSellingBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="upperLimit != null" >
+        upper_limit = #{upperLimit,jdbcType=DECIMAL},
+      </if>
+      <if test="mmpCoefficient != null" >
+        mmp_coefficient = #{mmpCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="npsCoefficient != null" >
+        nps_coefficient = #{npsCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="weightingCoefficient != null" >
+        weighting_coefficient = #{weightingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerBonus != null" >
+        monthly_manager_bonus = #{monthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerOilStandardBonus != null" >
+        monthly_manager_oil_standard_bonus = #{monthlyManagerOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyManagerNonOilStandardBonus != null" >
+        monthly_manager_non_oil_standard_bonus = #{monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMonthlyManagerBonus != null" >
+        total_monthly_manager_bonus = #{totalMonthlyManagerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlySaleOilBonus != null" >
+        monthly_sale_oil_bonus = #{monthlySaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="monthlyNonSaleOilBonus != null" >
+        monthly_non_sale_oil_bonus = #{monthlyNonSaleOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthOilBonus != null" >
+        current_month_oil_bonus = #{currentMonthOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthNonOilBonus != null" >
+        current_month_non_oil_bonus = #{currentMonthNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="safeguardProcedures != null" >
+        safeguard_procedures = #{safeguardProcedures,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthPayableOilBonus != null" >
+        current_month_payable_oil_bonus = #{currentMonthPayableOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationAccountantDataOne != null" >
+        station_accountant_data_one = #{stationAccountantDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAccountantDataTwo != null" >
+        station_accountant_data_two = #{stationAccountantDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAccountantBaseBonus != null" >
+        station_accountant_base_bonus = #{stationAccountantBaseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="accountantBonusStationType != null" >
+        accountant_bonus_station_type = #{accountantBonusStationType,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        performance_challenge_bonus = #{performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationStaffNumAndAdmin != null" >
+        station_staff_num_and_admin = #{stationStaffNumAndAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="boarderSubsidies != null" >
+        boarder_subsidies = #{boarderSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="managerialPositionPopulation != null" >
+        managerial_position_population = #{managerialPositionPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="managerialPositionRealPopulation != null" >
+        managerial_position_real_population = #{managerialPositionRealPopulation,jdbcType=INTEGER},
+      </if>
+      <if test="managerialPositionCountBaseOne != null" >
+        managerial_position_count_base_one = #{managerialPositionCountBaseOne,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseTwo != null" >
+        managerial_position_count_base_two = #{managerialPositionCountBaseTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseThree != null" >
+        managerial_position_count_base_three = #{managerialPositionCountBaseThree,jdbcType=VARCHAR},
+      </if>
+      <if test="managerialPositionCountBaseFour != null" >
+        managerial_position_count_base_four = #{managerialPositionCountBaseFour,jdbcType=VARCHAR},
+      </if>
+      <if test="baseTarget != null" >
+        base_target = #{baseTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeTarget != null" >
+        challenge_target = #{challengeTarget,jdbcType=DECIMAL},
+      </if>
+      <if test="baseBonus != null" >
+        base_bonus = #{baseBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="challengeBonus != null" >
+        challenge_bonus = #{challengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMonthBonus != null" >
+        current_month_bonus = #{currentMonthBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        duty_code = #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtCode != null" >
+        district_code = #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="foodWay != null" >
+        food_way = #{foodWay,jdbcType=VARCHAR},
+      </if>
+      <if test="boarderSubsidiesRemark != null" >
+        boarder_subsidies_remark = #{boarderSubsidiesRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isOilStandardRateArtificial != null" >
+        is_oil_standard_rate_artificial = #{isOilStandardRateArtificial,jdbcType=VARCHAR},
+      </if>
+      <if test="isNonOilStandardRateArtificial != null" >
+        is_non_oil_standard_rate_artificial = #{isNonOilStandardRateArtificial,jdbcType=VARCHAR},
+      </if>
+      <if test="accommodationSubsidy != null" >
+        accommodation_subsidy = #{accommodationSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccommoSubsidyArti != null" >
+        is_accommo_subsidy_arti = #{isAccommoSubsidyArti,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.StationTarget" >
+    update biz_station_target
+    set station_staff_num = #{stationStaffNum,jdbcType=INTEGER},
+      station_staff_num_float = #{stationStaffNumFloat,jdbcType=INTEGER},
+      station_level_code = #{stationLevelCode,jdbcType=VARCHAR},
+      mmp = #{mmp,jdbcType=DOUBLE},
+      nps = #{nps,jdbcType=DOUBLE},
+      oil_target_volume = #{oilTargetVolume,jdbcType=DECIMAL},
+      oil_real_volume = #{oilRealVolume,jdbcType=DECIMAL},
+      oil_day_average_volume = #{oilDayAverageVolume,jdbcType=DECIMAL},
+      non_oil_target_volume = #{nonOilTargetVolume,jdbcType=DECIMAL},
+      non_oil_real_volume = #{nonOilRealVolume,jdbcType=DECIMAL},
+      non_oil_day_average_volume = #{nonOilDayAverageVolume,jdbcType=DECIMAL},
+      store_mark_score = #{storeMarkScore,jdbcType=DECIMAL},
+      store_manage_score = #{storeManageScore,jdbcType=DECIMAL},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      gasoline_target_volume = #{gasolineTargetVolume,jdbcType=DECIMAL},
+      diesel_target_volume = #{dieselTargetVolume,jdbcType=DECIMAL},
+      gasoline_day_average_volume = #{gasolineDayAverageVolume,jdbcType=DECIMAL},
+      diesel_day_average_volume = #{dieselDayAverageVolume,jdbcType=DECIMAL},
+      is_keep_dormitory = #{isKeepDormitory,jdbcType=CHAR},
+      dormitory_subsidies = #{dormitorySubsidies,jdbcType=DECIMAL},
+      monthly_store_allowance = #{monthlyStoreAllowance,jdbcType=DECIMAL},
+      oil_standard_rate = #{oilStandardRate,jdbcType=DECIMAL},
+      non_oil_standard_rate = #{nonOilStandardRate,jdbcType=DECIMAL},
+      direct_selling_bonus = #{directSellingBonus,jdbcType=DECIMAL},
+      upper_limit = #{upperLimit,jdbcType=DECIMAL},
+      mmp_coefficient = #{mmpCoefficient,jdbcType=DECIMAL},
+      nps_coefficient = #{npsCoefficient,jdbcType=DECIMAL},
+      weighting_coefficient = #{weightingCoefficient,jdbcType=DECIMAL},
+      monthly_manager_bonus = #{monthlyManagerBonus,jdbcType=DECIMAL},
+      monthly_manager_oil_standard_bonus = #{monthlyManagerOilStandardBonus,jdbcType=DECIMAL},
+      monthly_manager_non_oil_standard_bonus = #{monthlyManagerNonOilStandardBonus,jdbcType=DECIMAL},
+      total_monthly_manager_bonus = #{totalMonthlyManagerBonus,jdbcType=DECIMAL},
+      monthly_sale_oil_bonus = #{monthlySaleOilBonus,jdbcType=DECIMAL},
+      monthly_non_sale_oil_bonus = #{monthlyNonSaleOilBonus,jdbcType=DECIMAL},
+      current_month_oil_bonus = #{currentMonthOilBonus,jdbcType=DECIMAL},
+      current_month_non_oil_bonus = #{currentMonthNonOilBonus,jdbcType=DECIMAL},
+      safeguard_procedures = #{safeguardProcedures,jdbcType=DECIMAL},
+      current_month_payable_oil_bonus = #{currentMonthPayableOilBonus,jdbcType=DECIMAL},
+      station_accountant_data_one = #{stationAccountantDataOne,jdbcType=VARCHAR},
+      station_accountant_data_two = #{stationAccountantDataTwo,jdbcType=VARCHAR},
+      station_accountant_base_bonus = #{stationAccountantBaseBonus,jdbcType=DECIMAL},
+      accountant_bonus_station_type = #{accountantBonusStationType,jdbcType=VARCHAR},
+      performance_challenge_bonus = #{performanceChallengeBonus,jdbcType=DECIMAL},
+      station_staff_num_and_admin = #{stationStaffNumAndAdmin,jdbcType=INTEGER},
+      boarder_subsidies = #{boarderSubsidies,jdbcType=DECIMAL},
+      managerial_position_population = #{managerialPositionPopulation,jdbcType=INTEGER},
+      managerial_position_real_population = #{managerialPositionRealPopulation,jdbcType=INTEGER},
+      managerial_position_count_base_one = #{managerialPositionCountBaseOne,jdbcType=VARCHAR},
+      managerial_position_count_base_two = #{managerialPositionCountBaseTwo,jdbcType=VARCHAR},
+      managerial_position_count_base_three = #{managerialPositionCountBaseThree,jdbcType=VARCHAR},
+      managerial_position_count_base_four = #{managerialPositionCountBaseFour,jdbcType=VARCHAR},
+      base_target = #{baseTarget,jdbcType=DECIMAL},
+      challenge_target = #{challengeTarget,jdbcType=DECIMAL},
+      base_bonus = #{baseBonus,jdbcType=DECIMAL},
+      challenge_bonus = #{challengeBonus,jdbcType=DECIMAL},
+      current_month_bonus = #{currentMonthBonus,jdbcType=DECIMAL},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      staff_code = #{staffCode,jdbcType=VARCHAR},
+      duty_code = #{dutyCode,jdbcType=VARCHAR},
+      district_code = #{districtCode,jdbcType=VARCHAR},
+      food_way = #{foodWay,jdbcType=VARCHAR},
+      boarder_subsidies_remark = #{boarderSubsidiesRemark,jdbcType=VARCHAR},
+      is_oil_standard_rate_artificial = #{isOilStandardRateArtificial,jdbcType=VARCHAR},
+      is_non_oil_standard_rate_artificial = #{isNonOilStandardRateArtificial,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from biz_station_target
+  	<if test="stationCode != null">
+  		<where>
+  			station_code like '%${stationCode}%'
+  		</where>
+  		<if test="yearMonth != null">
+  			and year_month like '%${yearMonth}%'
+  		</if>
+  	</if>
+  	<if test="stationCode == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month like '%${yearMonth}%'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findStationTargetsByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} 
+	id,
+	station_staff_num,
+	station_staff_num_float,
+	station_level_code,
+	mmp,
+	nps,
+	oil_target_volume,
+	oil_real_volume,
+	oil_day_average_volume,
+	non_oil_target_volume,
+	non_oil_real_volume,
+	non_oil_day_average_volume,
+	store_mark_score,
+	store_manage_score,
+	year_month,
+	sys_create_time,
+	sys_update_time,
+	remark,
+	gasoline_target_volume,
+	diesel_target_volume,
+	gasoline_day_average_volume,
+	diesel_day_average_volume,
+	is_keep_dormitory,
+	dormitory_subsidies,
+	monthly_store_allowance,
+	(case when tt.non_oil_standard_rate != 0 then non_oil_standard_rate*100 else 0 end) as non_oil_standard_rate,
+	(case when tt.oil_standard_rate != 0 then oil_standard_rate*100 else 0 end) as oil_standard_rate,
+	direct_selling_bonus,
+	upper_limit,
+	mmp_coefficient,
+	nps_coefficient,
+	weighting_coefficient,
+	monthly_manager_bonus,
+	monthly_manager_oil_standard_bonus,
+	monthly_manager_non_oil_standard_bonus,
+	total_monthly_manager_bonus,
+	monthly_sale_oil_bonus,
+	monthly_non_sale_oil_bonus,
+	current_month_oil_bonus,
+	current_month_non_oil_bonus,
+	safeguard_procedures,
+	current_month_payable_oil_bonus,
+	station_accountant_data_one,
+	station_accountant_data_two,
+	station_accountant_base_bonus,
+	accountant_bonus_station_type,
+	performance_challenge_bonus,
+	station_staff_num_and_admin,
+	boarder_subsidies,
+	managerial_position_population,
+	managerial_position_real_population,
+	managerial_position_count_base_one,
+	managerial_position_count_base_two,
+	managerial_position_count_base_three,
+	managerial_position_count_base_four,
+	base_target,
+	challenge_target,
+	base_bonus,
+	challenge_bonus,
+	current_month_bonus,
+	station_code,
+	area_code,
+	staff_code,
+	duty_code,
+	district_code,
+	food_way,
+	boarder_subsidies_remark,
+	is_oil_standard_rate_artificial,
+    is_non_oil_standard_rate_artificial
+  	 from  biz_station_target  tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from biz_station_target as ttt
+    	<if test="stationCode != null">
+    		<where>
+    			ttt.station_code like '%${stationCode}%'
+    			<if test="yearMonth != null">
+    				and ttt.year_month like '%${yearMonth}%'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="stationCode == null">
+    		<if test="yearMonth != null">
+    			<where>
+    				ttt.year_month like '%${yearMonth}%'
+    			</where>
+    		</if>
+    	</if>
+    	order by ttt.id)
+    	<if test="stationCode != null">
+    		and tt.station_code like '%${stationCode}%'
+    		<if test="yearMonth != null">
+    			and tt.year_month like '%${yearMonth}%'
+    		</if>
+    	</if>
+    	<if test="stationCode == null">
+    		<if test="yearMonth != null">
+    			and tt.year_month like '%${yearMonth}%'
+    		</if>
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+  
+  <select id="findStoreCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from biz_station_target
+  	<if test="yearMonth != null">
+  		<where>
+  			year_month = '${yearMonth}'
+  		</where>
+  	</if>
+  </select>
+  
+  <select id="findStoresByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} *, (select station_name from biz_station where station_code = tt.station_code) station_name from  (select * from biz_station_target) as tt
+  	<where>
+  		tt.id not in (select top ${startIndex} id from (select * from biz_station_target) as ttt
+  			<if test="yearMonth != null">
+  				<where>
+  					ttt.year_month = '${yearMonth}'
+  				</where>
+  			</if>
+  			order by ttt.year_month desc)
+  			<if test="yearMonth != null">
+  				and tt.year_month = '${yearMonth}'
+  			</if>
+  			order by tt.year_month desc
+  	</where>
+  </select>
+  <select id="findAllStoreCheckByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		t1.station_code, t1.station_name, t2.id, t2.store_manage_score, t2.store_mark_score, t2.year_month, 
+  		t2.sys_create_time, t2.sys_update_time
+	FROM 
+		biz_station t1 LEFT OUTER JOIN biz_station_target t2 
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}';
+  </select>
+  
+  <select id="findStarEvaluatingByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} *, 
+  		(SELECT station_name FROM biz_station WHERE station_code = tt.station_code) station_name, 
+  	    (SELECT station_level_name FROM biz_station_level WHERE station_level_code = tt.station_level_code ) station_level_name,
+  	    (SELECT district_name FROM biz_district WHERE district_code = tt.district_code) district_name 
+  	FROM  
+  		(select * from biz_station_target) as tt
+  	<where>
+  		tt.id not in (select top ${startIndex} id from (select * from biz_station_target) as ttt
+  			<if test="yearMonth != null">
+  				<where>
+  					ttt.year_month = '${yearMonth}'
+  				</where>
+  			</if>
+  			order by ttt.year_month desc)
+  			<if test="yearMonth != null">
+  				and tt.year_month = '${yearMonth}'
+  			</if>
+  			order by tt.year_month desc
+  	</where>
+  </select>
+  
+  <select id="findAllStarevaluatingByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		t1.station_code, t1.station_level_code, t2.id, t2.mmp, t2.nps, t1.station_name, t2.year_month,
+  		t2.sys_create_time, t2.sys_update_time, 
+  		(SELECT station_level_name FROM biz_station_level t3 where t3.station_level_code = t2.station_level_code) station_level_name
+	FROM 
+		biz_station t1 LEFT OUTER JOIN biz_station_target t2           
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}';
+  </select>
+  
+  <select id="findOilBaseInfoByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} *, (select station_name from biz_station where station_code = tt.station_code) station_name from  (select * from biz_station_target) as tt
+  	<where>
+  		tt.id not in (select top ${startIndex} id from (select * from biz_station_target) as ttt
+  			<if test="yearMonth != null">
+  				<where>
+  					ttt.year_month = '${yearMonth}'
+  				</where>
+  			</if>
+  			order by ttt.year_month desc)
+  			<if test="yearMonth != null">
+  				and tt.year_month = '${yearMonth}'
+  			</if>
+  			order by tt.year_month desc
+  	</where>
+  </select>
+  
+  <select id="findAllOilBaseInfoByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		t1.station_code, t1.station_name, t2.id, t2.station_staff_num, t2.station_staff_num_float, t2.year_month,
+  		t2.sys_create_time, t2.sys_update_time
+	FROM 
+		biz_station t1 
+	LEFT OUTER JOIN 
+		biz_station_target t2 
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}';
+  </select>
+  
+  <select id="findOilBaseDataByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} *, (select station_name from biz_station where station_code = tt.station_code) station_name, 
+  	                          (select station_level_name from biz_station_level where station_level_code = tt.station_level_code ) station_level_name,
+  	                          (select area_name from biz_area where area_code = tt.area_code) area_name
+  	                          from  (select * from biz_station_target) as tt
+  	<where>
+  		tt.id not in (select top ${startIndex} id from (select * from biz_station_target) as ttt
+  			<if test="yearMonth != null">
+  				<where>
+  					ttt.year_month = '${yearMonth}'
+  				</where>
+  			</if>
+  			order by ttt.year_month desc)
+  			<if test="yearMonth != null">
+  				and tt.year_month = '${yearMonth}'
+  			</if>
+  			order by tt.year_month desc
+  	</where>
+  </select>
+  
+  <select id="findStationTargetsCountByYearMonth" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_station_target
+  	<if test="yearMonth != null">
+  		<where>
+  			year_month = '${yearMonth}'
+  		</where>
+  	</if>
+  </select>
+  
+  <select id="findAllStationTargetsByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+		t1.*
+	FROM 
+		biz_station_target t1, biz_staff t2
+	WHERE 
+			t1.staff_code = t2.staff_code
+		AND t1.year_month = '${yearMonth}'
+	ORDER BY
+		t1.year_month DESC
+  </select>
+  
+  <select id="findStarEvaCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) from biz_station_target
+  	<if test="districtCode != null">
+  		<where>
+  			district_code = '${districtCode}'
+  		</where>
+  		<if test="yearMonth != null">
+  			and year_month = '${yearMonth}'
+  		</if>
+  	</if>
+  	<if test="districtCode == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month = '${yearMonth}'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findStarEvaByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} *, 
+  		(SELECT station_name FROM biz_station WHERE station_code = tt.station_code) station_name, 
+  	    (SELECT station_level_name FROM biz_station_level WHERE station_level_code = tt.station_level_code ) station_level_name,
+  	    (SELECT district_name FROM biz_district t1, biz_station t2 
+  	    	WHERE t1.district_code = t2.district_code and t2.station_code = tt.station_code) district_name 
+  	FROM  
+  		biz_station_target as tt
+    <where>
+    	tt.id not in (SELECT top ${startIndex} id FROM biz_station_target as ttt where 1=1 
+    	<if test="districtCode != null">
+    		and ttt.district_code = '${districtCode}'
+    	</if>
+    	<if test="yearMonth != null">
+    		and ttt.year_month = '${yearMonth}'
+    	</if>
+    	order by ttt.year_month)
+    	<if test="districtCode != null">
+    		and tt.district_code = '${districtCode}'
+    	</if>
+    	<if test="yearMonth != null">
+    		and tt.year_month = '${yearMonth}'
+    	</if>
+    	order by tt.year_month
+    </where>
+  </select>
+  <select id="findAllStarevaluatingByYearMonthAndDistrictCode" parameterType="map" resultMap="BaseResultMap">
+  	SELECT  
+		t1.district_code, t3.district_name, t1.area_code, 
+  		t1.station_code, t2.station_level_code, t2.id, t2.mmp, t2.nps, t1.station_name, t2.year_month,
+  		t2.sys_create_time, t2.sys_update_time, 
+  		(SELECT station_level_name FROM biz_station_level t3 where t3.station_level_code = t2.station_level_code) station_level_name
+	FROM    
+		biz_district t3,
+		biz_station t1 LEFT OUTER JOIN biz_station_target t2     
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}'
+	WHERE 
+		 t1.district_code = t3.district_code
+		 <if test="districtCode != null">
+		 	and t1.district_code = '${districtCode}'
+		 </if>
+	ORDER BY t2.year_month DESC
+  </select>
+  
+  <select id="findStoreCheckCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) from biz_station_target
+  	<if test="districtCode != null">
+  		<where>
+  			district_code = '${districtCode}'
+  		</where>
+  		<if test="yearMonth != null">
+  			and year_month = '${yearMonth}'
+  		</if>
+  	</if>
+  	<if test="districtCode == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month = '${yearMonth}'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findStoreCheckByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} *, 
+  		(SELECT station_name FROM biz_station WHERE station_code = tt.station_code) station_name, 
+  	    (SELECT district_name FROM biz_district WHERE district_code = tt.district_code) district_name 
+  	FROM  
+  		(SELECT * FROM biz_station_target) as tt
+    <where>
+    	tt.id not in (SELECT top ${startIndex} id FROM (SELECT * FROM biz_station_target) as ttt
+    	<if test="districtCode != null">
+    		<where>
+    			ttt.district_code = '${districtCode}'
+    			<if test="yearMonth != null">
+    				and ttt.year_month = '${yearMonth}'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			<where>
+    				ttt.year_month like '%${yearMonth}%'
+    			</where>
+    		</if>
+    	</if>
+    	ORDER BY ttt.year_month)
+    	<if test="districtCode != null">
+    		and tt.district_code = '${districtCode}'
+    		<if test="yearMonth != null">
+    			and tt.year_month like '${yearMonth}'
+    		</if>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			and tt.year_month like '${yearMonth}'
+    		</if>
+    	</if>
+    	ORDER BY tt.year_month
+    </where>
+  </select>
+  
+  <select id="findAllStoreCheckByYearMonthAndDistrictCode" parameterType="map" resultMap="BaseResultMap">
+  	SELECT  
+		t1.district_code,t3.district_name,
+  		t1.station_code, t2.id, t2.store_mark_score, t2.store_manage_score, t1.station_name, t2.year_month,
+  		t2.sys_create_time, t2.sys_update_time
+	FROM    
+		biz_district t3,
+		biz_station t1 LEFT OUTER JOIN biz_station_target t2     
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}'
+	WHERE 
+		 t1.district_code = t3.district_code
+		 <if test="districtCode != null">
+		 	and t1.district_code = '${districtCode}'
+		 </if>
+  </select>
+  
+  <select id="findOilBaseInfoCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) from biz_station_target
+  	<if test="districtCode != null">
+  		<where>
+  			district_code = '${districtCode}'
+  		</where>
+  		<if test="yearMonth != null">
+  			and year_month = '${yearMonth}'
+  		</if>
+  	</if>
+  	<if test="districtCode == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month = '${yearMonth}'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="Deprecated_findOilBaseInByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} tt.station_staff_num_float, tt.year_month, 
+  		(SELECT station_name FROM biz_station WHERE station_code = tt.station_code) station_name, 
+  		(SELECT station_staff_num FROM biz_station WHERE station_code = tt.station_code) station_staff_num,
+  	    (SELECT district_name FROM biz_district WHERE district_code = tt.district_code) district_name 
+  	FROM  
+  		(SELECT * FROM biz_station_target) as tt
+    <where>
+    	tt.id not in (SELECT top ${startIndex} id FROM (SELECT * FROM biz_station_target) as ttt
+    	<if test="districtCode != null">
+    		<where>
+    			ttt.district_code = '${districtCode}'
+    			<if test="yearMonth != null">
+    				and ttt.year_month = '${yearMonth}'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			<where>
+    				ttt.year_month = '${yearMonth}'
+    			</where>
+    		</if>
+    	</if>
+    	ORDER BY ttt.year_month)
+    	<if test="districtCode != null">
+    		and tt.district_code = '${districtCode}'
+    		<if test="yearMonth != null">
+    			and tt.year_month = '${yearMonth}'
+    		</if>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			and tt.year_month = '${yearMonth}'
+    		</if>
+    	</if>
+    	ORDER BY tt.year_month DESC
+    </where>
+  </select>
+  
+  <select id="findOilBaseInByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} tt.station_staff_num_float, tt.year_month, 
+  		 s.station_name,tt.station_staff_num 
+  	FROM  
+  		 biz_station_target tt,biz_station s
+    <where>
+    	tt.station_code = s.station_code
+    	and tt.id not in (SELECT top ${startIndex} id FROM (SELECT * FROM biz_station_target) as ttt
+    	<if test="districtCode != null">
+    		<where>
+    			ttt.district_code = '${districtCode}'
+    			<if test="yearMonth != null">
+    				and ttt.year_month = '${yearMonth}'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			<where>
+    				ttt.year_month = '${yearMonth}'
+    			</where>
+    		</if>
+    	</if>
+    	)
+    	<if test="districtCode != null">
+    		and tt.district_code = '${districtCode}'
+    		<if test="yearMonth != null">
+    			and tt.year_month = '${yearMonth}'
+    		</if>
+    	</if>
+    	<if test="districtCode == null">
+    		<if test="yearMonth != null">
+    			and tt.year_month = '${yearMonth}'
+    		</if>
+    	</if>
+    	ORDER BY tt.year_month DESC
+    </where>
+  </select>
+  
+  <select id="findAllOilBaseInfoByYearMonthAndDistrictCode" parameterType="map" resultMap="BaseResultMap">
+  	SELECT  
+		t1.district_code, t1.station_code, t1.station_level_code, t1.station_name, t1.station_staff_num, 
+  		t2.id, t2.station_staff_num_float, t2.year_month, t2.sys_create_time, t2.sys_update_time,
+  		t3.district_name
+	FROM    
+		biz_district t3,
+		biz_station t1 
+	LEFT OUTER JOIN 
+		biz_station_target t2     
+	ON 
+		t1.station_code = t2.station_code and t2.year_month = '${yearMonth}'
+	WHERE 
+		 t1.district_code = t3.district_code
+		 <if test="districtCode != null">
+		 	and t1.district_code = '${districtCode}'
+		 </if>
+  </select>
+  
+  <select id="findStationTargetByIds" parameterType="map" resultMap="BaseResultMap">
+	SELECT * FROM biz_station_target WHERE id in (${ids}) 
+  </select>
+  <select id="deprecated_findStationBaseDataByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		(SELECT station_name FROM biz_station WHERE station_code = t1.station_code) station_name,
+  		(SELECT t2.valueName FROM data_dictionary t2, biz_station t3 WHERE t3.station_code = t1.station_code and t2.valueType = t3.bursar_type) bursar_type,
+  		(SELECT station_staff_num FROM biz_station WHERE station_code = t1.station_code) station_staff_num,
+  		(SELECT area_name FROM biz_area WHERE area_code = (SELECT area_code FROM biz_station WHERE station_code = t1.station_code)) area_name,
+  		(SELECT station_level_name FROM biz_station_level WHERE station_level_code = t1.station_level_code) station_level_name,
+  		(SELECT district_name FROM biz_district WHERE district_code = (SELECT district_code FROM biz_station WHERE station_code = t1.station_code)) district_name,
+  		(select t2.base_target from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) base_target,
+		(select t2.base_bonus_amt from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) base_bonus_amt,
+		(select t2.challenge_target from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) challenge_target,
+		(select t2.challenge_bonus_amt from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) challenge_bonus_amt,
+		(select t2.middle_target from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) middle_target,
+		(select t2.middle_bonus_amt from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) middle_bonus_amt,
+		(select t2.non_oil_total_amt from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) non_oil_total_amt,
+		(select t2.plan_day from biz_challenge_bonus t2 where station_code = t1.station_code and t2.year_month = t1.year_month) plan_day,
+  		t1.*
+<!--   		t1.boarder_subsidies, t1.store_mark_score, t1.store_manage_score, t1.oil_target_volume, t1.oil_real_volume, t1.oil_day_average_volume, -->
+<!--   		t1.non_oil_target_volume, t1.non_oil_real_volume, t1.non_oil_day_average_volume, t1.mmp, t1.nps  -->
+  	FROM 
+  		biz_station_target t1,
+  		biz_station t5
+  	WHERE t1.year_month = '${yearMonth}'
+  	  and t5.station_code = t1.station_code
+  	  and t5.district_code = '${districtCode}'
+  </select>
+  
+  <select id="findStationBaseDataByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  		SELECT 
+  		t5.station_name,
+  		dd.valueName as station_type,
+  		t5.station_staff_num,
+  		area_name,
+  		station_level_name ,
+  		district_name,
+  		(case when cb.base_target is null then 0 else cb.base_target end) as base_target,
+		(case when cb.base_bonus_amt is null then 0 else cb.base_bonus_amt end) as base_bonus_amt,
+		(case when cb.challenge_target is null then 0 else cb.challenge_target end) as challenge_target,
+		(case when cb.challenge_bonus_amt is null then 0 else cb.challenge_bonus_amt end) as challenge_bonus_amt,
+<!-- 		(case when cb.middle_target is null then 0 else cb.middle_target end) as middle_target, -->
+<!-- 		(case when cb.middle_bonus_amt is null then 0 else cb.middle_bonus_amt end) as middle_bonus_amt, -->
+<!-- 		cb.plan_day, -->
+		(case when ncb.base_target is not null then ncb.base_target else 0 end) as non_oil_base_target,
+		(case when ncb.base_bonus_amt is not null then ncb.base_bonus_amt else 0 end) as non_oil_base_bonus_amt,
+		(case when ncb.challenge_target is not null then ncb.challenge_target else 0 end) as non_oil_challenge_target,
+		(case when ncb.challenge_bonus_amt is not null then ncb.challenge_bonus_amt else 0 end) as non_oil_challenge_bonus_amt,
+  		t1.*
+	FROM 
+  		biz_station t5,
+  		data_dictionary dd,
+  		biz_area ar,
+  		biz_station_level sl,
+  		biz_district dt,
+  		biz_station_target t1
+  		left join 
+  		biz_challenge_bonus cb
+  		on cb.station_code = t1.station_code
+  		and t1.year_month = cb.year_month
+  		and cb.type = '1'
+  		left join 
+  		biz_challenge_bonus ncb
+  		on ncb.station_code = t1.station_code
+  		and t1.year_month = ncb.year_month
+  		and ncb.type = '0'
+  		where t1.station_code = t5.station_code
+  		and dd.valueType = t5.station_type
+  		and dd.codeType = 'station_type'
+  		and ar.area_code = t5.area_code
+  		and sl.station_level_code = t1.station_level_code
+  		and dt.district_code = t5.district_code
+  		and t1.year_month = '${yearMonth}'
+	  	and t5.district_code = '${districtCode}'
+  </select>
+  
+  <select id="findBoarderSubsidiesCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT COUNT(*) FROM biz_station_target tt,biz_station st,biz_district dt
+  	where tt.station_code = st.station_code
+        and dt.district_code = tt.district_code
+  	<if test="stationTarget.districtCode != null">
+    		and tt.district_code = '${stationTarget.districtCode}'
+   		</if>
+   		<if test="stationTarget.yearMonth != null">
+   			and tt.year_month = '${stationTarget.yearMonth}'
+   		</if>
+   		<if test="stationTarget.accommodationSubsidy != null">
+   			and tt.accommodation_subsidy > ${stationTarget.accommodationSubsidy}
+   		</if>
+   		<if test="stationTarget.isAccommoSubsidyArti != null">
+   				and tt.is_accommo_subsidy_arti = ${stationTarget.isAccommoSubsidyArti}
+  		</if>
+  </select>
+  <select id="findBoarderSubsidiesByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} food_way, boarder_subsidies, boarder_subsidies_remark, year_month,
+  		st.station_name, dt.district_name,accommodation_subsidy 
+  	FROM  
+  		biz_station_target tt,biz_station st,biz_district dt
+    <where>
+        tt.station_code = st.station_code
+        and dt.district_code = tt.district_code
+    	and tt.id not in (SELECT top ${startIndex} id FROM  biz_station_target ttt
+   		<where>
+   			<if test="stationTarget.districtCode != null">
+   				ttt.district_code = '${stationTarget.districtCode}'
+   			</if>
+   			<if test="stationTarget.yearMonth != null">
+   				and ttt.year_month = '${stationTarget.yearMonth}'
+   			</if>
+   			<if test="stationTarget.accommodationSubsidy != null">
+   				and ttt.accommodation_subsidy > ${stationTarget.accommodationSubsidy}
+   			</if>
+   			<if test="stationTarget.isAccommoSubsidyArti != null">
+   				and ttt.is_accommo_subsidy_arti = ${stationTarget.isAccommoSubsidyArti}
+   			</if>
+   		</where>
+    	)
+    	<if test="stationTarget.districtCode != null">
+    		and tt.district_code = '${stationTarget.districtCode}'
+   		</if>
+   		<if test="stationTarget.yearMonth != null">
+   			and tt.year_month = '${stationTarget.yearMonth}'
+   		</if>
+   		<if test="stationTarget.accommodationSubsidy != null">
+   			and tt.accommodation_subsidy > ${stationTarget.accommodationSubsidy}
+   		</if>
+   		<if test="stationTarget.isAccommoSubsidyArti != null">
+   			and tt.is_accommo_subsidy_arti = ${stationTarget.isAccommoSubsidyArti}
+   		</if>
+    	order by tt.year_month
+    </where>
+  </select>
+  
+  <select id="findByCondition" parameterType="com.fh.entity.biz.StationTarget" resultMap="BaseResultMap">
+  	SELECT id,station_code, year_month FROM biz_station_target where 1=1
+  	<if test="yearMonth != null">
+  		and year_month = #{yearMonth}
+  	</if>
+  	<if test="stationCode != null">
+  		and	station_code = #{stationCode}
+  	</if>
+  </select>
+</mapper>

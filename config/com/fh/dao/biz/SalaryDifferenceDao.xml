@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.SalaryDifferenceDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.SalaryDifference" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="salary_difference_code" property="salaryDifferenceCode" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="salary_summary" property="salarySummary" jdbcType="DECIMAL" />
+    <result column="salary_difference_positive" property="salaryDifferencePositive" jdbcType="DECIMAL" />
+    <result column="salary_difference_negative" property="salaryDifferenceNegative" jdbcType="DECIMAL" />
+    <result column="approval_status" property="approvalStatus" jdbcType="CHAR" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, salary_difference_code, staff_code, staff_name, salary_summary, salary_difference_positive, 
+      salary_difference_negative, approval_status, year_month, sys_create_time, sys_update_time, 
+      remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.SalaryDifferenceQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_salary_difference
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,salary_difference_code,staff_code,staff_name,salary_summary,salary_difference_positive,salary_difference_negative,approval_status,year_month,sys_create_time,sys_update_time,remark
+    from biz_salary_difference
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_salary_difference
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.SalaryDifferenceQuery" >
+    delete from biz_salary_difference
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.SalaryDifference" >
+    insert into biz_salary_difference (id, salary_difference_code, staff_code, 
+      staff_name, salary_summary, salary_difference_positive, 
+      salary_difference_negative, approval_status, 
+      year_month, sys_create_time, sys_update_time, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{salaryDifferenceCode,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, 
+      #{staffName,jdbcType=VARCHAR}, #{salarySummary,jdbcType=DECIMAL}, #{salaryDifferencePositive,jdbcType=DECIMAL}, 
+      #{salaryDifferenceNegative,jdbcType=DECIMAL}, #{approvalStatus,jdbcType=CHAR}, 
+      #{yearMonth,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.SalaryDifference" >
+    insert into biz_salary_difference
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="salaryDifferenceCode != null" >
+        salary_difference_code,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="staffName != null" >
+        staff_name,
+      </if>
+      <if test="salarySummary != null" >
+        salary_summary,
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        salary_difference_positive,
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        salary_difference_negative,
+      </if>
+      <if test="approvalStatus != null" >
+        approval_status,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="salaryDifferenceCode != null" >
+        #{salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="salarySummary != null" >
+        #{salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        #{salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="approvalStatus != null" >
+        #{approvalStatus,jdbcType=CHAR},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.SalaryDifferenceQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_salary_difference
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_salary_difference
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.salaryDifferenceCode != null" >
+        salary_difference_code = #{record.salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffName != null" >
+        staff_name = #{record.staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salarySummary != null" >
+        salary_summary = #{record.salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferencePositive != null" >
+        salary_difference_positive = #{record.salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferenceNegative != null" >
+        salary_difference_negative = #{record.salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="record.approvalStatus != null" >
+        approval_status = #{record.approvalStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_salary_difference
+    set id = #{record.id,jdbcType=BIGINT},
+      salary_difference_code = #{record.salaryDifferenceCode,jdbcType=VARCHAR},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      staff_name = #{record.staffName,jdbcType=VARCHAR},
+      salary_summary = #{record.salarySummary,jdbcType=DECIMAL},
+      salary_difference_positive = #{record.salaryDifferencePositive,jdbcType=DECIMAL},
+      salary_difference_negative = #{record.salaryDifferenceNegative,jdbcType=DECIMAL},
+      approval_status = #{record.approvalStatus,jdbcType=CHAR},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.SalaryDifference" >
+    update biz_salary_difference
+    <set >
+      <if test="salaryDifferenceCode != null" >
+        salary_difference_code = #{salaryDifferenceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="salarySummary != null" >
+        salary_summary = #{salarySummary,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        salary_difference_positive = #{salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        salary_difference_negative = #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="approvalStatus != null" >
+        approval_status = #{approvalStatus,jdbcType=CHAR},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.SalaryDifference" >
+    update biz_salary_difference
+    set salary_difference_code = #{salaryDifferenceCode,jdbcType=VARCHAR},
+      staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      salary_summary = #{salarySummary,jdbcType=DECIMAL},
+      salary_difference_positive = #{salaryDifferencePositive,jdbcType=DECIMAL},
+      salary_difference_negative = #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      approval_status = #{approvalStatus,jdbcType=CHAR},
+      year_month = #{yearMonth,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="findSalaryDifferenceCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT 
+  		COUNT(*) 
+  	FROM 
+  		biz_salary_difference
+  	<if test="staffName != null">
+  		<where>
+  			staff_name like '%${staffName}%'
+  		</where>
+  		<if test="yearMonth != null">
+  			AND year_month = '${yearMonth}'
+  		</if>
+  	</if>
+  	<if test="staffName == null">
+  		<if test="yearMonth != null">
+  			<where>
+  				year_month = '${yearMonth}'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  <select id="findSalaryDifferencesByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+  		top ${pageSize} tt.* , s1.station_code 
+  	FROM  
+  		biz_salary_difference as tt, biz_staff s1
+    <where>
+    	tt.staff_code = s1.staff_code
+    	and tt.id NOT IN 
+    		(SELECT 
+    			top ${startIndex} ttt.id 
+    		 FROM 
+    		 	biz_salary_difference as ttt, biz_staff staff
+    		<where>
+    			staff.staff_code = ttt.staff_code
+    			
+    			<if test="staffName != null">
+    				And ttt.staff_name like '%${staffName}%'
+    			</if>
+    			<if test="yearMonth != null">
+    				AND ttt.year_month = '${yearMonth}'
+    			</if>
+    			<if test="subOrganiseIdStr != null">
+    				AND staff.station_code IN (${subOrganiseIdStr})
+    			</if>
+    		</where>
+    	ORDER BY ttt.year_month DESC)
+    	<if test="staffName != null">
+    		AND tt.staff_name like '%${staffName}%'
+    	</if>
+    	<if test="yearMonth != null">
+    		AND tt.year_month = '${yearMonth}'
+    	</if>
+    	<if test="subOrganiseIdStr != null">
+    		AND s1.station_code IN (${subOrganiseIdStr})
+    	</if>
+    	ORDER BY tt.year_month DESC
+    </where>
+  </select>
+  <select id="findSalaryDifferenceByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+		t1.staff_code, 
+		t1.staff_name,
+		t2.id, 
+		t2.salary_summary, 
+		t2.salary_difference_positive, 
+		t2.salary_difference_negative,
+		t2.approval_status,
+		t2.year_month
+	FROM 
+		biz_staff t1 
+	LEFT OUTER JOIN
+		biz_salary_difference t2
+	ON
+		t1.staff_code = t2.staff_code 
+	AND
+		t2.year_month = '${yearMonth}'
+  </select>
+  <select id="findStaffListWithStationNameByStationCode" parameterType="map" resultMap="BaseResultMap">
+  	SELECT 
+		t2.id, t1.staff_code, t1.staff_name, t3.station_name, t2.remark
+	FROM    
+		biz_station t3,
+		biz_staff t1 
+	LEFT OUTER JOIN 
+		biz_salary_difference t2 
+	ON 
+		t1.staff_code = t2.staff_code 
+		AND t2.year_month = '${yearMonth}'
+	WHERE 
+		t1.station_code = t3.station_code
+    	AND t1.station_code = ${organiseId}
+  </select>
+  <select id="findSalaryDifferenceWithStationNameByStaffCode" parameterType="map" resultMap="BaseResultMap">
+  	SELECT TOP 1 *,
+		(SELECT 
+		 	station_name 
+		 FROM 
+		 	biz_station 
+		 WHERE 
+		 	station_code = (SELECT station_code FROM biz_staff WHERE staff_code = '${staffCode}')) station_name
+ 	FROM 
+ 		biz_salary_difference 
+ 	WHERE 
+ 		staff_code = (SELECT staff_code FROM biz_staff WHERE staff_code = '${staffCode}')
+ 	ORDER BY sys_create_time DESC
+  </select>
+  <select id="findSalaryDifferenceCountByApprovalStatus" resultType="java.lang.Integer" >
+  	SELECT 
+  		COUNT(*) 
+  	FROM 
+  		biz_salary_difference 
+  	WHERE 
+  		approval_status = '1';
+  </select>
+</mapper>

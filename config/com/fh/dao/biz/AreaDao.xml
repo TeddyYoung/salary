@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.AreaDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.Area" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="area_meal_supplement" property="areaMealSupplement" jdbcType="DECIMAL" />
+    <result column="area_house_supplement" property="areaHouseSupplement" jdbcType="DECIMAL" />
+    <result column="area_level" property="areaLevel" jdbcType="VARCHAR" />
+    <result column="father_area_code" property="fatherAreaCode" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, area_code, area_name, area_meal_supplement, area_house_supplement, area_level, 
+      father_area_code, sys_create_time, sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.AreaQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,area_code,area_name,area_meal_supplement,area_house_supplement,area_level,father_area_code,sys_create_time,sys_update_time,remark
+    from biz_area
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_area
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.AreaQuery" >
+    delete from biz_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.Area" >
+    insert into biz_area (id, area_code, area_name, 
+      area_meal_supplement, area_house_supplement, 
+      area_level, father_area_code, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=BIGINT}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{areaMealSupplement,jdbcType=DECIMAL}, #{areaHouseSupplement,jdbcType=DECIMAL}, 
+      #{areaLevel,jdbcType=VARCHAR}, #{fatherAreaCode,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.Area" >
+    insert into biz_area
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="areaName != null" >
+        area_name,
+      </if>
+      <if test="areaMealSupplement != null" >
+        area_meal_supplement,
+      </if>
+      <if test="areaHouseSupplement != null" >
+        area_house_supplement,
+      </if>
+      <if test="areaLevel != null" >
+        area_level,
+      </if>
+      <if test="fatherAreaCode != null" >
+        father_area_code,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaMealSupplement != null" >
+        #{areaMealSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="areaHouseSupplement != null" >
+        #{areaHouseSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="areaLevel != null" >
+        #{areaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherAreaCode != null" >
+        #{fatherAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.AreaQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_area
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_area
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaCode != null" >
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaName != null" >
+        area_name = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaMealSupplement != null" >
+        area_meal_supplement = #{record.areaMealSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="record.areaHouseSupplement != null" >
+        area_house_supplement = #{record.areaHouseSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="record.areaLevel != null" >
+        area_level = #{record.areaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fatherAreaCode != null" >
+        father_area_code = #{record.fatherAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_area
+    set id = #{record.id,jdbcType=BIGINT},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      area_meal_supplement = #{record.areaMealSupplement,jdbcType=DECIMAL},
+      area_house_supplement = #{record.areaHouseSupplement,jdbcType=DECIMAL},
+      area_level = #{record.areaLevel,jdbcType=VARCHAR},
+      father_area_code = #{record.fatherAreaCode,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.Area" >
+    update biz_area
+    <set >
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaMealSupplement != null" >
+        area_meal_supplement = #{areaMealSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="areaHouseSupplement != null" >
+        area_house_supplement = #{areaHouseSupplement,jdbcType=DECIMAL},
+      </if>
+      <if test="areaLevel != null" >
+        area_level = #{areaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherAreaCode != null" >
+        father_area_code = #{fatherAreaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.Area" >
+    update biz_area
+    set area_code = #{areaCode,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      area_meal_supplement = #{areaMealSupplement,jdbcType=DECIMAL},
+      area_house_supplement = #{areaHouseSupplement,jdbcType=DECIMAL},
+      area_level = #{areaLevel,jdbcType=VARCHAR},
+      father_area_code = #{fatherAreaCode,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from biz_area
+  	<if test="areaName != null">
+  		<where>
+  			area_name like '%${areaName}%'
+  		</where>
+  		<if test="areaLevel != null">
+  			and area_level like '%${areaLevel}%'
+  		</if>
+  	</if>
+  	<if test="areaName == null">
+  		<if test="areaLevel != null">
+  			<where>
+  				area_level like '%${areaLevel}%'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findAreasByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from  biz_area as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from biz_area as ttt
+    	<if test="areaName != null">
+    		<where>
+    			ttt.area_name like '%${areaName}%'
+    			<if test="areaLevel != null">
+    				and ttt.area_level like '%${areaLevel}%'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="areaName == null">
+    		<if test="areaLevel != null">
+    			<where>
+    				ttt.area_level like '%${areaLevel}%'
+    			</where>
+    		</if>
+    	</if>
+    	order by ttt.id)
+    	<if test="areaName != null">
+    		and tt.area_name like '%${areaName}%'
+    		<if test="areaLevel != null">
+    			and tt.area_level like '%${areaLevel}%'
+    		</if>
+    	</if>
+    	<if test="areaName == null">
+    		<if test="areaLevel != null">
+    			and tt.area_level like '%${areaLevel}%'
+    		</if>
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

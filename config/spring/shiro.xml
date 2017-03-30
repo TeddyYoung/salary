@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd	
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 安全管理 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
+        <property name="realm" ref="authRealm"/><!-- 引用自定义的realm -->
+        <!-- 二级缓存 -->
+        <property name="cacheManager" ref="shiroEhcacheManager"/>
+    </bean>
+    <!-- 自定义权限认证 -->
+    <bean id="authRealm" class="com.fh.shiro.AuthRealm">
+		<!-- <property name="userService" ref="userService"/> -->
+		<!-- 自定义密码加密算法  -->
+		<property name="credentialsMatcher" ref="passwordMatcher"/>
+	</bean>
+	<!-- 设置密码加密策略 md5hash -->
+	<bean id="passwordMatcher" class="com.fh.shiro.CustomCredentialsMatcher"/>
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+			<property name="securityManager" ref="securityManager" />
+			<property name="loginUrl" value="/" />
+			<property name="successUrl" value="/main/index" />
+			<property name="unauthorizedUrl" value="/login_toLogin" />
+			<property name="filterChainDefinitions">
+				<value>
+				/common/**					= anon
+				/static/login/** 			= anon
+				/static/js/myjs/** 			= authc
+				/static/js/** 				= anon
+				/uploadFiles/uploadImgs/** 	= anon
+	           	/code.do 					= anon
+	           	/login_login.do	 			= anon
+	           	/submitRole.do			 	= anon
+	           	/app**/** 					= anon
+	           	/app/** 				    = anon
+	           	/*/*.doc                    = anon
+	           	/**							= authc
+				</value>
+			</property>
+		</bean>
+    <!-- 用户授权/认证信息Cache, 采用EhCache  缓存 -->
+    <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+    </bean>
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!-- 生成代理，通过代理进行控制 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <!-- 安全管理器 -->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>

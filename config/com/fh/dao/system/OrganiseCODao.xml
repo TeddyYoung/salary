@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.OrganiseCODao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.OrganiseCO" >
+    <id column="organise_ID" property="organiseId" jdbcType="NVARCHAR" />
+    <result column="p_organise_ID" property="pOrganiseId" jdbcType="NVARCHAR" />
+    <result column="organise_Name" property="organiseName" jdbcType="NVARCHAR" />
+    <result column="organise_type_ID" property="organiseTypeId" jdbcType="NVARCHAR" />
+    <result column="City" property="city" jdbcType="VARCHAR" />
+    <result column="COID" property="coid" jdbcType="VARCHAR" />
+    <result column="SAP_Factory_Code" property="sapFactoryCode" jdbcType="VARCHAR" />
+    <result column="Card_System_Code" property="cardSystemCode" jdbcType="VARCHAR" />
+    <result column="Manager_RegionID" property="managerRegionid" jdbcType="VARCHAR" />
+    <result column="Place_RegionID" property="placeRegionid" jdbcType="VARCHAR" />
+    <result column="Price_RegionID" property="priceRegionid" jdbcType="VARCHAR" />
+    <result column="Diff" property="diff" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      organise_ID, p_organise_ID, organise_Name, organise_type_ID, City, COID, SAP_Factory_Code, 
+      Card_System_Code, Manager_RegionID, Place_RegionID, Price_RegionID, Diff
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.OrganiseCOQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Organise_CO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    organise_ID,p_organise_ID,organise_Name,organise_type_ID,City,COID,SAP_Factory_Code,Card_System_Code,Manager_RegionID,Place_RegionID,Price_RegionID,Diff
+    from Organise_CO
+    where organise_ID = #{organiseId,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Organise_CO
+    where organise_ID = #{organiseId,jdbcType=NVARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.OrganiseCOQuery" >
+    delete from Organise_CO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.OrganiseCO" >
+    insert into Organise_CO (organise_ID, p_organise_ID, organise_Name, 
+      organise_type_ID, City, COID, 
+      SAP_Factory_Code, Card_System_Code, Manager_RegionID, 
+      Place_RegionID, Price_RegionID, Diff
+      )
+    values (#{organiseId,jdbcType=NVARCHAR}, #{pOrganiseId,jdbcType=NVARCHAR}, #{organiseName,jdbcType=NVARCHAR}, 
+      #{organiseTypeId,jdbcType=NVARCHAR}, #{city,jdbcType=VARCHAR}, #{coid,jdbcType=VARCHAR}, 
+      #{sapFactoryCode,jdbcType=VARCHAR}, #{cardSystemCode,jdbcType=VARCHAR}, #{managerRegionid,jdbcType=VARCHAR}, 
+      #{placeRegionid,jdbcType=VARCHAR}, #{priceRegionid,jdbcType=VARCHAR}, #{diff,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.OrganiseCO" >
+    insert into Organise_CO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="organiseId != null" >
+        organise_ID,
+      </if>
+      <if test="pOrganiseId != null" >
+        p_organise_ID,
+      </if>
+      <if test="organiseName != null" >
+        organise_Name,
+      </if>
+      <if test="organiseTypeId != null" >
+        organise_type_ID,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="coid != null" >
+        COID,
+      </if>
+      <if test="sapFactoryCode != null" >
+        SAP_Factory_Code,
+      </if>
+      <if test="cardSystemCode != null" >
+        Card_System_Code,
+      </if>
+      <if test="managerRegionid != null" >
+        Manager_RegionID,
+      </if>
+      <if test="placeRegionid != null" >
+        Place_RegionID,
+      </if>
+      <if test="priceRegionid != null" >
+        Price_RegionID,
+      </if>
+      <if test="diff != null" >
+        Diff,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="organiseId != null" >
+        #{organiseId,jdbcType=NVARCHAR},
+      </if>
+      <if test="pOrganiseId != null" >
+        #{pOrganiseId,jdbcType=NVARCHAR},
+      </if>
+      <if test="organiseName != null" >
+        #{organiseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="organiseTypeId != null" >
+        #{organiseTypeId,jdbcType=NVARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="coid != null" >
+        #{coid,jdbcType=VARCHAR},
+      </if>
+      <if test="sapFactoryCode != null" >
+        #{sapFactoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardSystemCode != null" >
+        #{cardSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managerRegionid != null" >
+        #{managerRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="placeRegionid != null" >
+        #{placeRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="priceRegionid != null" >
+        #{priceRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="diff != null" >
+        #{diff,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.OrganiseCOQuery" resultType="java.lang.Integer" >
+    select count(*) from Organise_CO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Organise_CO
+    <set >
+      <if test="record.organiseId != null" >
+        organise_ID = #{record.organiseId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.pOrganiseId != null" >
+        p_organise_ID = #{record.pOrganiseId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.organiseName != null" >
+        organise_Name = #{record.organiseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.organiseTypeId != null" >
+        organise_type_ID = #{record.organiseTypeId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.city != null" >
+        City = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coid != null" >
+        COID = #{record.coid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sapFactoryCode != null" >
+        SAP_Factory_Code = #{record.sapFactoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardSystemCode != null" >
+        Card_System_Code = #{record.cardSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerRegionid != null" >
+        Manager_RegionID = #{record.managerRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.placeRegionid != null" >
+        Place_RegionID = #{record.placeRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priceRegionid != null" >
+        Price_RegionID = #{record.priceRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diff != null" >
+        Diff = #{record.diff,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Organise_CO
+    set organise_ID = #{record.organiseId,jdbcType=NVARCHAR},
+      p_organise_ID = #{record.pOrganiseId,jdbcType=NVARCHAR},
+      organise_Name = #{record.organiseName,jdbcType=NVARCHAR},
+      organise_type_ID = #{record.organiseTypeId,jdbcType=NVARCHAR},
+      City = #{record.city,jdbcType=VARCHAR},
+      COID = #{record.coid,jdbcType=VARCHAR},
+      SAP_Factory_Code = #{record.sapFactoryCode,jdbcType=VARCHAR},
+      Card_System_Code = #{record.cardSystemCode,jdbcType=VARCHAR},
+      Manager_RegionID = #{record.managerRegionid,jdbcType=VARCHAR},
+      Place_RegionID = #{record.placeRegionid,jdbcType=VARCHAR},
+      Price_RegionID = #{record.priceRegionid,jdbcType=VARCHAR},
+      Diff = #{record.diff,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.OrganiseCO" >
+    update Organise_CO
+    <set >
+      <if test="pOrganiseId != null" >
+        p_organise_ID = #{pOrganiseId,jdbcType=NVARCHAR},
+      </if>
+      <if test="organiseName != null" >
+        organise_Name = #{organiseName,jdbcType=NVARCHAR},
+      </if>
+      <if test="organiseTypeId != null" >
+        organise_type_ID = #{organiseTypeId,jdbcType=NVARCHAR},
+      </if>
+      <if test="city != null" >
+        City = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="coid != null" >
+        COID = #{coid,jdbcType=VARCHAR},
+      </if>
+      <if test="sapFactoryCode != null" >
+        SAP_Factory_Code = #{sapFactoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardSystemCode != null" >
+        Card_System_Code = #{cardSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managerRegionid != null" >
+        Manager_RegionID = #{managerRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="placeRegionid != null" >
+        Place_RegionID = #{placeRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="priceRegionid != null" >
+        Price_RegionID = #{priceRegionid,jdbcType=VARCHAR},
+      </if>
+      <if test="diff != null" >
+        Diff = #{diff,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where organise_ID = #{organiseId,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.OrganiseCO" >
+    update Organise_CO
+    set p_organise_ID = #{pOrganiseId,jdbcType=NVARCHAR},
+      organise_Name = #{organiseName,jdbcType=NVARCHAR},
+      organise_type_ID = #{organiseTypeId,jdbcType=NVARCHAR},
+      City = #{city,jdbcType=VARCHAR},
+      COID = #{coid,jdbcType=VARCHAR},
+      SAP_Factory_Code = #{sapFactoryCode,jdbcType=VARCHAR},
+      Card_System_Code = #{cardSystemCode,jdbcType=VARCHAR},
+      Manager_RegionID = #{managerRegionid,jdbcType=VARCHAR},
+      Place_RegionID = #{placeRegionid,jdbcType=VARCHAR},
+      Price_RegionID = #{priceRegionid,jdbcType=VARCHAR},
+      Diff = #{diff,jdbcType=VARCHAR}
+    where organise_ID = #{organiseId,jdbcType=NVARCHAR}
+  </update>
+  
+  <!-- 获取用户所属机构列表 Teddy -->
+  <select id="findOrganiseCOListByUserID" parameterType="map" resultMap="BaseResultMap">
+  	SELECT t2.organise_id, t2.organise_name 
+  	  FROM user_store_part t1, organise_co t2
+ 	 WHERE t1.userId = '${userId}'
+	   AND t1.storeID = t2.organise_id
+  </select>
+  
+</mapper>

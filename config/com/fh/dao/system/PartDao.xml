@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.PartDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.Part" >
+    <id column="PartID" property="partid" jdbcType="VARCHAR" />
+    <result column="PartName" property="partname" jdbcType="VARCHAR" />
+    <result column="Desctiption" property="desctiption" jdbcType="VARCHAR" />
+    <result column="orderby_ID" property="orderbyId" jdbcType="VARCHAR" />
+    <result column="P_partID" property="pPartid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      PartID, PartName, Desctiption, orderby_ID, P_partID
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.PartQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Part
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    PartID,PartName,Desctiption,orderby_ID,P_partID
+    from Part
+    where PartID = #{partid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Part
+    where PartID = #{partid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.PartQuery" >
+    delete from Part
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.Part" >
+    insert into Part (PartID, PartName, Desctiption, 
+      orderby_ID, P_partID)
+    values (#{partid,jdbcType=VARCHAR}, #{partname,jdbcType=VARCHAR}, #{desctiption,jdbcType=VARCHAR}, 
+      #{orderbyId,jdbcType=VARCHAR}, #{pPartid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.Part" >
+    insert into Part
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="partid != null" >
+        PartID,
+      </if>
+      <if test="partname != null" >
+        PartName,
+      </if>
+      <if test="desctiption != null" >
+        Desctiption,
+      </if>
+      <if test="orderbyId != null" >
+        orderby_ID,
+      </if>
+      <if test="pPartid != null" >
+        P_partID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="partid != null" >
+        #{partid,jdbcType=VARCHAR},
+      </if>
+      <if test="partname != null" >
+        #{partname,jdbcType=VARCHAR},
+      </if>
+      <if test="desctiption != null" >
+        #{desctiption,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbyId != null" >
+        #{orderbyId,jdbcType=VARCHAR},
+      </if>
+      <if test="pPartid != null" >
+        #{pPartid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.PartQuery" resultType="java.lang.Integer" >
+    select count(*) from Part
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Part
+    <set >
+      <if test="record.partid != null" >
+        PartID = #{record.partid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.partname != null" >
+        PartName = #{record.partname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desctiption != null" >
+        Desctiption = #{record.desctiption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderbyId != null" >
+        orderby_ID = #{record.orderbyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pPartid != null" >
+        P_partID = #{record.pPartid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Part
+    set PartID = #{record.partid,jdbcType=VARCHAR},
+      PartName = #{record.partname,jdbcType=VARCHAR},
+      Desctiption = #{record.desctiption,jdbcType=VARCHAR},
+      orderby_ID = #{record.orderbyId,jdbcType=VARCHAR},
+      P_partID = #{record.pPartid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.Part" >
+    update Part
+    <set >
+      <if test="partname != null" >
+        PartName = #{partname,jdbcType=VARCHAR},
+      </if>
+      <if test="desctiption != null" >
+        Desctiption = #{desctiption,jdbcType=VARCHAR},
+      </if>
+      <if test="orderbyId != null" >
+        orderby_ID = #{orderbyId,jdbcType=VARCHAR},
+      </if>
+      <if test="pPartid != null" >
+        P_partID = #{pPartid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PartID = #{partid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.Part" >
+    update Part
+    set PartName = #{partname,jdbcType=VARCHAR},
+      Desctiption = #{desctiption,jdbcType=VARCHAR},
+      orderby_ID = #{orderbyId,jdbcType=VARCHAR},
+      P_partID = #{pPartid,jdbcType=VARCHAR}
+    where PartID = #{partid,jdbcType=VARCHAR}
+  </update>
+</mapper>

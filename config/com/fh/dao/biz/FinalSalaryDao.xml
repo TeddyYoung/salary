@@ -1,0 +1,1639 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.FinalSalaryDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.FinalSalary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="associated_data_one" property="associatedDataOne" jdbcType="VARCHAR" />
+    <result column="associated_data_two" property="associatedDataTwo" jdbcType="VARCHAR" />
+    <result column="associated_data_three" property="associatedDataThree" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="station_level_name" property="stationLevelName" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_bankcard" property="staffBankcard" jdbcType="VARCHAR" />
+    <result column="staff_bank" property="staffBank" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="staff_in_date" property="staffInDate" jdbcType="NVARCHAR" />
+    <result column="working_day" property="workingDay" jdbcType="DECIMAL" />
+    <result column="is_stamanage_foreman" property="isStamanageForeman" jdbcType="VARCHAR" />
+    <result column="is_internship" property="isInternship" jdbcType="VARCHAR" />
+    <result column="after_intership_working" property="afterIntershipWorking" jdbcType="DECIMAL" />
+    <result column="peacetime_timeout" property="peacetimeTimeout" jdbcType="DECIMAL" />
+    <result column="holiday_overtime" property="holidayOvertime" jdbcType="DECIMAL" />
+    <result column="family_reunion_dinner_on" property="familyReunionDinnerOn" jdbcType="DECIMAL" />
+    <result column="on_the_spring_festiva_one" property="onTheSpringFestivaOne" jdbcType="DECIMAL" />
+    <result column="on_the_spring_festiva_two" property="onTheSpringFestivaTwo" jdbcType="DECIMAL" />
+    <result column="month_departure" property="monthDeparture" jdbcType="DECIMAL" />
+    <result column="casual_leave" property="casualLeave" jdbcType="DECIMAL" />
+    <result column="absenteeism" property="absenteeism" jdbcType="DECIMAL" />
+    <result column="sick_leave" property="sickLeave" jdbcType="DECIMAL" />
+    <result column="annual_leave" property="annualLeave" jdbcType="DECIMAL" />
+    <result column="marriage_leave" property="marriageLeave" jdbcType="DECIMAL" />
+    <result column="maternity_leave" property="maternityLeave" jdbcType="DECIMAL" />
+    <result column="funeral_leave" property="funeralLeave" jdbcType="DECIMAL" />
+    <result column="days_off" property="daysOff" jdbcType="DECIMAL" />
+    <result column="verbal_warnings" property="verbalWarnings" jdbcType="DECIMAL" />
+    <result column="written_warning" property="writtenWarning" jdbcType="DECIMAL" />
+    <result column="major_accident" property="majorAccident" jdbcType="DECIMAL" />
+    <result column="is_accomodate" property="isAccomodate" jdbcType="VARCHAR" />
+    <result column="is_boarder" property="isBoarder" jdbcType="VARCHAR" />
+    <result column="splendor_card_blue" property="splendorCardBlue" jdbcType="DECIMAL" />
+    <result column="splendor_card_green" property="splendorCardGreen" jdbcType="DECIMAL" />
+    <result column="part_time_scale" property="partTimeScale" jdbcType="DECIMAL" />
+    <result column="month_performance" property="monthPerformance" jdbcType="DECIMAL" />
+    <result column="manager_bonus_scale" property="managerBonusScale" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="probation_coefficient" property="probationCoefficient" jdbcType="DECIMAL" />
+    <result column="working_coefficient" property="workingCoefficient" jdbcType="DECIMAL" />
+    <result column="performance_coefficient" property="performanceCoefficient" jdbcType="DECIMAL" />
+    <result column="post_man_hour" property="postManHour" jdbcType="DECIMAL" />
+    <result column="post_hour_salary" property="postHourSalary" jdbcType="DECIMAL" />
+    <result column="manage_post_oil_bonus" property="managePostOilBonus" jdbcType="DECIMAL" />
+    <result column="first_tier_staff_oil_bonus" property="firstTierStaffOilBonus" jdbcType="DECIMAL" />
+    <result column="manage_post_non_oil_bonus" property="managePostNonOilBonus" jdbcType="DECIMAL" />
+    <result column="first_tier_staff_non_oil_bonus" property="firstTierStaffNonOilBonus" jdbcType="DECIMAL" />
+    <result column="manage_post_manage_bonus" property="managePostManageBonus" jdbcType="DECIMAL" />
+    <result column="first_tier_staff_performance_bonus" property="firstTierStaffPerformanceBonus" jdbcType="DECIMAL" />
+    <result column="post_salary" property="postSalary" jdbcType="DECIMAL" />
+    <result column="overtime_allowance" property="overtimeAllowance" jdbcType="DECIMAL" />
+    <result column="oil_bonus" property="oilBonus" jdbcType="DECIMAL" />
+    <result column="non_oil_bonus" property="nonOilBonus" jdbcType="DECIMAL" />
+    <result column="star_level_performance_bonus" property="starLevelPerformanceBonus" jdbcType="DECIMAL" />
+    <result column="manager_bonus" property="managerBonus" jdbcType="DECIMAL" />
+    <result column="performance_challenge_bonus" property="performanceChallengeBonus" jdbcType="DECIMAL" />
+    <result column="promotions_bonus" property="promotionsBonus" jdbcType="DECIMAL" />
+    <result column="gold_idea_bonus" property="goldIdeaBonus" jdbcType="DECIMAL" />
+    <result column="annual_bonus" property="annualBonus" jdbcType="DECIMAL" />
+    <result column="splendor_card_bonus" property="splendorCardBonus" jdbcType="DECIMAL" />
+    <result column="part_time_store_subsidy" property="partTimeStoreSubsidy" jdbcType="DECIMAL" />
+    <result column="post_allowance" property="postAllowance" jdbcType="DECIMAL" />
+    <result column="high_temperature_allowance" property="highTemperatureAllowance" jdbcType="DECIMAL" />
+    <result column="service_year_allowance" property="serviceYearAllowance" jdbcType="DECIMAL" />
+    <result column="total_gross_salary" property="totalGrossSalary" jdbcType="DECIMAL" />
+    <result column="working_dinner_subsidy" property="workingDinnerSubsidy" jdbcType="DECIMAL" />
+    <result column="accommodation_subsidy" property="accommodationSubsidy" jdbcType="DECIMAL" />
+    <result column="holiday_costs" property="holidayCosts" jdbcType="DECIMAL" />
+    <result column="herb_watermelon_time" property="herbWatermelonTime" jdbcType="DECIMAL" />
+    <result column="gross_combination_salary" property="grossCombinationSalary" jdbcType="DECIMAL" />
+    <result column="staff_cost_acc_fund" property="staffCostAccFund" jdbcType="DECIMAL" />
+    <result column="staff_cost_endowment" property="staffCostEndowment" jdbcType="DECIMAL" />
+    <result column="staff_cost_unemployment" property="staffCostUnemployment" jdbcType="DECIMAL" />
+    <result column="staff_cost_medical" property="staffCostMedical" jdbcType="DECIMAL" />
+    <result column="taxable_income" property="taxableIncome" jdbcType="DECIMAL" />
+    <result column="wage_tax" property="wageTax" jdbcType="DECIMAL" />
+    <result column="withholding_subsidies" property="withholdingSubsidies" jdbcType="DECIMAL" />
+    <result column="phone_cost" property="phoneCost" jdbcType="DECIMAL" />
+    <result column="total_charge" property="totalCharge" jdbcType="DECIMAL" />
+    <result column="net_pay" property="netPay" jdbcType="DECIMAL" />
+    <result column="salary_difference_positive" property="salaryDifferencePositive" jdbcType="DECIMAL" />
+    <result column="salary_difference_negative" property="salaryDifferenceNegative" jdbcType="DECIMAL" />
+    <result column="salary_difference_final" property="salaryDifferenceFinal" jdbcType="DECIMAL" />
+    <result column="after_net_pay_remark" property="afterNetPayRemark" jdbcType="VARCHAR" />
+    <result column="other_tax_matters" property="otherTaxMatters" jdbcType="DECIMAL" />
+    <result column="total_taxable_income" property="totalTaxableIncome" jdbcType="DECIMAL" />
+    <result column="income_tax" property="incomeTax" jdbcType="DECIMAL" />
+    <result column="unnamed_staff_count" property="unnamedStaffCount" jdbcType="INTEGER" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, associated_data_one, associated_data_two, associated_data_three, station_name, 
+      area_name, station_level_name, staff_code, staff_name, staff_idcard, staff_bankcard, 
+      staff_bank, duty_name, staff_in_date, working_day, is_stamanage_foreman, is_internship, 
+      after_intership_working, peacetime_timeout, holiday_overtime, family_reunion_dinner_on, 
+      on_the_spring_festiva_one, on_the_spring_festiva_two, month_departure, casual_leave, 
+      absenteeism, sick_leave, annual_leave, marriage_leave, maternity_leave, funeral_leave, 
+      days_off, verbal_warnings, written_warning, major_accident, is_accomodate, is_boarder, 
+      splendor_card_blue, splendor_card_green, part_time_scale, month_performance, manager_bonus_scale, 
+      remark, probation_coefficient, working_coefficient, performance_coefficient, post_man_hour, 
+      post_hour_salary, manage_post_oil_bonus, first_tier_staff_oil_bonus, manage_post_non_oil_bonus, 
+      first_tier_staff_non_oil_bonus, manage_post_manage_bonus, first_tier_staff_performance_bonus, 
+      post_salary, overtime_allowance, oil_bonus, non_oil_bonus, star_level_performance_bonus, 
+      manager_bonus, performance_challenge_bonus, promotions_bonus, gold_idea_bonus, annual_bonus, 
+      splendor_card_bonus, part_time_store_subsidy, post_allowance, high_temperature_allowance, 
+      service_year_allowance, total_gross_salary, working_dinner_subsidy, accommodation_subsidy, 
+      holiday_costs, herb_watermelon_time, gross_combination_salary, staff_cost_acc_fund, 
+      staff_cost_endowment, staff_cost_unemployment, staff_cost_medical, taxable_income, 
+      wage_tax, withholding_subsidies, phone_cost, total_charge, net_pay, salary_difference_positive, 
+      salary_difference_negative, salary_difference_final, after_net_pay_remark, other_tax_matters, 
+      total_taxable_income, income_tax, unnamed_staff_count, year_month
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.FinalSalaryQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_final_salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,associated_data_one,associated_data_two,associated_data_three,station_name,area_name,station_level_name,staff_code,staff_name,staff_idcard,staff_bankcard,staff_bank,duty_name,staff_in_date,working_day,is_stamanage_foreman,is_internship,after_intership_working,peacetime_timeout,holiday_overtime,family_reunion_dinner_on,on_the_spring_festiva_one,on_the_spring_festiva_two,month_departure,casual_leave,absenteeism,sick_leave,annual_leave,marriage_leave,maternity_leave,funeral_leave,days_off,verbal_warnings,written_warning,major_accident,is_accomodate,is_boarder,splendor_card_blue,splendor_card_green,part_time_scale,month_performance,manager_bonus_scale,remark,probation_coefficient,working_coefficient,performance_coefficient,post_man_hour,post_hour_salary,manage_post_oil_bonus,first_tier_staff_oil_bonus,manage_post_non_oil_bonus,first_tier_staff_non_oil_bonus,manage_post_manage_bonus,first_tier_staff_performance_bonus,post_salary,overtime_allowance,oil_bonus,non_oil_bonus,star_level_performance_bonus,manager_bonus,performance_challenge_bonus,promotions_bonus,gold_idea_bonus,annual_bonus,splendor_card_bonus,part_time_store_subsidy,post_allowance,high_temperature_allowance,service_year_allowance,total_gross_salary,working_dinner_subsidy,accommodation_subsidy,holiday_costs,herb_watermelon_time,gross_combination_salary,staff_cost_acc_fund,staff_cost_endowment,staff_cost_unemployment,staff_cost_medical,taxable_income,wage_tax,withholding_subsidies,phone_cost,total_charge,net_pay,salary_difference_positive,salary_difference_negative,salary_difference_final,after_net_pay_remark,other_tax_matters,total_taxable_income,income_tax,unnamed_staff_count,year_month
+    from biz_final_salary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_final_salary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.FinalSalaryQuery" >
+    delete from biz_final_salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.FinalSalary" >
+    insert into biz_final_salary (id, associated_data_one, associated_data_two, 
+      associated_data_three, station_name, area_name, 
+      station_level_name, staff_code, staff_name, 
+      staff_idcard, staff_bankcard, staff_bank, 
+      duty_name, staff_in_date, working_day, 
+      is_stamanage_foreman, is_internship, after_intership_working, 
+      peacetime_timeout, holiday_overtime, family_reunion_dinner_on, 
+      on_the_spring_festiva_one, on_the_spring_festiva_two, 
+      month_departure, casual_leave, absenteeism, 
+      sick_leave, annual_leave, marriage_leave, 
+      maternity_leave, funeral_leave, days_off, 
+      verbal_warnings, written_warning, major_accident, 
+      is_accomodate, is_boarder, splendor_card_blue, 
+      splendor_card_green, part_time_scale, month_performance, 
+      manager_bonus_scale, remark, probation_coefficient, 
+      working_coefficient, performance_coefficient, 
+      post_man_hour, post_hour_salary, manage_post_oil_bonus, 
+      first_tier_staff_oil_bonus, manage_post_non_oil_bonus, 
+      first_tier_staff_non_oil_bonus, manage_post_manage_bonus, 
+      first_tier_staff_performance_bonus, post_salary, 
+      overtime_allowance, oil_bonus, non_oil_bonus, 
+      star_level_performance_bonus, manager_bonus, 
+      performance_challenge_bonus, promotions_bonus, 
+      gold_idea_bonus, annual_bonus, splendor_card_bonus, 
+      part_time_store_subsidy, post_allowance, high_temperature_allowance, 
+      service_year_allowance, total_gross_salary, 
+      working_dinner_subsidy, accommodation_subsidy, 
+      holiday_costs, herb_watermelon_time, gross_combination_salary, 
+      staff_cost_acc_fund, staff_cost_endowment, staff_cost_unemployment, 
+      staff_cost_medical, taxable_income, wage_tax, 
+      withholding_subsidies, phone_cost, total_charge, 
+      net_pay, salary_difference_positive, salary_difference_negative, 
+      salary_difference_final, after_net_pay_remark, 
+      other_tax_matters, total_taxable_income, income_tax, 
+      unnamed_staff_count, year_month)
+    values (#{id,jdbcType=BIGINT}, #{associatedDataOne,jdbcType=VARCHAR}, #{associatedDataTwo,jdbcType=VARCHAR}, 
+      #{associatedDataThree,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{stationLevelName,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, 
+      #{staffIdcard,jdbcType=VARCHAR}, #{staffBankcard,jdbcType=VARCHAR}, #{staffBank,jdbcType=VARCHAR}, 
+      #{dutyName,jdbcType=VARCHAR}, #{staffInDate,jdbcType=NVARCHAR}, #{workingDay,jdbcType=DECIMAL}, 
+      #{isStamanageForeman,jdbcType=VARCHAR}, #{isInternship,jdbcType=VARCHAR}, #{afterIntershipWorking,jdbcType=DECIMAL}, 
+      #{peacetimeTimeout,jdbcType=DECIMAL}, #{holidayOvertime,jdbcType=DECIMAL}, #{familyReunionDinnerOn,jdbcType=DECIMAL}, 
+      #{onTheSpringFestivaOne,jdbcType=DECIMAL}, #{onTheSpringFestivaTwo,jdbcType=DECIMAL}, 
+      #{monthDeparture,jdbcType=DECIMAL}, #{casualLeave,jdbcType=DECIMAL}, #{absenteeism,jdbcType=DECIMAL}, 
+      #{sickLeave,jdbcType=DECIMAL}, #{annualLeave,jdbcType=DECIMAL}, #{marriageLeave,jdbcType=DECIMAL}, 
+      #{maternityLeave,jdbcType=DECIMAL}, #{funeralLeave,jdbcType=DECIMAL}, #{daysOff,jdbcType=DECIMAL}, 
+      #{verbalWarnings,jdbcType=DECIMAL}, #{writtenWarning,jdbcType=DECIMAL}, #{majorAccident,jdbcType=DECIMAL}, 
+      #{isAccomodate,jdbcType=VARCHAR}, #{isBoarder,jdbcType=VARCHAR}, #{splendorCardBlue,jdbcType=DECIMAL}, 
+      #{splendorCardGreen,jdbcType=DECIMAL}, #{partTimeScale,jdbcType=DECIMAL}, #{monthPerformance,jdbcType=DECIMAL}, 
+      #{managerBonusScale,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{probationCoefficient,jdbcType=DECIMAL}, 
+      #{workingCoefficient,jdbcType=DECIMAL}, #{performanceCoefficient,jdbcType=DECIMAL}, 
+      #{postManHour,jdbcType=DECIMAL}, #{postHourSalary,jdbcType=DECIMAL}, #{managePostOilBonus,jdbcType=DECIMAL}, 
+      #{firstTierStaffOilBonus,jdbcType=DECIMAL}, #{managePostNonOilBonus,jdbcType=DECIMAL}, 
+      #{firstTierStaffNonOilBonus,jdbcType=DECIMAL}, #{managePostManageBonus,jdbcType=DECIMAL}, 
+      #{firstTierStaffPerformanceBonus,jdbcType=DECIMAL}, #{postSalary,jdbcType=DECIMAL}, 
+      #{overtimeAllowance,jdbcType=DECIMAL}, #{oilBonus,jdbcType=DECIMAL}, #{nonOilBonus,jdbcType=DECIMAL}, 
+      #{starLevelPerformanceBonus,jdbcType=DECIMAL}, #{managerBonus,jdbcType=DECIMAL}, 
+      #{performanceChallengeBonus,jdbcType=DECIMAL}, #{promotionsBonus,jdbcType=DECIMAL}, 
+      #{goldIdeaBonus,jdbcType=DECIMAL}, #{annualBonus,jdbcType=DECIMAL}, #{splendorCardBonus,jdbcType=DECIMAL}, 
+      #{partTimeStoreSubsidy,jdbcType=DECIMAL}, #{postAllowance,jdbcType=DECIMAL}, #{highTemperatureAllowance,jdbcType=DECIMAL}, 
+      #{serviceYearAllowance,jdbcType=DECIMAL}, #{totalGrossSalary,jdbcType=DECIMAL}, 
+      #{workingDinnerSubsidy,jdbcType=DECIMAL}, #{accommodationSubsidy,jdbcType=DECIMAL}, 
+      #{holidayCosts,jdbcType=DECIMAL}, #{herbWatermelonTime,jdbcType=DECIMAL}, #{grossCombinationSalary,jdbcType=DECIMAL}, 
+      #{staffCostAccFund,jdbcType=DECIMAL}, #{staffCostEndowment,jdbcType=DECIMAL}, #{staffCostUnemployment,jdbcType=DECIMAL}, 
+      #{staffCostMedical,jdbcType=DECIMAL}, #{taxableIncome,jdbcType=DECIMAL}, #{wageTax,jdbcType=DECIMAL}, 
+      #{withholdingSubsidies,jdbcType=DECIMAL}, #{phoneCost,jdbcType=DECIMAL}, #{totalCharge,jdbcType=DECIMAL}, 
+      #{netPay,jdbcType=DECIMAL}, #{salaryDifferencePositive,jdbcType=DECIMAL}, #{salaryDifferenceNegative,jdbcType=DECIMAL}, 
+      #{salaryDifferenceFinal,jdbcType=DECIMAL}, #{afterNetPayRemark,jdbcType=VARCHAR}, 
+      #{otherTaxMatters,jdbcType=DECIMAL}, #{totalTaxableIncome,jdbcType=DECIMAL}, #{incomeTax,jdbcType=DECIMAL}, 
+      #{unnamedStaffCount,jdbcType=INTEGER}, #{yearMonth,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.FinalSalary" >
+    insert into biz_final_salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="associatedDataOne != null" >
+        associated_data_one,
+      </if>
+      <if test="associatedDataTwo != null" >
+        associated_data_two,
+      </if>
+      <if test="associatedDataThree != null" >
+        associated_data_three,
+      </if>
+      <if test="stationName != null" >
+        station_name,
+      </if>
+      <if test="areaName != null" >
+        area_name,
+      </if>
+      <if test="stationLevelName != null" >
+        station_level_name,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="staffName != null" >
+        staff_name,
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard,
+      </if>
+      <if test="staffBankcard != null" >
+        staff_bankcard,
+      </if>
+      <if test="staffBank != null" >
+        staff_bank,
+      </if>
+      <if test="dutyName != null" >
+        duty_name,
+      </if>
+      <if test="staffInDate != null" >
+        staff_in_date,
+      </if>
+      <if test="workingDay != null" >
+        working_day,
+      </if>
+      <if test="isStamanageForeman != null" >
+        is_stamanage_foreman,
+      </if>
+      <if test="isInternship != null" >
+        is_internship,
+      </if>
+      <if test="afterIntershipWorking != null" >
+        after_intership_working,
+      </if>
+      <if test="peacetimeTimeout != null" >
+        peacetime_timeout,
+      </if>
+      <if test="holidayOvertime != null" >
+        holiday_overtime,
+      </if>
+      <if test="familyReunionDinnerOn != null" >
+        family_reunion_dinner_on,
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one,
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two,
+      </if>
+      <if test="monthDeparture != null" >
+        month_departure,
+      </if>
+      <if test="casualLeave != null" >
+        casual_leave,
+      </if>
+      <if test="absenteeism != null" >
+        absenteeism,
+      </if>
+      <if test="sickLeave != null" >
+        sick_leave,
+      </if>
+      <if test="annualLeave != null" >
+        annual_leave,
+      </if>
+      <if test="marriageLeave != null" >
+        marriage_leave,
+      </if>
+      <if test="maternityLeave != null" >
+        maternity_leave,
+      </if>
+      <if test="funeralLeave != null" >
+        funeral_leave,
+      </if>
+      <if test="daysOff != null" >
+        days_off,
+      </if>
+      <if test="verbalWarnings != null" >
+        verbal_warnings,
+      </if>
+      <if test="writtenWarning != null" >
+        written_warning,
+      </if>
+      <if test="majorAccident != null" >
+        major_accident,
+      </if>
+      <if test="isAccomodate != null" >
+        is_accomodate,
+      </if>
+      <if test="isBoarder != null" >
+        is_boarder,
+      </if>
+      <if test="splendorCardBlue != null" >
+        splendor_card_blue,
+      </if>
+      <if test="splendorCardGreen != null" >
+        splendor_card_green,
+      </if>
+      <if test="partTimeScale != null" >
+        part_time_scale,
+      </if>
+      <if test="monthPerformance != null" >
+        month_performance,
+      </if>
+      <if test="managerBonusScale != null" >
+        manager_bonus_scale,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="probationCoefficient != null" >
+        probation_coefficient,
+      </if>
+      <if test="workingCoefficient != null" >
+        working_coefficient,
+      </if>
+      <if test="performanceCoefficient != null" >
+        performance_coefficient,
+      </if>
+      <if test="postManHour != null" >
+        post_man_hour,
+      </if>
+      <if test="postHourSalary != null" >
+        post_hour_salary,
+      </if>
+      <if test="managePostOilBonus != null" >
+        manage_post_oil_bonus,
+      </if>
+      <if test="firstTierStaffOilBonus != null" >
+        first_tier_staff_oil_bonus,
+      </if>
+      <if test="managePostNonOilBonus != null" >
+        manage_post_non_oil_bonus,
+      </if>
+      <if test="firstTierStaffNonOilBonus != null" >
+        first_tier_staff_non_oil_bonus,
+      </if>
+      <if test="managePostManageBonus != null" >
+        manage_post_manage_bonus,
+      </if>
+      <if test="firstTierStaffPerformanceBonus != null" >
+        first_tier_staff_performance_bonus,
+      </if>
+      <if test="postSalary != null" >
+        post_salary,
+      </if>
+      <if test="overtimeAllowance != null" >
+        overtime_allowance,
+      </if>
+      <if test="oilBonus != null" >
+        oil_bonus,
+      </if>
+      <if test="nonOilBonus != null" >
+        non_oil_bonus,
+      </if>
+      <if test="starLevelPerformanceBonus != null" >
+        star_level_performance_bonus,
+      </if>
+      <if test="managerBonus != null" >
+        manager_bonus,
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        performance_challenge_bonus,
+      </if>
+      <if test="promotionsBonus != null" >
+        promotions_bonus,
+      </if>
+      <if test="goldIdeaBonus != null" >
+        gold_idea_bonus,
+      </if>
+      <if test="annualBonus != null" >
+        annual_bonus,
+      </if>
+      <if test="splendorCardBonus != null" >
+        splendor_card_bonus,
+      </if>
+      <if test="partTimeStoreSubsidy != null" >
+        part_time_store_subsidy,
+      </if>
+      <if test="postAllowance != null" >
+        post_allowance,
+      </if>
+      <if test="highTemperatureAllowance != null" >
+        high_temperature_allowance,
+      </if>
+      <if test="serviceYearAllowance != null" >
+        service_year_allowance,
+      </if>
+      <if test="totalGrossSalary != null" >
+        total_gross_salary,
+      </if>
+      <if test="workingDinnerSubsidy != null" >
+        working_dinner_subsidy,
+      </if>
+      <if test="accommodationSubsidy != null" >
+        accommodation_subsidy,
+      </if>
+      <if test="holidayCosts != null" >
+        holiday_costs,
+      </if>
+      <if test="herbWatermelonTime != null" >
+        herb_watermelon_time,
+      </if>
+      <if test="grossCombinationSalary != null" >
+        gross_combination_salary,
+      </if>
+      <if test="staffCostAccFund != null" >
+        staff_cost_acc_fund,
+      </if>
+      <if test="staffCostEndowment != null" >
+        staff_cost_endowment,
+      </if>
+      <if test="staffCostUnemployment != null" >
+        staff_cost_unemployment,
+      </if>
+      <if test="staffCostMedical != null" >
+        staff_cost_medical,
+      </if>
+      <if test="taxableIncome != null" >
+        taxable_income,
+      </if>
+      <if test="wageTax != null" >
+        wage_tax,
+      </if>
+      <if test="withholdingSubsidies != null" >
+        withholding_subsidies,
+      </if>
+      <if test="phoneCost != null" >
+        phone_cost,
+      </if>
+      <if test="totalCharge != null" >
+        total_charge,
+      </if>
+      <if test="netPay != null" >
+        net_pay,
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        salary_difference_positive,
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        salary_difference_negative,
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        salary_difference_final,
+      </if>
+      <if test="afterNetPayRemark != null" >
+        after_net_pay_remark,
+      </if>
+      <if test="otherTaxMatters != null" >
+        other_tax_matters,
+      </if>
+      <if test="totalTaxableIncome != null" >
+        total_taxable_income,
+      </if>
+      <if test="incomeTax != null" >
+        income_tax,
+      </if>
+      <if test="unnamedStaffCount != null" >
+        unnamed_staff_count,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="associatedDataOne != null" >
+        #{associatedDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="associatedDataTwo != null" >
+        #{associatedDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="associatedDataThree != null" >
+        #{associatedDataThree,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null" >
+        #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLevelName != null" >
+        #{stationLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBankcard != null" >
+        #{staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBank != null" >
+        #{staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInDate != null" >
+        #{staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="workingDay != null" >
+        #{workingDay,jdbcType=DECIMAL},
+      </if>
+      <if test="isStamanageForeman != null" >
+        #{isStamanageForeman,jdbcType=VARCHAR},
+      </if>
+      <if test="isInternship != null" >
+        #{isInternship,jdbcType=VARCHAR},
+      </if>
+      <if test="afterIntershipWorking != null" >
+        #{afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="peacetimeTimeout != null" >
+        #{peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayOvertime != null" >
+        #{holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="familyReunionDinnerOn != null" >
+        #{familyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="monthDeparture != null" >
+        #{monthDeparture,jdbcType=DECIMAL},
+      </if>
+      <if test="casualLeave != null" >
+        #{casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="absenteeism != null" >
+        #{absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="sickLeave != null" >
+        #{sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="annualLeave != null" >
+        #{annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="marriageLeave != null" >
+        #{marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="maternityLeave != null" >
+        #{maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="funeralLeave != null" >
+        #{funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="daysOff != null" >
+        #{daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="verbalWarnings != null" >
+        #{verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="writtenWarning != null" >
+        #{writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="majorAccident != null" >
+        #{majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccomodate != null" >
+        #{isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoarder != null" >
+        #{isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="splendorCardBlue != null" >
+        #{splendorCardBlue,jdbcType=DECIMAL},
+      </if>
+      <if test="splendorCardGreen != null" >
+        #{splendorCardGreen,jdbcType=DECIMAL},
+      </if>
+      <if test="partTimeScale != null" >
+        #{partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="monthPerformance != null" >
+        #{monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonusScale != null" >
+        #{managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="probationCoefficient != null" >
+        #{probationCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="workingCoefficient != null" >
+        #{workingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceCoefficient != null" >
+        #{performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="postManHour != null" >
+        #{postManHour,jdbcType=DECIMAL},
+      </if>
+      <if test="postHourSalary != null" >
+        #{postHourSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostOilBonus != null" >
+        #{managePostOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffOilBonus != null" >
+        #{firstTierStaffOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostNonOilBonus != null" >
+        #{managePostNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffNonOilBonus != null" >
+        #{firstTierStaffNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostManageBonus != null" >
+        #{managePostManageBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffPerformanceBonus != null" >
+        #{firstTierStaffPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="postSalary != null" >
+        #{postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="overtimeAllowance != null" >
+        #{overtimeAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="oilBonus != null" >
+        #{oilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilBonus != null" >
+        #{nonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="starLevelPerformanceBonus != null" >
+        #{starLevelPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonus != null" >
+        #{managerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        #{performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionsBonus != null" >
+        #{promotionsBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="goldIdeaBonus != null" >
+        #{goldIdeaBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="annualBonus != null" >
+        #{annualBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="splendorCardBonus != null" >
+        #{splendorCardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="partTimeStoreSubsidy != null" >
+        #{partTimeStoreSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="postAllowance != null" >
+        #{postAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="highTemperatureAllowance != null" >
+        #{highTemperatureAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceYearAllowance != null" >
+        #{serviceYearAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="totalGrossSalary != null" >
+        #{totalGrossSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="workingDinnerSubsidy != null" >
+        #{workingDinnerSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="accommodationSubsidy != null" >
+        #{accommodationSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayCosts != null" >
+        #{holidayCosts,jdbcType=DECIMAL},
+      </if>
+      <if test="herbWatermelonTime != null" >
+        #{herbWatermelonTime,jdbcType=DECIMAL},
+      </if>
+      <if test="grossCombinationSalary != null" >
+        #{grossCombinationSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostAccFund != null" >
+        #{staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostEndowment != null" >
+        #{staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostUnemployment != null" >
+        #{staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostMedical != null" >
+        #{staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="taxableIncome != null" >
+        #{taxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="wageTax != null" >
+        #{wageTax,jdbcType=DECIMAL},
+      </if>
+      <if test="withholdingSubsidies != null" >
+        #{withholdingSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCost != null" >
+        #{phoneCost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalCharge != null" >
+        #{totalCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="netPay != null" >
+        #{netPay,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        #{salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="afterNetPayRemark != null" >
+        #{afterNetPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="otherTaxMatters != null" >
+        #{otherTaxMatters,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTaxableIncome != null" >
+        #{totalTaxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeTax != null" >
+        #{incomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="unnamedStaffCount != null" >
+        #{unnamedStaffCount,jdbcType=INTEGER},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.FinalSalaryQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_final_salary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_final_salary
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.associatedDataOne != null" >
+        associated_data_one = #{record.associatedDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.associatedDataTwo != null" >
+        associated_data_two = #{record.associatedDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.associatedDataThree != null" >
+        associated_data_three = #{record.associatedDataThree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationName != null" >
+        station_name = #{record.stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaName != null" >
+        area_name = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationLevelName != null" >
+        station_level_name = #{record.stationLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffName != null" >
+        staff_name = #{record.staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffIdcard != null" >
+        staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffBankcard != null" >
+        staff_bankcard = #{record.staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffBank != null" >
+        staff_bank = #{record.staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyName != null" >
+        duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffInDate != null" >
+        staff_in_date = #{record.staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.workingDay != null" >
+        working_day = #{record.workingDay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isStamanageForeman != null" >
+        is_stamanage_foreman = #{record.isStamanageForeman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isInternship != null" >
+        is_internship = #{record.isInternship,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterIntershipWorking != null" >
+        after_intership_working = #{record.afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="record.peacetimeTimeout != null" >
+        peacetime_timeout = #{record.peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="record.holidayOvertime != null" >
+        holiday_overtime = #{record.holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.familyReunionDinnerOn != null" >
+        family_reunion_dinner_on = #{record.familyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one = #{record.onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two = #{record.onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthDeparture != null" >
+        month_departure = #{record.monthDeparture,jdbcType=DECIMAL},
+      </if>
+      <if test="record.casualLeave != null" >
+        casual_leave = #{record.casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.absenteeism != null" >
+        absenteeism = #{record.absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sickLeave != null" >
+        sick_leave = #{record.sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.annualLeave != null" >
+        annual_leave = #{record.annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marriageLeave != null" >
+        marriage_leave = #{record.marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maternityLeave != null" >
+        maternity_leave = #{record.maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.funeralLeave != null" >
+        funeral_leave = #{record.funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="record.daysOff != null" >
+        days_off = #{record.daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="record.verbalWarnings != null" >
+        verbal_warnings = #{record.verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="record.writtenWarning != null" >
+        written_warning = #{record.writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="record.majorAccident != null" >
+        major_accident = #{record.majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isAccomodate != null" >
+        is_accomodate = #{record.isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isBoarder != null" >
+        is_boarder = #{record.isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.splendorCardBlue != null" >
+        splendor_card_blue = #{record.splendorCardBlue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.splendorCardGreen != null" >
+        splendor_card_green = #{record.splendorCardGreen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.partTimeScale != null" >
+        part_time_scale = #{record.partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthPerformance != null" >
+        month_performance = #{record.monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managerBonusScale != null" >
+        manager_bonus_scale = #{record.managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.probationCoefficient != null" >
+        probation_coefficient = #{record.probationCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.workingCoefficient != null" >
+        working_coefficient = #{record.workingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.performanceCoefficient != null" >
+        performance_coefficient = #{record.performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postManHour != null" >
+        post_man_hour = #{record.postManHour,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postHourSalary != null" >
+        post_hour_salary = #{record.postHourSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managePostOilBonus != null" >
+        manage_post_oil_bonus = #{record.managePostOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstTierStaffOilBonus != null" >
+        first_tier_staff_oil_bonus = #{record.firstTierStaffOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managePostNonOilBonus != null" >
+        manage_post_non_oil_bonus = #{record.managePostNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstTierStaffNonOilBonus != null" >
+        first_tier_staff_non_oil_bonus = #{record.firstTierStaffNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managePostManageBonus != null" >
+        manage_post_manage_bonus = #{record.managePostManageBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstTierStaffPerformanceBonus != null" >
+        first_tier_staff_performance_bonus = #{record.firstTierStaffPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postSalary != null" >
+        post_salary = #{record.postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.overtimeAllowance != null" >
+        overtime_allowance = #{record.overtimeAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oilBonus != null" >
+        oil_bonus = #{record.oilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nonOilBonus != null" >
+        non_oil_bonus = #{record.nonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.starLevelPerformanceBonus != null" >
+        star_level_performance_bonus = #{record.starLevelPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.managerBonus != null" >
+        manager_bonus = #{record.managerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.performanceChallengeBonus != null" >
+        performance_challenge_bonus = #{record.performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.promotionsBonus != null" >
+        promotions_bonus = #{record.promotionsBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goldIdeaBonus != null" >
+        gold_idea_bonus = #{record.goldIdeaBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.annualBonus != null" >
+        annual_bonus = #{record.annualBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.splendorCardBonus != null" >
+        splendor_card_bonus = #{record.splendorCardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.partTimeStoreSubsidy != null" >
+        part_time_store_subsidy = #{record.partTimeStoreSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postAllowance != null" >
+        post_allowance = #{record.postAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.highTemperatureAllowance != null" >
+        high_temperature_allowance = #{record.highTemperatureAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serviceYearAllowance != null" >
+        service_year_allowance = #{record.serviceYearAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalGrossSalary != null" >
+        total_gross_salary = #{record.totalGrossSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.workingDinnerSubsidy != null" >
+        working_dinner_subsidy = #{record.workingDinnerSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.accommodationSubsidy != null" >
+        accommodation_subsidy = #{record.accommodationSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="record.holidayCosts != null" >
+        holiday_costs = #{record.holidayCosts,jdbcType=DECIMAL},
+      </if>
+      <if test="record.herbWatermelonTime != null" >
+        herb_watermelon_time = #{record.herbWatermelonTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.grossCombinationSalary != null" >
+        gross_combination_salary = #{record.grossCombinationSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostAccFund != null" >
+        staff_cost_acc_fund = #{record.staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostEndowment != null" >
+        staff_cost_endowment = #{record.staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostUnemployment != null" >
+        staff_cost_unemployment = #{record.staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="record.staffCostMedical != null" >
+        staff_cost_medical = #{record.staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="record.taxableIncome != null" >
+        taxable_income = #{record.taxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.wageTax != null" >
+        wage_tax = #{record.wageTax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.withholdingSubsidies != null" >
+        withholding_subsidies = #{record.withholdingSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phoneCost != null" >
+        phone_cost = #{record.phoneCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalCharge != null" >
+        total_charge = #{record.totalCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.netPay != null" >
+        net_pay = #{record.netPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferencePositive != null" >
+        salary_difference_positive = #{record.salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferenceNegative != null" >
+        salary_difference_negative = #{record.salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salaryDifferenceFinal != null" >
+        salary_difference_final = #{record.salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="record.afterNetPayRemark != null" >
+        after_net_pay_remark = #{record.afterNetPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherTaxMatters != null" >
+        other_tax_matters = #{record.otherTaxMatters,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalTaxableIncome != null" >
+        total_taxable_income = #{record.totalTaxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.incomeTax != null" >
+        income_tax = #{record.incomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="record.unnamedStaffCount != null" >
+        unnamed_staff_count = #{record.unnamedStaffCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.yearMonth != null" >
+        year_month = #{record.yearMonth,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_final_salary
+    set id = #{record.id,jdbcType=BIGINT},
+      associated_data_one = #{record.associatedDataOne,jdbcType=VARCHAR},
+      associated_data_two = #{record.associatedDataTwo,jdbcType=VARCHAR},
+      associated_data_three = #{record.associatedDataThree,jdbcType=VARCHAR},
+      station_name = #{record.stationName,jdbcType=VARCHAR},
+      area_name = #{record.areaName,jdbcType=VARCHAR},
+      station_level_name = #{record.stationLevelName,jdbcType=VARCHAR},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      staff_name = #{record.staffName,jdbcType=VARCHAR},
+      staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      staff_bankcard = #{record.staffBankcard,jdbcType=VARCHAR},
+      staff_bank = #{record.staffBank,jdbcType=VARCHAR},
+      duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      staff_in_date = #{record.staffInDate,jdbcType=NVARCHAR},
+      working_day = #{record.workingDay,jdbcType=DECIMAL},
+      is_stamanage_foreman = #{record.isStamanageForeman,jdbcType=VARCHAR},
+      is_internship = #{record.isInternship,jdbcType=VARCHAR},
+      after_intership_working = #{record.afterIntershipWorking,jdbcType=DECIMAL},
+      peacetime_timeout = #{record.peacetimeTimeout,jdbcType=DECIMAL},
+      holiday_overtime = #{record.holidayOvertime,jdbcType=DECIMAL},
+      family_reunion_dinner_on = #{record.familyReunionDinnerOn,jdbcType=DECIMAL},
+      on_the_spring_festiva_one = #{record.onTheSpringFestivaOne,jdbcType=DECIMAL},
+      on_the_spring_festiva_two = #{record.onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      month_departure = #{record.monthDeparture,jdbcType=DECIMAL},
+      casual_leave = #{record.casualLeave,jdbcType=DECIMAL},
+      absenteeism = #{record.absenteeism,jdbcType=DECIMAL},
+      sick_leave = #{record.sickLeave,jdbcType=DECIMAL},
+      annual_leave = #{record.annualLeave,jdbcType=DECIMAL},
+      marriage_leave = #{record.marriageLeave,jdbcType=DECIMAL},
+      maternity_leave = #{record.maternityLeave,jdbcType=DECIMAL},
+      funeral_leave = #{record.funeralLeave,jdbcType=DECIMAL},
+      days_off = #{record.daysOff,jdbcType=DECIMAL},
+      verbal_warnings = #{record.verbalWarnings,jdbcType=DECIMAL},
+      written_warning = #{record.writtenWarning,jdbcType=DECIMAL},
+      major_accident = #{record.majorAccident,jdbcType=DECIMAL},
+      is_accomodate = #{record.isAccomodate,jdbcType=VARCHAR},
+      is_boarder = #{record.isBoarder,jdbcType=VARCHAR},
+      splendor_card_blue = #{record.splendorCardBlue,jdbcType=DECIMAL},
+      splendor_card_green = #{record.splendorCardGreen,jdbcType=DECIMAL},
+      part_time_scale = #{record.partTimeScale,jdbcType=DECIMAL},
+      month_performance = #{record.monthPerformance,jdbcType=DECIMAL},
+      manager_bonus_scale = #{record.managerBonusScale,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      probation_coefficient = #{record.probationCoefficient,jdbcType=DECIMAL},
+      working_coefficient = #{record.workingCoefficient,jdbcType=DECIMAL},
+      performance_coefficient = #{record.performanceCoefficient,jdbcType=DECIMAL},
+      post_man_hour = #{record.postManHour,jdbcType=DECIMAL},
+      post_hour_salary = #{record.postHourSalary,jdbcType=DECIMAL},
+      manage_post_oil_bonus = #{record.managePostOilBonus,jdbcType=DECIMAL},
+      first_tier_staff_oil_bonus = #{record.firstTierStaffOilBonus,jdbcType=DECIMAL},
+      manage_post_non_oil_bonus = #{record.managePostNonOilBonus,jdbcType=DECIMAL},
+      first_tier_staff_non_oil_bonus = #{record.firstTierStaffNonOilBonus,jdbcType=DECIMAL},
+      manage_post_manage_bonus = #{record.managePostManageBonus,jdbcType=DECIMAL},
+      first_tier_staff_performance_bonus = #{record.firstTierStaffPerformanceBonus,jdbcType=DECIMAL},
+      post_salary = #{record.postSalary,jdbcType=DECIMAL},
+      overtime_allowance = #{record.overtimeAllowance,jdbcType=DECIMAL},
+      oil_bonus = #{record.oilBonus,jdbcType=DECIMAL},
+      non_oil_bonus = #{record.nonOilBonus,jdbcType=DECIMAL},
+      star_level_performance_bonus = #{record.starLevelPerformanceBonus,jdbcType=DECIMAL},
+      manager_bonus = #{record.managerBonus,jdbcType=DECIMAL},
+      performance_challenge_bonus = #{record.performanceChallengeBonus,jdbcType=DECIMAL},
+      promotions_bonus = #{record.promotionsBonus,jdbcType=DECIMAL},
+      gold_idea_bonus = #{record.goldIdeaBonus,jdbcType=DECIMAL},
+      annual_bonus = #{record.annualBonus,jdbcType=DECIMAL},
+      splendor_card_bonus = #{record.splendorCardBonus,jdbcType=DECIMAL},
+      part_time_store_subsidy = #{record.partTimeStoreSubsidy,jdbcType=DECIMAL},
+      post_allowance = #{record.postAllowance,jdbcType=DECIMAL},
+      high_temperature_allowance = #{record.highTemperatureAllowance,jdbcType=DECIMAL},
+      service_year_allowance = #{record.serviceYearAllowance,jdbcType=DECIMAL},
+      total_gross_salary = #{record.totalGrossSalary,jdbcType=DECIMAL},
+      working_dinner_subsidy = #{record.workingDinnerSubsidy,jdbcType=DECIMAL},
+      accommodation_subsidy = #{record.accommodationSubsidy,jdbcType=DECIMAL},
+      holiday_costs = #{record.holidayCosts,jdbcType=DECIMAL},
+      herb_watermelon_time = #{record.herbWatermelonTime,jdbcType=DECIMAL},
+      gross_combination_salary = #{record.grossCombinationSalary,jdbcType=DECIMAL},
+      staff_cost_acc_fund = #{record.staffCostAccFund,jdbcType=DECIMAL},
+      staff_cost_endowment = #{record.staffCostEndowment,jdbcType=DECIMAL},
+      staff_cost_unemployment = #{record.staffCostUnemployment,jdbcType=DECIMAL},
+      staff_cost_medical = #{record.staffCostMedical,jdbcType=DECIMAL},
+      taxable_income = #{record.taxableIncome,jdbcType=DECIMAL},
+      wage_tax = #{record.wageTax,jdbcType=DECIMAL},
+      withholding_subsidies = #{record.withholdingSubsidies,jdbcType=DECIMAL},
+      phone_cost = #{record.phoneCost,jdbcType=DECIMAL},
+      total_charge = #{record.totalCharge,jdbcType=DECIMAL},
+      net_pay = #{record.netPay,jdbcType=DECIMAL},
+      salary_difference_positive = #{record.salaryDifferencePositive,jdbcType=DECIMAL},
+      salary_difference_negative = #{record.salaryDifferenceNegative,jdbcType=DECIMAL},
+      salary_difference_final = #{record.salaryDifferenceFinal,jdbcType=DECIMAL},
+      after_net_pay_remark = #{record.afterNetPayRemark,jdbcType=VARCHAR},
+      other_tax_matters = #{record.otherTaxMatters,jdbcType=DECIMAL},
+      total_taxable_income = #{record.totalTaxableIncome,jdbcType=DECIMAL},
+      income_tax = #{record.incomeTax,jdbcType=DECIMAL},
+      unnamed_staff_count = #{record.unnamedStaffCount,jdbcType=INTEGER},
+      year_month = #{record.yearMonth,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.FinalSalary" >
+    update biz_final_salary
+    <set >
+      <if test="associatedDataOne != null" >
+        associated_data_one = #{associatedDataOne,jdbcType=VARCHAR},
+      </if>
+      <if test="associatedDataTwo != null" >
+        associated_data_two = #{associatedDataTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="associatedDataThree != null" >
+        associated_data_three = #{associatedDataThree,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null" >
+        station_name = #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLevelName != null" >
+        station_level_name = #{stationLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBankcard != null" >
+        staff_bankcard = #{staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBank != null" >
+        staff_bank = #{staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyName != null" >
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInDate != null" >
+        staff_in_date = #{staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="workingDay != null" >
+        working_day = #{workingDay,jdbcType=DECIMAL},
+      </if>
+      <if test="isStamanageForeman != null" >
+        is_stamanage_foreman = #{isStamanageForeman,jdbcType=VARCHAR},
+      </if>
+      <if test="isInternship != null" >
+        is_internship = #{isInternship,jdbcType=VARCHAR},
+      </if>
+      <if test="afterIntershipWorking != null" >
+        after_intership_working = #{afterIntershipWorking,jdbcType=DECIMAL},
+      </if>
+      <if test="peacetimeTimeout != null" >
+        peacetime_timeout = #{peacetimeTimeout,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayOvertime != null" >
+        holiday_overtime = #{holidayOvertime,jdbcType=DECIMAL},
+      </if>
+      <if test="familyReunionDinnerOn != null" >
+        family_reunion_dinner_on = #{familyReunionDinnerOn,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaOne != null" >
+        on_the_spring_festiva_one = #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      </if>
+      <if test="onTheSpringFestivaTwo != null" >
+        on_the_spring_festiva_two = #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      </if>
+      <if test="monthDeparture != null" >
+        month_departure = #{monthDeparture,jdbcType=DECIMAL},
+      </if>
+      <if test="casualLeave != null" >
+        casual_leave = #{casualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="absenteeism != null" >
+        absenteeism = #{absenteeism,jdbcType=DECIMAL},
+      </if>
+      <if test="sickLeave != null" >
+        sick_leave = #{sickLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="annualLeave != null" >
+        annual_leave = #{annualLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="marriageLeave != null" >
+        marriage_leave = #{marriageLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="maternityLeave != null" >
+        maternity_leave = #{maternityLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="funeralLeave != null" >
+        funeral_leave = #{funeralLeave,jdbcType=DECIMAL},
+      </if>
+      <if test="daysOff != null" >
+        days_off = #{daysOff,jdbcType=DECIMAL},
+      </if>
+      <if test="verbalWarnings != null" >
+        verbal_warnings = #{verbalWarnings,jdbcType=DECIMAL},
+      </if>
+      <if test="writtenWarning != null" >
+        written_warning = #{writtenWarning,jdbcType=DECIMAL},
+      </if>
+      <if test="majorAccident != null" >
+        major_accident = #{majorAccident,jdbcType=DECIMAL},
+      </if>
+      <if test="isAccomodate != null" >
+        is_accomodate = #{isAccomodate,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoarder != null" >
+        is_boarder = #{isBoarder,jdbcType=VARCHAR},
+      </if>
+      <if test="splendorCardBlue != null" >
+        splendor_card_blue = #{splendorCardBlue,jdbcType=DECIMAL},
+      </if>
+      <if test="splendorCardGreen != null" >
+        splendor_card_green = #{splendorCardGreen,jdbcType=DECIMAL},
+      </if>
+      <if test="partTimeScale != null" >
+        part_time_scale = #{partTimeScale,jdbcType=DECIMAL},
+      </if>
+      <if test="monthPerformance != null" >
+        month_performance = #{monthPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonusScale != null" >
+        manager_bonus_scale = #{managerBonusScale,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="probationCoefficient != null" >
+        probation_coefficient = #{probationCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="workingCoefficient != null" >
+        working_coefficient = #{workingCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceCoefficient != null" >
+        performance_coefficient = #{performanceCoefficient,jdbcType=DECIMAL},
+      </if>
+      <if test="postManHour != null" >
+        post_man_hour = #{postManHour,jdbcType=DECIMAL},
+      </if>
+      <if test="postHourSalary != null" >
+        post_hour_salary = #{postHourSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostOilBonus != null" >
+        manage_post_oil_bonus = #{managePostOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffOilBonus != null" >
+        first_tier_staff_oil_bonus = #{firstTierStaffOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostNonOilBonus != null" >
+        manage_post_non_oil_bonus = #{managePostNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffNonOilBonus != null" >
+        first_tier_staff_non_oil_bonus = #{firstTierStaffNonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managePostManageBonus != null" >
+        manage_post_manage_bonus = #{managePostManageBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="firstTierStaffPerformanceBonus != null" >
+        first_tier_staff_performance_bonus = #{firstTierStaffPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="postSalary != null" >
+        post_salary = #{postSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="overtimeAllowance != null" >
+        overtime_allowance = #{overtimeAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="oilBonus != null" >
+        oil_bonus = #{oilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="nonOilBonus != null" >
+        non_oil_bonus = #{nonOilBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="starLevelPerformanceBonus != null" >
+        star_level_performance_bonus = #{starLevelPerformanceBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="managerBonus != null" >
+        manager_bonus = #{managerBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceChallengeBonus != null" >
+        performance_challenge_bonus = #{performanceChallengeBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="promotionsBonus != null" >
+        promotions_bonus = #{promotionsBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="goldIdeaBonus != null" >
+        gold_idea_bonus = #{goldIdeaBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="annualBonus != null" >
+        annual_bonus = #{annualBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="splendorCardBonus != null" >
+        splendor_card_bonus = #{splendorCardBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="partTimeStoreSubsidy != null" >
+        part_time_store_subsidy = #{partTimeStoreSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="postAllowance != null" >
+        post_allowance = #{postAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="highTemperatureAllowance != null" >
+        high_temperature_allowance = #{highTemperatureAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceYearAllowance != null" >
+        service_year_allowance = #{serviceYearAllowance,jdbcType=DECIMAL},
+      </if>
+      <if test="totalGrossSalary != null" >
+        total_gross_salary = #{totalGrossSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="workingDinnerSubsidy != null" >
+        working_dinner_subsidy = #{workingDinnerSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="accommodationSubsidy != null" >
+        accommodation_subsidy = #{accommodationSubsidy,jdbcType=DECIMAL},
+      </if>
+      <if test="holidayCosts != null" >
+        holiday_costs = #{holidayCosts,jdbcType=DECIMAL},
+      </if>
+      <if test="herbWatermelonTime != null" >
+        herb_watermelon_time = #{herbWatermelonTime,jdbcType=DECIMAL},
+      </if>
+      <if test="grossCombinationSalary != null" >
+        gross_combination_salary = #{grossCombinationSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostAccFund != null" >
+        staff_cost_acc_fund = #{staffCostAccFund,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostEndowment != null" >
+        staff_cost_endowment = #{staffCostEndowment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostUnemployment != null" >
+        staff_cost_unemployment = #{staffCostUnemployment,jdbcType=DECIMAL},
+      </if>
+      <if test="staffCostMedical != null" >
+        staff_cost_medical = #{staffCostMedical,jdbcType=DECIMAL},
+      </if>
+      <if test="taxableIncome != null" >
+        taxable_income = #{taxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="wageTax != null" >
+        wage_tax = #{wageTax,jdbcType=DECIMAL},
+      </if>
+      <if test="withholdingSubsidies != null" >
+        withholding_subsidies = #{withholdingSubsidies,jdbcType=DECIMAL},
+      </if>
+      <if test="phoneCost != null" >
+        phone_cost = #{phoneCost,jdbcType=DECIMAL},
+      </if>
+      <if test="totalCharge != null" >
+        total_charge = #{totalCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="netPay != null" >
+        net_pay = #{netPay,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferencePositive != null" >
+        salary_difference_positive = #{salaryDifferencePositive,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceNegative != null" >
+        salary_difference_negative = #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      </if>
+      <if test="salaryDifferenceFinal != null" >
+        salary_difference_final = #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      </if>
+      <if test="afterNetPayRemark != null" >
+        after_net_pay_remark = #{afterNetPayRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="otherTaxMatters != null" >
+        other_tax_matters = #{otherTaxMatters,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTaxableIncome != null" >
+        total_taxable_income = #{totalTaxableIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="incomeTax != null" >
+        income_tax = #{incomeTax,jdbcType=DECIMAL},
+      </if>
+      <if test="unnamedStaffCount != null" >
+        unnamed_staff_count = #{unnamedStaffCount,jdbcType=INTEGER},
+      </if>
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.FinalSalary" >
+    update biz_final_salary
+    set associated_data_one = #{associatedDataOne,jdbcType=VARCHAR},
+      associated_data_two = #{associatedDataTwo,jdbcType=VARCHAR},
+      associated_data_three = #{associatedDataThree,jdbcType=VARCHAR},
+      station_name = #{stationName,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
+      station_level_name = #{stationLevelName,jdbcType=VARCHAR},
+      staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      staff_bankcard = #{staffBankcard,jdbcType=VARCHAR},
+      staff_bank = #{staffBank,jdbcType=VARCHAR},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      staff_in_date = #{staffInDate,jdbcType=NVARCHAR},
+      working_day = #{workingDay,jdbcType=DECIMAL},
+      is_stamanage_foreman = #{isStamanageForeman,jdbcType=VARCHAR},
+      is_internship = #{isInternship,jdbcType=VARCHAR},
+      after_intership_working = #{afterIntershipWorking,jdbcType=DECIMAL},
+      peacetime_timeout = #{peacetimeTimeout,jdbcType=DECIMAL},
+      holiday_overtime = #{holidayOvertime,jdbcType=DECIMAL},
+      family_reunion_dinner_on = #{familyReunionDinnerOn,jdbcType=DECIMAL},
+      on_the_spring_festiva_one = #{onTheSpringFestivaOne,jdbcType=DECIMAL},
+      on_the_spring_festiva_two = #{onTheSpringFestivaTwo,jdbcType=DECIMAL},
+      month_departure = #{monthDeparture,jdbcType=DECIMAL},
+      casual_leave = #{casualLeave,jdbcType=DECIMAL},
+      absenteeism = #{absenteeism,jdbcType=DECIMAL},
+      sick_leave = #{sickLeave,jdbcType=DECIMAL},
+      annual_leave = #{annualLeave,jdbcType=DECIMAL},
+      marriage_leave = #{marriageLeave,jdbcType=DECIMAL},
+      maternity_leave = #{maternityLeave,jdbcType=DECIMAL},
+      funeral_leave = #{funeralLeave,jdbcType=DECIMAL},
+      days_off = #{daysOff,jdbcType=DECIMAL},
+      verbal_warnings = #{verbalWarnings,jdbcType=DECIMAL},
+      written_warning = #{writtenWarning,jdbcType=DECIMAL},
+      major_accident = #{majorAccident,jdbcType=DECIMAL},
+      is_accomodate = #{isAccomodate,jdbcType=VARCHAR},
+      is_boarder = #{isBoarder,jdbcType=VARCHAR},
+      splendor_card_blue = #{splendorCardBlue,jdbcType=DECIMAL},
+      splendor_card_green = #{splendorCardGreen,jdbcType=DECIMAL},
+      part_time_scale = #{partTimeScale,jdbcType=DECIMAL},
+      month_performance = #{monthPerformance,jdbcType=DECIMAL},
+      manager_bonus_scale = #{managerBonusScale,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      probation_coefficient = #{probationCoefficient,jdbcType=DECIMAL},
+      working_coefficient = #{workingCoefficient,jdbcType=DECIMAL},
+      performance_coefficient = #{performanceCoefficient,jdbcType=DECIMAL},
+      post_man_hour = #{postManHour,jdbcType=DECIMAL},
+      post_hour_salary = #{postHourSalary,jdbcType=DECIMAL},
+      manage_post_oil_bonus = #{managePostOilBonus,jdbcType=DECIMAL},
+      first_tier_staff_oil_bonus = #{firstTierStaffOilBonus,jdbcType=DECIMAL},
+      manage_post_non_oil_bonus = #{managePostNonOilBonus,jdbcType=DECIMAL},
+      first_tier_staff_non_oil_bonus = #{firstTierStaffNonOilBonus,jdbcType=DECIMAL},
+      manage_post_manage_bonus = #{managePostManageBonus,jdbcType=DECIMAL},
+      first_tier_staff_performance_bonus = #{firstTierStaffPerformanceBonus,jdbcType=DECIMAL},
+      post_salary = #{postSalary,jdbcType=DECIMAL},
+      overtime_allowance = #{overtimeAllowance,jdbcType=DECIMAL},
+      oil_bonus = #{oilBonus,jdbcType=DECIMAL},
+      non_oil_bonus = #{nonOilBonus,jdbcType=DECIMAL},
+      star_level_performance_bonus = #{starLevelPerformanceBonus,jdbcType=DECIMAL},
+      manager_bonus = #{managerBonus,jdbcType=DECIMAL},
+      performance_challenge_bonus = #{performanceChallengeBonus,jdbcType=DECIMAL},
+      promotions_bonus = #{promotionsBonus,jdbcType=DECIMAL},
+      gold_idea_bonus = #{goldIdeaBonus,jdbcType=DECIMAL},
+      annual_bonus = #{annualBonus,jdbcType=DECIMAL},
+      splendor_card_bonus = #{splendorCardBonus,jdbcType=DECIMAL},
+      part_time_store_subsidy = #{partTimeStoreSubsidy,jdbcType=DECIMAL},
+      post_allowance = #{postAllowance,jdbcType=DECIMAL},
+      high_temperature_allowance = #{highTemperatureAllowance,jdbcType=DECIMAL},
+      service_year_allowance = #{serviceYearAllowance,jdbcType=DECIMAL},
+      total_gross_salary = #{totalGrossSalary,jdbcType=DECIMAL},
+      working_dinner_subsidy = #{workingDinnerSubsidy,jdbcType=DECIMAL},
+      accommodation_subsidy = #{accommodationSubsidy,jdbcType=DECIMAL},
+      holiday_costs = #{holidayCosts,jdbcType=DECIMAL},
+      herb_watermelon_time = #{herbWatermelonTime,jdbcType=DECIMAL},
+      gross_combination_salary = #{grossCombinationSalary,jdbcType=DECIMAL},
+      staff_cost_acc_fund = #{staffCostAccFund,jdbcType=DECIMAL},
+      staff_cost_endowment = #{staffCostEndowment,jdbcType=DECIMAL},
+      staff_cost_unemployment = #{staffCostUnemployment,jdbcType=DECIMAL},
+      staff_cost_medical = #{staffCostMedical,jdbcType=DECIMAL},
+      taxable_income = #{taxableIncome,jdbcType=DECIMAL},
+      wage_tax = #{wageTax,jdbcType=DECIMAL},
+      withholding_subsidies = #{withholdingSubsidies,jdbcType=DECIMAL},
+      phone_cost = #{phoneCost,jdbcType=DECIMAL},
+      total_charge = #{totalCharge,jdbcType=DECIMAL},
+      net_pay = #{netPay,jdbcType=DECIMAL},
+      salary_difference_positive = #{salaryDifferencePositive,jdbcType=DECIMAL},
+      salary_difference_negative = #{salaryDifferenceNegative,jdbcType=DECIMAL},
+      salary_difference_final = #{salaryDifferenceFinal,jdbcType=DECIMAL},
+      after_net_pay_remark = #{afterNetPayRemark,jdbcType=VARCHAR},
+      other_tax_matters = #{otherTaxMatters,jdbcType=DECIMAL},
+      total_taxable_income = #{totalTaxableIncome,jdbcType=DECIMAL},
+      income_tax = #{incomeTax,jdbcType=DECIMAL},
+      unnamed_staff_count = #{unnamedStaffCount,jdbcType=INTEGER},
+      year_month = #{yearMonth,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

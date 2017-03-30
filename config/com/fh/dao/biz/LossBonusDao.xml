@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.LossBonusDao" >
+  	<resultMap id="BaseResultMap" type="com.fh.entity.biz.LossBonus" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+	    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+	    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+	    <result column="loss_bonus_amt" property="lossBonusAmt" jdbcType="DECIMAL" />
+	    <result column="other_bonus_amt" property="otherBonusAmt" jdbcType="DECIMAL" />
+	    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+	    <result column="sys_create_date" property="sysCreateDate" jdbcType="TIMESTAMP" />
+	    <result column="sys_update_date" property="sysUpdateDate" jdbcType="TIMESTAMP" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="VARCHAR" />
+  	</resultMap>
+  	
+  	<insert id="save" parameterType="com.fh.entity.biz.LossBonus" >
+    	INSERT INTO biz_loss_bonus
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+      		year_month,
+      		staff_code,
+      		staff_name,
+      		loss_bonus_amt,
+      		other_bonus_amt,
+      		station_code,
+      		sys_create_date,
+      		sys_update_date,
+      		type,
+      		remark
+    	</trim>
+    	<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		#{yearMonth,jdbcType=VARCHAR},
+      		#{staffCode,jdbcType=VARCHAR},
+      		#{staffName,jdbcType=VARCHAR},
+      		#{lossBonusAmt,jdbcType=DECIMAL},
+      		#{otherBonusAmt,jdbcType=DECIMAL},
+      		#{stationCode,jdbcType=VARCHAR},
+      		#{sysCreateDate,jdbcType=TIMESTAMP},
+      		#{sysUpdateDate,jdbcType=TIMESTAMP},
+      		#{type,jdbcType=VARCHAR},
+      		#{remark,jdbcType=VARCHAR}
+    	</trim>
+  	</insert>
+  	
+  	<delete id="delete" parameterType="java.lang.Long" >
+    	DELETE FROM biz_loss_bonus WHERE id = #{id, jdbcType=VARCHAR}
+  	</delete>
+ 
+ 	<update id="update" parameterType="com.fh.entity.biz.LossBonus" >
+    	UPDATE biz_loss_bonus
+    	<set >
+     		year_month = #{yearMonth,jdbcType=VARCHAR},
+       		staff_code = #{staffCode,jdbcType=VARCHAR},
+       		staff_name = #{staffName,jdbcType=VARCHAR},
+       		loss_bonus_amt = #{lossBonusAmt,jdbcType=DECIMAL},
+       		other_bonus_amt = #{otherBonusAmt,jdbcType=DECIMAL},
+       		station_code = #{stationCode,jdbcType=VARCHAR},
+      		sys_create_date = #{sysCreateDate,jdbcType=TIMESTAMP},
+      		sys_update_date = #{sysUpdateDate,jdbcType=TIMESTAMP},
+      		type = #{type,jdbcType=VARCHAR},
+      		remark = #{remark,jdbcType=VARCHAR},
+    	</set>
+    	WHERE id = #{id,jdbcType=VARCHAR}
+  	</update>
+  	
+  	<select id="get" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	SELECT * FROM biz_loss_bonus
+    		WHERE id = #{id,jdbcType=BIGINT}
+  	</select>
+  
+  	<select id="queryPage" parameterType="map" resultMap="BaseResultMap">
+  	     select top ${pageSize} tt.loss_bonus_amt,tt.other_bonus_amt,tt.station_code,tt.staff_code,tt.year_month,
+  	     		sf.staff_name,type
+			  from biz_loss_bonus tt,biz_staff sf
+			 where tt.staff_code = sf.staff_code
+			 and tt.station_code = sf.station_code
+			 and tt.id not in (select top ${startIndex} ttt.id from biz_loss_bonus ttt,biz_staff sf
+			                      where 1=1 and tt.staff_code = sf.staff_code
+			                      and ttt.station_code = sf.station_code
+			                      <if test="lossBonus.yearMonth != null" >AND ttt.year_month = #{lossBonus.yearMonth}</if>
+			                      <if test="lossBonus.type != null" >
+								 	AND type in (${lossBonus.type})
+								 </if>
+			 ) 
+			 <if test="lossBonus.yearMonth != null" >AND tt.year_month = #{lossBonus.yearMonth}</if>
+			 <if test="lossBonus.type != null" >
+			 	AND tt.type in (${lossBonus.type})
+			 </if>
+  	</select>
+  	
+  	<select id="queryCount" parameterType="com.fh.entity.biz.LossBonus" resultType="java.lang.Integer" >
+		SELECT count(*) FROM biz_loss_bonus lb,biz_staff sf 
+		WHERE 1=1 and lb.staff_code = sf.staff_code
+		and lb.station_code = sf.station_code
+    		<if test="yearMonth != null" >AND lb.year_month = #{yearMonth}</if>
+			 <if test="type != null" >
+			 	AND lb.type in (${type})
+			 </if>
+  	</select>
+  	
+  	<select id="queryList" parameterType="com.fh.entity.biz.LossBonus" resultMap="BaseResultMap">
+  		SELECT *  FROM biz_loss_bonus  WHERE 1= 1
+  		<if test="staffCode != null" >AND staff_code = #{staffCode}</if>
+  		<if test="yearMonth != null" >AND year_month = #{yearMonth}</if>
+  		<if test="stationCode != null" >AND station_code = #{stationCode}</if>
+  		<if test="staffName != null" >
+  			AND staff_code in (select staff_code from biz_staff where staff_name like '%${staffName}%')
+  		</if>
+  		<if test="type != null" >AND type = #{type}</if>
+  	</select>
+  	
+</mapper>

@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StaffDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.Staff" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_phone" property="staffPhone" jdbcType="VARCHAR" />
+    <result column="staff_sex" property="staffSex" jdbcType="VARCHAR" />
+    <result column="staff_photo" property="staffPhoto" jdbcType="VARCHAR" />
+    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
+    <result column="staff_in_date" property="staffInDate" jdbcType="NVARCHAR" />
+    <result column="staff_out_date" property="staffOutDate" jdbcType="NVARCHAR" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="staff_bankcard" property="staffBankcard" jdbcType="VARCHAR" />
+    <result column="staff_bank" property="staffBank" jdbcType="VARCHAR" />
+    <result column="staff_out_cause" property="staffOutCause" jdbcType="VARCHAR" />
+    <result column="staff_out_type" property="staffOutType" jdbcType="VARCHAR" />
+    <result column="staff_out_url" property="staffOutUrl" jdbcType="VARCHAR" />
+    <result column="out_staff_category" property="outStaffCategory" jdbcType="VARCHAR" />
+    <result column="staff_transfer_date" property="staffTransferDate" jdbcType="VARCHAR" />
+    <result column="transfer_duty_code" property="transferDutyCode" jdbcType="VARCHAR" />
+    <result column="transfer_station_code" property="transferStationCode" jdbcType="VARCHAR" />
+    <result column="staff_transfer_status" property="staffTransferStatus" jdbcType="VARCHAR" />
+    <result column="staff_out_status" property="staffOutStatus" jdbcType="VARCHAR" />
+    <result column="staff_check_type" property="staffCheckType" jdbcType="VARCHAR" />
+    <result column="station_name" property="stationName" jdbcType="VARCHAR" />
+    <result column="working_day" property="workingDay" jdbcType="DECIMAL" />
+    <result column="job_level" property="jobLevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, staff_code, staff_name, staff_idcard, staff_phone, staff_sex, staff_photo, staff_status, 
+      staff_in_date, staff_out_date, duty_code, station_code, sys_create_time, sys_update_time, 
+      remark, staff_bankcard, staff_bank, staff_out_cause, staff_out_type, staff_out_url, 
+      out_staff_category, staff_transfer_date, transfer_duty_code, transfer_station_code, 
+      staff_transfer_status, staff_out_status, staff_check_type
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StaffQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,staff_code,staff_name,staff_idcard,staff_phone,staff_sex,
+    staff_photo,staff_status,staff_in_date,staff_out_date,duty_code,
+    station_code,sys_create_time,sys_update_time,remark,staff_bankcard,
+    staff_bank,staff_out_cause,staff_out_type,staff_out_url,out_staff_category,
+    staff_transfer_date,transfer_duty_code,transfer_station_code,staff_transfer_status,
+    staff_out_status,staff_check_type,job_level
+    from biz_staff
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_staff
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StaffQuery" >
+    delete from biz_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.Staff" >
+    insert into biz_staff (id, staff_code, staff_name, 
+      staff_idcard, staff_phone, staff_sex, 
+      staff_photo, staff_status, staff_in_date, 
+      staff_out_date, duty_code, station_code, 
+      sys_create_time, sys_update_time, remark, 
+      staff_bankcard, staff_bank, staff_out_cause, 
+      staff_out_type, staff_out_url, out_staff_category, 
+      staff_transfer_date, transfer_duty_code, transfer_station_code, 
+      staff_transfer_status, staff_out_status, staff_check_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{staffCode,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, 
+      #{staffIdcard,jdbcType=VARCHAR}, #{staffPhone,jdbcType=VARCHAR}, #{staffSex,jdbcType=VARCHAR}, 
+      #{staffPhoto,jdbcType=VARCHAR}, #{staffStatus,jdbcType=VARCHAR}, #{staffInDate,jdbcType=NVARCHAR}, 
+      #{staffOutDate,jdbcType=NVARCHAR}, #{dutyCode,jdbcType=VARCHAR}, #{stationCode,jdbcType=VARCHAR}, 
+      #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{staffBankcard,jdbcType=VARCHAR}, #{staffBank,jdbcType=VARCHAR}, #{staffOutCause,jdbcType=VARCHAR}, 
+      #{staffOutType,jdbcType=VARCHAR}, #{staffOutUrl,jdbcType=VARCHAR}, #{outStaffCategory,jdbcType=VARCHAR}, 
+      #{staffTransferDate,jdbcType=VARCHAR}, #{transferDutyCode,jdbcType=VARCHAR}, #{transferStationCode,jdbcType=VARCHAR}, 
+      #{staffTransferStatus,jdbcType=VARCHAR}, #{staffOutStatus,jdbcType=VARCHAR}, #{staffCheckType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.Staff" >
+    insert into biz_staff
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="staffName != null" >
+        staff_name,
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard,
+      </if>
+      <if test="staffPhone != null" >
+        staff_phone,
+      </if>
+      <if test="staffSex != null" >
+        staff_sex,
+      </if>
+      <if test="staffPhoto != null" >
+        staff_photo,
+      </if>
+      <if test="staffStatus != null" >
+        staff_status,
+      </if>
+      <if test="staffInDate != null" >
+        staff_in_date,
+      </if>
+      <if test="staffOutDate != null" >
+        staff_out_date,
+      </if>
+      <if test="dutyCode != null" >
+        duty_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="staffBankcard != null" >
+        staff_bankcard,
+      </if>
+      <if test="staffBank != null" >
+        staff_bank,
+      </if>
+      <if test="staffOutCause != null" >
+        staff_out_cause,
+      </if>
+      <if test="staffOutType != null" >
+        staff_out_type,
+      </if>
+      <if test="staffOutUrl != null" >
+        staff_out_url,
+      </if>
+      <if test="outStaffCategory != null" >
+        out_staff_category,
+      </if>
+      <if test="staffTransferDate != null" >
+        staff_transfer_date,
+      </if>
+      <if test="transferDutyCode != null" >
+        transfer_duty_code,
+      </if>
+      <if test="transferStationCode != null" >
+        transfer_station_code,
+      </if>
+      <if test="staffTransferStatus != null" >
+        staff_transfer_status,
+      </if>
+      <if test="staffOutStatus != null" >
+        staff_out_status,
+      </if>
+      <if test="staffCheckType != null" >
+        staff_check_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhone != null" >
+        #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null" >
+        #{staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhoto != null" >
+        #{staffPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null" >
+        #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInDate != null" >
+        #{staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="staffOutDate != null" >
+        #{staffOutDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBankcard != null" >
+        #{staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBank != null" >
+        #{staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutCause != null" >
+        #{staffOutCause,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutType != null" >
+        #{staffOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutUrl != null" >
+        #{staffOutUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="outStaffCategory != null" >
+        #{outStaffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferDate != null" >
+        #{staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDutyCode != null" >
+        #{transferDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferStationCode != null" >
+        #{transferStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferStatus != null" >
+        #{staffTransferStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutStatus != null" >
+        #{staffOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCheckType != null" >
+        #{staffCheckType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StaffQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_staff
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_staff
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffName != null" >
+        staff_name = #{record.staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffIdcard != null" >
+        staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffPhone != null" >
+        staff_phone = #{record.staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffSex != null" >
+        staff_sex = #{record.staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffPhoto != null" >
+        staff_photo = #{record.staffPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffStatus != null" >
+        staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffInDate != null" >
+        staff_in_date = #{record.staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.staffOutDate != null" >
+        staff_out_date = #{record.staffOutDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.dutyCode != null" >
+        duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffBankcard != null" >
+        staff_bankcard = #{record.staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffBank != null" >
+        staff_bank = #{record.staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffOutCause != null" >
+        staff_out_cause = #{record.staffOutCause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffOutType != null" >
+        staff_out_type = #{record.staffOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffOutUrl != null" >
+        staff_out_url = #{record.staffOutUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outStaffCategory != null" >
+        out_staff_category = #{record.outStaffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffTransferDate != null" >
+        staff_transfer_date = #{record.staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transferDutyCode != null" >
+        transfer_duty_code = #{record.transferDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transferStationCode != null" >
+        transfer_station_code = #{record.transferStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffTransferStatus != null" >
+        staff_transfer_status = #{record.staffTransferStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffOutStatus != null" >
+        staff_out_status = #{record.staffOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCheckType != null" >
+        staff_check_type = #{record.staffCheckType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_staff
+    set id = #{record.id,jdbcType=BIGINT},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      staff_name = #{record.staffName,jdbcType=VARCHAR},
+      staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      staff_phone = #{record.staffPhone,jdbcType=VARCHAR},
+      staff_sex = #{record.staffSex,jdbcType=VARCHAR},
+      staff_photo = #{record.staffPhoto,jdbcType=VARCHAR},
+      staff_status = #{record.staffStatus,jdbcType=VARCHAR},
+      staff_in_date = #{record.staffInDate,jdbcType=NVARCHAR},
+      staff_out_date = #{record.staffOutDate,jdbcType=NVARCHAR},
+      duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      staff_bankcard = #{record.staffBankcard,jdbcType=VARCHAR},
+      staff_bank = #{record.staffBank,jdbcType=VARCHAR},
+      staff_out_cause = #{record.staffOutCause,jdbcType=VARCHAR},
+      staff_out_type = #{record.staffOutType,jdbcType=VARCHAR},
+      staff_out_url = #{record.staffOutUrl,jdbcType=VARCHAR},
+      out_staff_category = #{record.outStaffCategory,jdbcType=VARCHAR},
+      staff_transfer_date = #{record.staffTransferDate,jdbcType=VARCHAR},
+      transfer_duty_code = #{record.transferDutyCode,jdbcType=VARCHAR},
+      transfer_station_code = #{record.transferStationCode,jdbcType=VARCHAR},
+      staff_transfer_status = #{record.staffTransferStatus,jdbcType=VARCHAR},
+      staff_out_status = #{record.staffOutStatus,jdbcType=VARCHAR},
+      staff_check_type = #{record.staffCheckType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.Staff" >
+    update biz_staff
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhone != null" >
+        staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null" >
+        staff_sex = #{staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhoto != null" >
+        staff_photo = #{staffPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null" >
+        staff_status = #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffInDate != null" >
+        staff_in_date = #{staffInDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="staffOutDate != null" >
+        staff_out_date = #{staffOutDate,jdbcType=NVARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        duty_code = #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBankcard != null" >
+        staff_bankcard = #{staffBankcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffBank != null" >
+        staff_bank = #{staffBank,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutCause != null" >
+        staff_out_cause = #{staffOutCause,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutType != null" >
+        staff_out_type = #{staffOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutUrl != null" >
+        staff_out_url = #{staffOutUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="outStaffCategory != null" >
+        out_staff_category = #{outStaffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferDate != null" >
+        staff_transfer_date = #{staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="transferDutyCode != null" >
+        transfer_duty_code = #{transferDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="transferStationCode != null" >
+        transfer_station_code = #{transferStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferStatus != null" >
+        staff_transfer_status = #{staffTransferStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffOutStatus != null" >
+        staff_out_status = #{staffOutStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCheckType != null" >
+        staff_check_type = #{staffCheckType,jdbcType=VARCHAR},
+      </if>
+      <if test="jobLevel != null" >
+        job_level = #{jobLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.Staff" >
+    update biz_staff
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      staff_sex = #{staffSex,jdbcType=VARCHAR},
+      staff_photo = #{staffPhoto,jdbcType=VARCHAR},
+      staff_status = #{staffStatus,jdbcType=VARCHAR},
+      staff_in_date = #{staffInDate,jdbcType=NVARCHAR},
+      staff_out_date = #{staffOutDate,jdbcType=NVARCHAR},
+      duty_code = #{dutyCode,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      staff_bankcard = #{staffBankcard,jdbcType=VARCHAR},
+      staff_bank = #{staffBank,jdbcType=VARCHAR},
+      staff_out_cause = #{staffOutCause,jdbcType=VARCHAR},
+      staff_out_type = #{staffOutType,jdbcType=VARCHAR},
+      staff_out_url = #{staffOutUrl,jdbcType=VARCHAR},
+      out_staff_category = #{outStaffCategory,jdbcType=VARCHAR},
+      staff_transfer_date = #{staffTransferDate,jdbcType=VARCHAR},
+      transfer_duty_code = #{transferDutyCode,jdbcType=VARCHAR},
+      transfer_station_code = #{transferStationCode,jdbcType=VARCHAR},
+      staff_transfer_status = #{staffTransferStatus,jdbcType=VARCHAR},
+      staff_out_status = #{staffOutStatus,jdbcType=VARCHAR},
+      staff_check_type = #{staffCheckType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    
+   <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select COUNT(*) from biz_staff as staff 
+  	<where>
+  			1=1
+  		<if test="staffName !=null">
+  			AND  staff.staff_name like '%${staffName}%'
+  		</if>
+  		<if test="staffStatus !=null">
+  			AND  staff.staff_status = '${staffStatus}'
+  		</if>
+  		<if test="dutyCode !=null">
+<!--   			AND  staff.duty_code = '${dutyCode}' -->
+				and staff.duty_code in (${dutyCode})
+  		</if>
+  		<if test="subOrganiseIdStr !=null">
+  			AND  staff.station_code in (${subOrganiseIdStr})
+  		</if>
+  	</where>
+  	
+  </select>
+    <resultMap id="StaffVO" extends="BaseResultMap" type="com.fh.entity.biz.StaffVO" >
+   <!--  <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_phone" property="staffPhone" jdbcType="VARCHAR" />
+    <result column="staff_sex" property="staffSex" jdbcType="VARCHAR" />
+    <result column="staff_photo" property="staffPhoto" jdbcType="VARCHAR" />
+    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
+    <result column="staff_in_date" property="staffInDate" jdbcType="NVARCHAR" />
+    <result column="staff_out_date" property="staffOutDate" jdbcType="NVARCHAR" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="staff_bankcard" property="staffBankcard" jdbcType="VARCHAR" />
+    <result column="staff_bank" property="staffBank" jdbcType="VARCHAR" />
+    <result column="staff_out_cause" property="staffOutCause" jdbcType="VARCHAR" />
+    <result column="staff_out_type" property="staffOutType" jdbcType="VARCHAR" />
+    <result column="staff_out_url" property="staffOutUrl" jdbcType="VARCHAR" />
+    <result column="out_staff_category" property="outStaffCategory" jdbcType="VARCHAR" />
+    <result column="staff_transfer_date" property="staffTransferDate" jdbcType="VARCHAR" />
+    <result column="transfer_duty_code" property="transferDutyCode" jdbcType="VARCHAR" />
+    <result column="transfer_station_code" property="transferStationCode" jdbcType="VARCHAR" />
+    <result column="staff_transfer_status" property="staffTransferStatus" jdbcType="VARCHAR" />
+    <result column="staff_out_status" property="staffOutStatus" jdbcType="VARCHAR" />
+    <result column="staff_check_type" property="staffCheckType" jdbcType="VARCHAR" /> -->
+    <result column="organise_ID" property="organiseId" jdbcType="VARCHAR" />
+    <result column="organise_Name" property="organiseName" jdbcType="VARCHAR" />
+    <result column="duty_name" property="dutyName" jdbcType="VARCHAR" />
+<!--     <association property="staff" javaType="com.fh.entity.biz.Staff">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+	    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+	    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+	    <result column="staff_phone" property="staffPhone" jdbcType="VARCHAR" />
+	    <result column="staff_sex" property="staffSex" jdbcType="VARCHAR" />
+	    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
+	    <result column="staff_in_date" property="staffInDate" jdbcType="NVARCHAR" />
+	    <result column="staff_out_date" property="staffOutDate" jdbcType="NVARCHAR" />
+	</association> -->
+  </resultMap>
+  <select id="findStaffsByPageCriteriaQuery" parameterType="map" resultMap="StaffVO">
+  	select top ${pageSize} tt.*, 
+  			(select d.duty_name from biz_duty d where d.duty_code = tt.duty_code) duty_name 
+  	  from biz_staff as tt
+    <where>
+    	 tt.id not in (select top ${startIndex} id from biz_staff as ttt
+    	<where>
+    		1=1
+	    	<if test="staffName != null">
+	    			 and ttt.staff_name like '%${staffName}%'
+	    	</if>
+	    	<if test="staffStatus != null">
+	    			 and ttt.staff_status = '${staffStatus}'
+	    	</if>
+	    	<if test="dutyCode != null">
+<!-- 	    			 and ttt.duty_code = '${dutyCode}' -->
+					and ttt.duty_code in (${dutyCode})
+	    	</if>
+	    	<if test="subOrganiseIdStr != null">
+	    		and ttt.station_code in (${subOrganiseIdStr})
+	    	</if>
+    	</where>
+    	)
+    	<if test="staffName != null">
+    		and tt.staff_name like '%${staffName}%'
+    	</if>
+    	<if test="staffStatus != null">
+    		and tt.staff_status = '${staffStatus}'
+    	</if>
+    	<if test="dutyCode != null">
+<!--     		and tt.duty_code = '${dutyCode}' -->
+				and tt.duty_code in (${dutyCode})
+    	</if>
+    	<if test="subOrganiseIdStr != null">
+    		and tt.station_code in (${subOrganiseIdStr})
+    	</if>
+    	order by tt.duty_code, tt.staff_code
+    </where>
+  </select>
+  <select id="queryAll" parameterType="map" resultMap="StaffVO">
+  select o.organise_ID,o.organise_Name,d.duty_name,s.*  from biz_staff s,biz_duty d,
+	Organise_CO o
+	where 1=1 
+	and d.duty_code=s.duty_code and o.organise_ID=s.station_code
+	and s.staff_status='1' and o.organise_ID in (${subOrganiseIdStr})
+  </select>
+  <select id="findAllStaffWithWorkingDay" resultMap="BaseResultMap">
+  	SELECT 
+  		(SELECT station_name FROM biz_station WHERE station_code = t1.station_code) station_name,
+  		t1.staff_name,
+  		(SELECT duty_name FROM biz_duty WHERE duty_code = t1.duty_code) duty_name,
+  		(SELECT working_day FROM biz_attendance_management WHERE staff_code = t1.staff_code) working_day 
+	FROM 
+  		biz_staff t1
+	WHERE
+		t1.duty_code in ('ZW_0003', 'ZW_0010', 'ZW_0004', 'ZW_0008')
+  </select>
+  <select id="getStaffByCondition" parameterType="com.fh.entity.biz.Staff"  resultMap="BaseResultMap">
+  	SELECT 
+  		*
+	FROM 
+  		biz_staff tt
+	WHERE 1=1
+		<if test="staffName != null" >and staff_name = #{staffName,jdbcType=VARCHAR}</if>
+		<if test="staffCode != null" >and staff_code = #{staffCode,jdbcType=VARCHAR}</if>
+		<if test="stationCode != null" >and station_code = #{stationCode,jdbcType=VARCHAR}</if>
+  </select>
+</mapper>

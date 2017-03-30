@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.TbWorkflowUserDUserDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.TbWorkflowUserDUser" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Userid" property="userid" jdbcType="VARCHAR" />
+    <result column="User_part" property="userPart" jdbcType="VARCHAR" />
+    <result column="User_dep" property="userDep" jdbcType="VARCHAR" />
+    <result column="D_userid" property="dUserid" jdbcType="VARCHAR" />
+    <result column="Begin_date" property="beginDate" jdbcType="TIMESTAMP" />
+    <result column="End_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="Diff" property="diff" jdbcType="VARCHAR" />
+    <result column="processDefinitionId" property="processDefinitionId" jdbcType="VARCHAR" />
+    <result column="flow_type" property="flowType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      ID, Userid, User_part, User_dep, D_userid, Begin_date, End_date, Diff, processDefinitionId, 
+      flow_type
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.TbWorkflowUserDUserQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_workflow_user_d_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    ID,Userid,User_part,User_dep,D_userid,Begin_date,End_date,Diff, processDefinitionId, 
+      flow_type
+    from tb_workflow_user_d_user
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_workflow_user_d_user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.TbWorkflowUserDUserQuery" >
+    delete from tb_workflow_user_d_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.TbWorkflowUserDUser" >
+    insert into tb_workflow_user_d_user (ID, Userid, User_part, 
+      User_dep, D_userid, Begin_date, 
+      End_date, Diff, processDefinitionId, 
+      flow_type)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{userPart,jdbcType=VARCHAR}, 
+      #{userDep,jdbcType=VARCHAR}, #{dUserid,jdbcType=VARCHAR}, #{beginDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{diff,jdbcType=VARCHAR}, #{processDefinitionId,jdbcType=VARCHAR}, 
+      #{flowType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.TbWorkflowUserDUser" >
+    insert into tb_workflow_user_d_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        Userid,
+      </if>
+      <if test="userPart != null" >
+        User_part,
+      </if>
+      <if test="userDep != null" >
+        User_dep,
+      </if>
+      <if test="dUserid != null" >
+        D_userid,
+      </if>
+      <if test="beginDate != null" >
+        Begin_date,
+      </if>
+      <if test="endDate != null" >
+        End_date,
+      </if>
+      <if test="diff != null" >
+        Diff,
+      </if>
+       <if test="processDefinitionId != null" >
+        processDefinitionId,
+      </if>
+      <if test="flowType != null" >
+        flow_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="userPart != null" >
+        #{userPart,jdbcType=VARCHAR},
+      </if>
+      <if test="userDep != null" >
+        #{userDep,jdbcType=VARCHAR},
+      </if>
+      <if test="dUserid != null" >
+        #{dUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diff != null" >
+        #{diff,jdbcType=VARCHAR},
+      </if>
+      <if test="processDefinitionId != null" >
+        #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowType != null" >
+        #{flowType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.TbWorkflowUserDUserQuery" resultType="java.lang.Integer" >
+    select count(*) from tb_workflow_user_d_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_workflow_user_d_user
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        Userid = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userPart != null" >
+        User_part = #{record.userPart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDep != null" >
+        User_dep = #{record.userDep,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dUserid != null" >
+        D_userid = #{record.dUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginDate != null" >
+        Begin_date = #{record.beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null" >
+        End_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.diff != null" >
+        Diff = #{record.diff,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processDefinitionId != null" >
+        processDefinitionId = #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowType != null" >
+        flow_type = #{flowType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_workflow_user_d_user
+    set ID = #{record.id,jdbcType=INTEGER},
+      Userid = #{record.userid,jdbcType=VARCHAR},
+      User_part = #{record.userPart,jdbcType=VARCHAR},
+      User_dep = #{record.userDep,jdbcType=VARCHAR},
+      D_userid = #{record.dUserid,jdbcType=VARCHAR},
+      Begin_date = #{record.beginDate,jdbcType=TIMESTAMP},
+      End_date = #{record.endDate,jdbcType=TIMESTAMP},
+      Diff = #{record.diff,jdbcType=VARCHAR},
+      processDefinitionId = #{record.processDefinitionId,jdbcType=VARCHAR},
+      flow_type = #{record.flowType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.TbWorkflowUserDUser" >
+    update tb_workflow_user_d_user
+    <set >
+      <if test="userid != null" >
+        Userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="userPart != null" >
+        User_part = #{userPart,jdbcType=VARCHAR},
+      </if>
+      <if test="userDep != null" >
+        User_dep = #{userDep,jdbcType=VARCHAR},
+      </if>
+      <if test="dUserid != null" >
+        D_userid = #{dUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        Begin_date = #{beginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        End_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diff != null" >
+        Diff = #{diff,jdbcType=VARCHAR},
+      </if>
+       <if test="processDefinitionId != null" >
+        processDefinitionId = #{processDefinitionId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowType != null" >
+        flow_type = #{flowType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.TbWorkflowUserDUser" >
+    update tb_workflow_user_d_user
+    set Userid = #{userid,jdbcType=VARCHAR},
+      User_part = #{userPart,jdbcType=VARCHAR},
+      User_dep = #{userDep,jdbcType=VARCHAR},
+      D_userid = #{dUserid,jdbcType=VARCHAR},
+      Begin_date = #{beginDate,jdbcType=TIMESTAMP},
+      End_date = #{endDate,jdbcType=TIMESTAMP},
+      Diff = #{diff,jdbcType=VARCHAR}
+      processDefinitionId = #{processDefinitionId,jdbcType=VARCHAR},
+      flow_type = #{flowType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

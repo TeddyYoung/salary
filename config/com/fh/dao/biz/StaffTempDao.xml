@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StaffTempDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.StaffTemp" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_idcard" property="staffIdcard" jdbcType="VARCHAR" />
+    <result column="staff_phone" property="staffPhone" jdbcType="VARCHAR" />
+    <result column="staff_sex" property="staffSex" jdbcType="VARCHAR" />
+    <result column="entry_date" property="entryDate" jdbcType="VARCHAR" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="staff_category" property="staffCategory" jdbcType="VARCHAR" />
+    <result column="contract_type" property="contractType" jdbcType="VARCHAR" />
+    <result column="contract_period" property="contractPeriod" jdbcType="VARCHAR" />
+    <result column="agreement_deadline" property="agreementDeadline" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, staff_code, staff_name, staff_idcard, staff_phone, staff_sex, entry_date, duty_code, 
+      station_code, education, staff_category, contract_type, contract_period, agreement_deadline, 
+      sys_create_time, sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StaffTempQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_staff_temp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,staff_code,staff_name,staff_idcard,staff_phone,staff_sex,entry_date,duty_code,station_code,education,staff_category,contract_type,contract_period,agreement_deadline,sys_create_time,sys_update_time,remark
+    from biz_staff_temp
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_staff_temp
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StaffTempQuery" >
+    delete from biz_staff_temp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.StaffTemp" >
+    insert into biz_staff_temp (id, staff_code, staff_name, 
+      staff_idcard, staff_phone, staff_sex, 
+      entry_date, duty_code, station_code, 
+      education, staff_category, contract_type, 
+      contract_period, agreement_deadline, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=BIGINT}, #{staffCode,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, 
+      #{staffIdcard,jdbcType=VARCHAR}, #{staffPhone,jdbcType=VARCHAR}, #{staffSex,jdbcType=VARCHAR}, 
+      #{entryDate,jdbcType=VARCHAR}, #{dutyCode,jdbcType=VARCHAR}, #{stationCode,jdbcType=VARCHAR}, 
+      #{education,jdbcType=VARCHAR}, #{staffCategory,jdbcType=VARCHAR}, #{contractType,jdbcType=VARCHAR}, 
+      #{contractPeriod,jdbcType=VARCHAR}, #{agreementDeadline,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.StaffTemp" >
+    insert into biz_staff_temp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="staffName != null" >
+        staff_name,
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard,
+      </if>
+      <if test="staffPhone != null" >
+        staff_phone,
+      </if>
+      <if test="staffSex != null" >
+        staff_sex,
+      </if>
+      <if test="entryDate != null" >
+        entry_date,
+      </if>
+      <if test="dutyCode != null" >
+        duty_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="staffCategory != null" >
+        staff_category,
+      </if>
+      <if test="contractType != null" >
+        contract_type,
+      </if>
+      <if test="contractPeriod != null" >
+        contract_period,
+      </if>
+      <if test="agreementDeadline != null" >
+        agreement_deadline,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhone != null" >
+        #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null" >
+        #{staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        #{entryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCategory != null" >
+        #{staffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null" >
+        #{contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPeriod != null" >
+        #{contractPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementDeadline != null" >
+        #{agreementDeadline,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StaffTempQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_staff_temp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_staff_temp
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffName != null" >
+        staff_name = #{record.staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffIdcard != null" >
+        staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffPhone != null" >
+        staff_phone = #{record.staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffSex != null" >
+        staff_sex = #{record.staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryDate != null" >
+        entry_date = #{record.entryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyCode != null" >
+        duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.education != null" >
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCategory != null" >
+        staff_category = #{record.staffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractType != null" >
+        contract_type = #{record.contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractPeriod != null" >
+        contract_period = #{record.contractPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agreementDeadline != null" >
+        agreement_deadline = #{record.agreementDeadline,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_staff_temp
+    set id = #{record.id,jdbcType=BIGINT},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      staff_name = #{record.staffName,jdbcType=VARCHAR},
+      staff_idcard = #{record.staffIdcard,jdbcType=VARCHAR},
+      staff_phone = #{record.staffPhone,jdbcType=VARCHAR},
+      staff_sex = #{record.staffSex,jdbcType=VARCHAR},
+      entry_date = #{record.entryDate,jdbcType=VARCHAR},
+      duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR},
+      education = #{record.education,jdbcType=VARCHAR},
+      staff_category = #{record.staffCategory,jdbcType=VARCHAR},
+      contract_type = #{record.contractType,jdbcType=VARCHAR},
+      contract_period = #{record.contractPeriod,jdbcType=VARCHAR},
+      agreement_deadline = #{record.agreementDeadline,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.StaffTemp" >
+    update biz_staff_temp
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffIdcard != null" >
+        staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="staffPhone != null" >
+        staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="staffSex != null" >
+        staff_sex = #{staffSex,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        entry_date = #{entryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        duty_code = #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCategory != null" >
+        staff_category = #{staffCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null" >
+        contract_type = #{contractType,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPeriod != null" >
+        contract_period = #{contractPeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="agreementDeadline != null" >
+        agreement_deadline = #{agreementDeadline,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.StaffTemp" >
+    update biz_staff_temp
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_idcard = #{staffIdcard,jdbcType=VARCHAR},
+      staff_phone = #{staffPhone,jdbcType=VARCHAR},
+      staff_sex = #{staffSex,jdbcType=VARCHAR},
+      entry_date = #{entryDate,jdbcType=VARCHAR},
+      duty_code = #{dutyCode,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      staff_category = #{staffCategory,jdbcType=VARCHAR},
+      contract_type = #{contractType,jdbcType=VARCHAR},
+      contract_period = #{contractPeriod,jdbcType=VARCHAR},
+      agreement_deadline = #{agreementDeadline,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
