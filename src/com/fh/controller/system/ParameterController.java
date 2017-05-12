@@ -57,8 +57,8 @@ public class ParameterController {
 	 */
 	@RequestMapping("/parameterSaveOrUpdate.do")
 	public String parameterAdd(Parameter parameter) {
-		
 		parameterService.saveOrUpdate(parameter);
+		parameterService.init();
 		return "save_result";
 		
 	}

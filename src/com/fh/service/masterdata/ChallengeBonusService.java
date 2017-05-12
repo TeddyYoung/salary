@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fh.common.page.Page;
 import com.fh.entity.biz.ChallengeBonus;
+import com.fh.entity.vo.ChallengeBonusSearchVO;
 
 /**
  * 地区系数维护 Service
@@ -37,7 +38,7 @@ public interface ChallengeBonusService {
 	 * @param challengeBonus entity
 	 * @return
 	 */
-	public Page findChallengeBonusPage(Page page, ChallengeBonus challengeBonus);
+	public Page findChallengeBonusPage(Page page, ChallengeBonusSearchVO searchVO);
 	
 	/**
 	 * 批量更新列表

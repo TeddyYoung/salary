@@ -52,7 +52,7 @@ public interface ManageBaseDao {
      * @param yearMonth
      * @return
      */
-	int findAllManageBaseCountByYearMonth(@Param("yearMonth") String yearMonth, @Param("staffName") String staffName);
+	int findAllManageBaseCountByYearMonth(@Param("manageBase") ManageBase manageBase);
 
 	/**
 	 * 查询当月所有管理岗位数据
@@ -67,8 +67,7 @@ public interface ManageBaseDao {
 	 * @param startIndex
 	 * @return
 	 */
-	List<ManageBase> findStarEvaByPageCriteriaQuery(@Param("yearMonth") String yearMonth,
-			@Param("staffName") String staffName,
+	List<ManageBase> findStarEvaByPageCriteriaQuery(@Param("manageBase") ManageBase manageBase,
 			@Param("pageSize") int pageSize, 
 			@Param("startIndex") int startIndex);
 	

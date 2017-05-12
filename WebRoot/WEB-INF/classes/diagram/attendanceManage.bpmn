@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="AttendanceManageOffice" name="AttendanceManageOfficeProcess" isExecutable="true">
+    <startEvent id="startevent1" name="流程发布" activiti:initiator="${startUser}"></startEvent>
+    <userTask id="inputUser" name="油站经理提交考勤数据" activiti:assignee="${inputUser}" activiti:candidateGroups="S_001:0"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="inputUser"></sequenceFlow>
+    <userTask id="usertask" name="区域经理审批" activiti:assignee="${checkUser}" activiti:candidateGroups="Y_100:1"></userTask>
+    <sequenceFlow id="flow2" sourceRef="inputUser" targetRef="usertask"></sequenceFlow>
+    <sequenceFlow id="flow6" name="驳回" sourceRef="usertask" targetRef="inputUser">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="endevent" name="End"></endEvent>
+    <sequenceFlow id="flow7" sourceRef="usertask" targetRef="endevent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='批准'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_AttendanceManageOffice">
+    <bpmndi:BPMNPlane bpmnElement="AttendanceManageOffice" id="BPMNPlane_AttendanceManageOffice">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="inputUser" id="BPMNShape_inputUser">
+        <omgdc:Bounds height="55.0" width="105.0" x="100.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask" id="BPMNShape_usertask">
+        <omgdc:Bounds height="55.0" width="105.0" x="290.0" y="120.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent" id="BPMNShape_endevent">
+        <omgdc:Bounds height="35.0" width="35.0" x="440.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="55.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="100.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="205.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="342.0" y="120.0"></omgdi:waypoint>
+        <omgdi:waypoint x="342.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="152.0" y="72.0"></omgdi:waypoint>
+        <omgdi:waypoint x="152.0" y="120.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="22.0" x="230.0" y="51.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="395.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="440.0" y="147.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

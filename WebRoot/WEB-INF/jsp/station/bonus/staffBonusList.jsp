@@ -150,7 +150,7 @@
 												<td class="center">
 													<biztab:biz type="station" code="${staffCostVO.stationCode}">${obj.stationName }</biztab:biz>
 												</td>
-												<td class="center">${staffCostVO.staffCode}</td>
+												<td class="center">${staffCostVO.staffCost.staffCode}</td>
 												<td class="center">${staffCostVO.staffName}</td>
 												<%-- 
 												<td class="center">

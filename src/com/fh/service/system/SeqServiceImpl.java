@@ -12,7 +12,7 @@ public class SeqServiceImpl implements SeqService {
 	@Autowired
 	private SeqDao seqDao;
 	
-	public String getSeqNo(String seqKey) {
+	public synchronized String getSeqNo(String seqKey) {
 		Seq seq = this.seqDao.get(seqKey);
 		String seqNo = String.valueOf(seq.getSeqNo());
 		int length = seqNo.length();

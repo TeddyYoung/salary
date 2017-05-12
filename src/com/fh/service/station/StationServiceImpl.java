@@ -164,5 +164,12 @@ public class StationServiceImpl implements StationService {
 		return stationDao.findAllStationWithStationTypeName();
 		
 	}
+	@Override
+	public List<Station> findByDistrict(String districtCode) {
+		StationQuery stationQuery = new StationQuery();
+		stationQuery.createCriteria().andDistrictCodeEqualTo(districtCode);
+		List<Station> stations = stationDao.selectByExample(stationQuery);
+		return stations;
+	}
 
 }

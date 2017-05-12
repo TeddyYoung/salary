@@ -119,7 +119,7 @@
 					<c:if test="${empty Flag.flag}">
 						<tr>
 							<td style="width: 120px; text-align: right; padding-top: 13px;">指定审批人：</td>
-							<td style="width: 120px; text-align: left; padding-top: 13px;"><select
+							<td colspan="5" style="width: 120px; text-align: left; padding-top: 13px;"><select
 								name="nextUserName" id="nextUserName" class="chzn-select"
 								data-placeholder="请选择指定审批人"
 								style="vertical-align: top; width: 220px;" title="指定审批人">

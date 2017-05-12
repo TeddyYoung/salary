@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.SeqDao" >
+
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.Seq" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="seq_key" property="seqKey" jdbcType="VARCHAR" />
+    <result column="seq_key_begin" property="seqKeyBegin" jdbcType="VARCHAR" />
+    <result column="seq_key_end" property="seqKeyEnd" jdbcType="VARCHAR" />
+    <result column="seq_count" property="seqCount" jdbcType="BIGINT" />
+    <result column="seq_no" property="seqNo" jdbcType="BIGINT" />
+    <result column="seq_name" property="seqName" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="get" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from sys_seq where seq_key = #{seqKey,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="update" parameterType="com.fh.entity.system.Seq" >
+    update sys_seq
+    <set >
+      <if test="seqNo != null" >
+        seq_no = #{seqNo,jdbcType=BIGINT},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

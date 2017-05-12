@@ -11,6 +11,9 @@ public class DateUtil {
 
 	private final static SimpleDateFormat sdfDay = new SimpleDateFormat(
 			"yyyy-MM-dd");
+	
+	private final static SimpleDateFormat sdfYM = new SimpleDateFormat(
+			"yyyy-MM");
 //	private final static SimpleDateFormat sdfDaySlash = new SimpleDateFormat(
 //			"yyyy/MM/dd");
 	
@@ -55,6 +58,22 @@ public class DateUtil {
 	 */
 	public static String getDays(){
 		return sdfDays.format(new Date());
+	}
+	/**
+	 * yyyyMMdd
+	 * @param date
+	 * @return
+	 */
+	public static String getYMDDays(Date date){
+		return sdfDays.format(date);
+	}
+	/**
+	 * YYYY-MM
+	 * @param date
+	 * @return
+	 */
+	public static String getYM(Date date){
+		return sdfYM.format(date);
 	}
 
 	/**
@@ -203,6 +222,14 @@ public class DateUtil {
 		 Calendar c= Calendar.getInstance();
 		 c.setTime(new Date());
 		 return c.getActualMaximum(Calendar.DAY_OF_MONTH);
+	}
+	
+	
+	public static Date addMonth(Date value,int month){
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(value);
+		cal.add(Calendar.MONTH,month);
+		return cal.getTime();
 	}
 
 }

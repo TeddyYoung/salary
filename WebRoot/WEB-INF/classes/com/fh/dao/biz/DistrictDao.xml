@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.DistrictDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.District" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
+    <result column="district_level" property="districtLevel" jdbcType="VARCHAR" />
+    <result column="father_district_code" property="fatherDistrictCode" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, district_code, district_name, district_level, father_district_code, sys_create_time, 
+      sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.DistrictQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_district
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,district_code,district_name,district_level,father_district_code,sys_create_time,sys_update_time,remark
+    from biz_district
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_district
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.DistrictQuery" >
+    delete from biz_district
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.District" >
+    insert into biz_district (id, district_code, district_name, 
+      district_level, father_district_code, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=BIGINT}, #{districtCode,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{districtLevel,jdbcType=VARCHAR}, #{fatherDistrictCode,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.District" >
+    insert into biz_district
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="districtCode != null" >
+        district_code,
+      </if>
+      <if test="districtName != null" >
+        district_name,
+      </if>
+      <if test="districtLevel != null" >
+        district_level,
+      </if>
+      <if test="fatherDistrictCode != null" >
+        father_district_code,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="districtCode != null" >
+        #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        #{districtLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherDistrictCode != null" >
+        #{fatherDistrictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.DistrictQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_district
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_district
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.districtCode != null" >
+        district_code = #{record.districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtName != null" >
+        district_name = #{record.districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtLevel != null" >
+        district_level = #{record.districtLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fatherDistrictCode != null" >
+        father_district_code = #{record.fatherDistrictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_district
+    set id = #{record.id,jdbcType=BIGINT},
+      district_code = #{record.districtCode,jdbcType=VARCHAR},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
+      district_level = #{record.districtLevel,jdbcType=VARCHAR},
+      father_district_code = #{record.fatherDistrictCode,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.District" >
+    update biz_district
+    <set >
+      <if test="districtCode != null" >
+        district_code = #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        district_level = #{districtLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherDistrictCode != null" >
+        father_district_code = #{fatherDistrictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.District" >
+    update biz_district
+    set district_code = #{districtCode,jdbcType=VARCHAR},
+      district_name = #{districtName,jdbcType=VARCHAR},
+      district_level = #{districtLevel,jdbcType=VARCHAR},
+      father_district_code = #{fatherDistrictCode,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from biz_district
+  	<if test="districtName != null">
+  		<where>
+  			district_name like '%${districtName}%'
+  		</where>
+  		<if test="districtLevel != null">
+  			and district_level like '%${districtLevel}%'
+  		</if>
+  	</if>
+  	<if test="districtName == null">
+  		<if test="districtLevel != null">
+  			<where>
+  				district_level like '%${districtLevel}%'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findDistrictsByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from  (select * from biz_district) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select * from biz_district) as ttt
+    	<if test="districtName != null">
+    		<where>
+    			ttt.district_name like '%${districtName}%'
+    			<if test="districtLevel != null">
+    				and ttt.district_level like '%${districtLevel}%'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="districtName == null">
+    		<if test="districtLevel != null">
+    			<where>
+    				ttt.district_level like '%${districtLevel}%'
+    			</where>
+    		</if>
+    	</if>
+    	order by ttt.id)
+    	<if test="districtName != null">
+    		and tt.district_name like '%${districtName}%'
+    		<if test="districtLevel != null">
+    			and tt.district_level like '%${districtLevel}%'
+    		</if>
+    	</if>
+    	<if test="districtName == null">
+    		<if test="districtLevel != null">
+    			and tt.district_level like '%${districtLevel}%'
+    		</if>
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.ParameterDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.Parameter" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parameter_key" property="parameterKey" jdbcType="VARCHAR" />
+    <result column="parameter_value" property="parameterValue" jdbcType="VARCHAR" />
+    <result column="parameter_type" property="parameterType" jdbcType="VARCHAR" />
+    <result column="parameter_type_name" property="parameterTypeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, parameter_key, parameter_value, parameter_type, parameter_type_name
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.ParameterQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    id,parameter_key,parameter_value,parameter_type,parameter_type_name
+    from parameter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from parameter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.ParameterQuery" >
+    delete from parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.Parameter" >
+    insert into parameter (id, parameter_key, parameter_value, 
+      parameter_type, parameter_type_name)
+    values (#{id,jdbcType=INTEGER}, #{parameterKey,jdbcType=VARCHAR}, #{parameterValue,jdbcType=VARCHAR}, 
+      #{parameterType,jdbcType=VARCHAR}, #{parameterTypeName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.Parameter" >
+    insert into parameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parameterKey != null" >
+        parameter_key,
+      </if>
+      <if test="parameterValue != null" >
+        parameter_value,
+      </if>
+      <if test="parameterType != null" >
+        parameter_type,
+      </if>
+      <if test="parameterTypeName != null" >
+        parameter_type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parameterKey != null" >
+        #{parameterKey,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValue != null" >
+        #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterTypeName != null" >
+        #{parameterTypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.ParameterQuery" resultType="java.lang.Integer" >
+    select count(*) from parameter
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update parameter
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.parameterKey != null" >
+        parameter_key = #{record.parameterKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parameterValue != null" >
+        parameter_value = #{record.parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parameterType != null" >
+        parameter_type = #{record.parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parameterTypeName != null" >
+        parameter_type_name = #{record.parameterTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update parameter
+    set id = #{record.id,jdbcType=INTEGER},
+      parameter_key = #{record.parameterKey,jdbcType=VARCHAR},
+      parameter_value = #{record.parameterValue,jdbcType=VARCHAR},
+      parameter_type = #{record.parameterType,jdbcType=VARCHAR},
+      parameter_type_name = #{record.parameterTypeName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.Parameter" >
+    update parameter
+    <set >
+      <if test="parameterKey != null" >
+        parameter_key = #{parameterKey,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterValue != null" >
+        parameter_value = #{parameterValue,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterType != null" >
+        parameter_type = #{parameterType,jdbcType=VARCHAR},
+      </if>
+      <if test="parameterTypeName != null" >
+        parameter_type_name = #{parameterTypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.Parameter" >
+    update parameter
+    set parameter_key = #{parameterKey,jdbcType=VARCHAR},
+      parameter_value = #{parameterValue,jdbcType=VARCHAR},
+      parameter_type = #{parameterType,jdbcType=VARCHAR},
+      parameter_type_name = #{parameterTypeName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from parameter
+  	<if test="parameterValue != null">
+  		<where>
+  			parameter_value like '%${parameterValue}%'
+  		</where>
+  		<if test="parameterType != null">
+  			and parameter_type like '%${parameterType}%'
+  		</if>
+  	</if>
+  	<if test="parameterValue == null">
+  		<if test="parameterType != null">
+  			<where>
+  				parameter_type like '%${parameterType}%'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findParametersByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from  (select * from parameter) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select * from parameter) as ttt
+    	<if test="parameterValue != null">
+    		<where>
+    			ttt.parameter_value like '%${parameterValue}%'
+    			<if test="parameterType != null">
+    				and ttt.parameter_type like '%${parameterType}%'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="parameterValue == null">
+    		<if test="parameterType != null">
+    			<where>
+    				ttt.parameter_type like '%${parameterType}%'
+    			</where>
+    		</if>
+    	</if>
+    	order by ttt.id)
+    	<if test="parameterValue != null">
+    		and tt.parameter_value like '%${parameterValue}%'
+    		<if test="parameterType != null">
+    			and tt.parameter_type like '%${parameterType}%'
+    		</if>
+    	</if>
+    	<if test="parameterValue == null">
+    		<if test="parameterType != null">
+    			and tt.parameter_type like '%${parameterType}%'
+    		</if>
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.StoreEmployeeDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.StoreEmployee" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="UserID" property="userid" jdbcType="VARCHAR" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="UserPWD" property="userpwd" jdbcType="VARCHAR" />
+    <result column="Del" property="del" jdbcType="VARCHAR" />
+    <result column="Online" property="online" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Operator" property="operator" jdbcType="VARCHAR" />
+    <result column="Changedate" property="changedate" jdbcType="TIMESTAMP" />
+    <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, UserID, UserName, UserPWD, Del, Online, Email, Phone, CreateDate, Operator, Changedate, 
+      district_code, station_code
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.StoreEmployeeQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from StoreEmployee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,UserID,UserName,UserPWD,Del,Online,Email,Phone,CreateDate,Operator,Changedate,district_code,station_code
+    from StoreEmployee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from StoreEmployee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.StoreEmployeeQuery" >
+    delete from StoreEmployee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.StoreEmployee" >
+    insert into StoreEmployee (id, UserID, UserName, 
+      UserPWD, Del, Online, 
+      Email, Phone, CreateDate, 
+      Operator, Changedate, district_code, 
+      station_code)
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{userpwd,jdbcType=VARCHAR}, #{del,jdbcType=VARCHAR}, #{online,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{operator,jdbcType=VARCHAR}, #{changedate,jdbcType=TIMESTAMP}, #{districtCode,jdbcType=VARCHAR}, 
+      #{stationCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.StoreEmployee" >
+    insert into StoreEmployee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="userpwd != null" >
+        UserPWD,
+      </if>
+      <if test="del != null" >
+        Del,
+      </if>
+      <if test="online != null" >
+        Online,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="createdate != null" >
+        CreateDate,
+      </if>
+      <if test="operator != null" >
+        Operator,
+      </if>
+      <if test="changedate != null" >
+        Changedate,
+      </if>
+      <if test="districtCode != null" >
+        district_code,
+      </if>
+      <if test="stationCode != null" >
+        station_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null" >
+        #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        #{del,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="changedate != null" >
+        #{changedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="districtCode != null" >
+        #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        #{stationCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.StoreEmployeeQuery" resultType="java.lang.Integer" >
+    select count(*) from StoreEmployee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update StoreEmployee
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null" >
+        UserName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userpwd != null" >
+        UserPWD = #{record.userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.del != null" >
+        Del = #{record.del,jdbcType=VARCHAR},
+      </if>
+      <if test="record.online != null" >
+        Online = #{record.online,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        Phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdate != null" >
+        CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null" >
+        Operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changedate != null" >
+        Changedate = #{record.changedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.districtCode != null" >
+        district_code = #{record.districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stationCode != null" >
+        station_code = #{record.stationCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update StoreEmployee
+    set id = #{record.id,jdbcType=BIGINT},
+      UserID = #{record.userid,jdbcType=VARCHAR},
+      UserName = #{record.username,jdbcType=VARCHAR},
+      UserPWD = #{record.userpwd,jdbcType=VARCHAR},
+      Del = #{record.del,jdbcType=VARCHAR},
+      Online = #{record.online,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=VARCHAR},
+      Phone = #{record.phone,jdbcType=VARCHAR},
+      CreateDate = #{record.createdate,jdbcType=TIMESTAMP},
+      Operator = #{record.operator,jdbcType=VARCHAR},
+      Changedate = #{record.changedate,jdbcType=TIMESTAMP},
+      district_code = #{record.districtCode,jdbcType=VARCHAR},
+      station_code = #{record.stationCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.StoreEmployee" >
+    update StoreEmployee
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null" >
+        UserPWD = #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        Del = #{del,jdbcType=VARCHAR},
+      </if>
+      <if test="online != null" >
+        Online = #{online,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        Operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="changedate != null" >
+        Changedate = #{changedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="districtCode != null" >
+        district_code = #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stationCode != null" >
+        station_code = #{stationCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.StoreEmployee" >
+    update StoreEmployee
+    set UserID = #{userid,jdbcType=VARCHAR},
+      UserName = #{username,jdbcType=VARCHAR},
+      UserPWD = #{userpwd,jdbcType=VARCHAR},
+      Del = #{del,jdbcType=VARCHAR},
+      Online = #{online,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=VARCHAR},
+      CreateDate = #{createdate,jdbcType=TIMESTAMP},
+      Operator = #{operator,jdbcType=VARCHAR},
+      Changedate = #{changedate,jdbcType=TIMESTAMP},
+      district_code = #{districtCode,jdbcType=VARCHAR},
+      station_code = #{stationCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	SELECT 
+  		COUNT(*) 
+  	FROM 
+  (select 
+  	s.*,
+  	d.P_store_part,
+  	d.Store_part,
+  	d.Store_part_name,
+  	o.organise_ID,
+  	o.organise_Name
+    from StoreEmployee s ,Dep_part d ,organise_co o,
+	 (select UserID,StoreID,Store_part from user_store_part where StoreID  in (${subOrganiseIdStr}) ) a 
+		where a.UserID=s.UserID and d.Store_part = a.Store_part
+		and o.organise_ID=a.StoreID) as storeEmployee 
+  	WHERE 
+  		storeEmployee.UserName like '%${username}%'
+  	  and storeEmployee.del = '0'
+  </select>
+  
+  <select id="findUsersByPageCriteriaQuery" parameterType="map" resultMap="storeEmployeeVO">
+  	SELECT 
+  		top ${pageSize} * 
+  	FROM  
+  		(select 
+  	s.*,
+  	d.P_store_part,
+  	d.Store_part,
+  	d.Store_part_name,
+  	o.organise_ID,
+  	o.organise_Name
+    from StoreEmployee s ,Dep_part d ,organise_co o,
+	 (select UserID,StoreID,Store_part from user_store_part where StoreID  in (${subOrganiseIdStr})) a 
+		where a.UserID=s.UserID and d.Store_part = a.Store_part
+		and o.organise_ID=a.StoreID ) AS tt
+  	<where>
+  		tt.UserID NOT IN 
+  			(SELECT 
+  				top ${startIndex} UserID 
+  			 FROM 
+  			 	(select 
+  	s.*,
+  	d.P_store_part,
+  	d.Store_part,
+  	d.Store_part_name,
+  	o.organise_ID,
+  	o.organise_Name
+    from StoreEmployee s ,Dep_part d ,organise_co o,
+	 (select UserID,StoreID,Store_part from user_store_part where StoreID  in (${subOrganiseIdStr})) a 
+		where a.UserID=s.UserID and d.Store_part = a.Store_part
+		and o.organise_ID=a.StoreID) as ttt
+  			<if test="username != null">
+  				<where>
+  					ttt.UserName like '%${username}%'
+  				</where>
+  			</if>
+  			ORDER BY ttt.organise_ID)
+  			<if test="username != null">
+  				AND tt.UserName like '%${username}%'
+  			</if>
+  			ORDER BY tt.organise_ID
+  	</where>
+  </select>
+  
+ <resultMap id="storeEmployeeVO" type="com.fh.entity.system.StoreEmployeeVO" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="UserID" property="userid" jdbcType="VARCHAR" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="UserPWD" property="userpwd" jdbcType="VARCHAR" />
+    <result column="Del" property="del" jdbcType="VARCHAR" />
+    <result column="Online" property="online" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="Operator" property="operator" jdbcType="VARCHAR" />
+    <result column="Changedate" property="changedate" jdbcType="TIMESTAMP" />
+    <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+    <result column="station_code" property="stationCode" jdbcType="VARCHAR" />
+    <result column="Store_part" property="storePart" jdbcType="VARCHAR" />
+    <result column="Store_part_name" property="storePartName" jdbcType="VARCHAR" />
+    <result column="P_store_part" property="pStorePart" jdbcType="VARCHAR" />
+    <result column="organise_Name" property="organiseName" jdbcType="VARCHAR" />
+	<result column="organise_ID" property="organiseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="findListVOCriteriaQuery" parameterType="map" resultMap="storeEmployeeVO">
+	select 
+	  	s.UserID, 
+	  	s.UserName,
+	  	d.P_store_part,
+	  	d.Store_part,
+	  	d.Store_part_name,
+	  	o.organise_ID,
+	  	o.organise_Name
+	  	 from StoreEmployee s ,Dep_part d , Organise_CO o,
+		 (select UserID,StoreID,Store_part from user_store_part
+		 <where>
+		 	1=1
+		 	<if test="storeParts != null">
+		 		AND Store_part  in ('${storeParts}')
+		 	</if>
+		 	<if test="departmentCode != null">
+		 		AND StoreID='${departmentCode}'
+		 	</if>
+		 </where>
+		  ) a 
+			where a.UserID=s.UserID and d.Store_part = a.Store_part and a.StoreID=o.organise_ID
+			  and s.del = '0'
+			  order by createdate desc
+  </select>
+  
+  
+    
+  <resultMap type="storeEmployee" id="storeEmployeeExt">
+		<id column="id" property="id" />
+		<result column="UserID" property="userid" />
+		<result column="UserName" property="username" />
+		<result column="UserPWD" property="userpwd" />
+		<association property="organiseCO" javaType="com.fh.entity.system.OrganiseCO">
+			<id column="organise_ID" property="organiseId" />
+			<result column="p_organise_ID" property="pOrganiseId" />
+			<result column="organise_Name" property="organiseName" />
+		</association>
+		<collection property="depParts" ofType="com.fh.entity.system.DepPart">
+			<id column="did" property="id" />
+			<result column="Store_part" property="storePart" />
+			<result column="Store_part_name" property="storePartName" />
+			<result column="p_store_part" property="pStorePart" />
+			<collection property="menuList" ofType="com.fh.entity.system.Menu">
+				<id column="mid" property="id" />
+				<result column="PID" property="pid" />
+				<result column="Name" property="name" />
+				<result column="url" property="url" />
+				<result column="icon" property="icon" />
+				<!-- <collection property="subMenu" ofType="com.fh.entity.system.Menu">
+					<id column="subMid" property="id" />
+					<result column="subMPID" property="pid" />
+					<result column="subMName" property="name" />
+					<result column="subMurl" property="url" />
+					<result column="subMicon" property="icon" />
+				</collection> -->
+			</collection>
+		</collection>
+	</resultMap>
+	
+  <sql id="select_storeEmployee">
+		s.id,
+		s.UserID,
+		s.UserName,
+		s.UserPWD
+  </sql>
+  
+  <sql id="select_userStorePart">
+		u.id,
+		u.UserID,
+		u.StoreID,
+		u.Store_part
+  </sql>
+  
+  <sql id="select_depPart">
+		d.id did,
+		d.Store_part,
+		d.Store_part_name,
+		d.p_store_part
+  </sql>
+  
+  <sql id="select_menu">
+		m.id mid,
+		m.PID,
+		m.Name,
+		m.url,
+		m.icon
+  </sql>
+  
+  <sql id="select_subMenu">
+		subM.id   subMid,
+		subM.PID  subMPID,
+		subM.Name subMName,
+		subM.url  subMurl,
+		subM.icon subMicon
+  </sql>
+  
+  <sql id="select_pagePerm">
+		p.id,
+		p.Store_part,
+		p.PageID
+  </sql>
+  
+  <sql id="select_organiseCo">
+		o.organise_ID,
+		o.p_organise_ID,
+		o.organise_Name
+  </sql>
+  <select id="queryStoreEmployeeByUserId" parameterType="java.lang.String" resultMap="storeEmployeeExt">
+	select 
+	  	<include refid="select_storeEmployee"/>,
+	  	<include refid="select_userStorePart"/>,
+<!-- 	  	<include refid="select_subMenu"/>, -->
+	  	<include refid="select_depPart"/>,
+	  	<include refid="select_menu"/>,
+	  	<include refid="select_pagePerm"/>,
+	  	<include refid="select_organiseCo"/>
+	  	 from StoreEmployee s ,Dep_part d , Organise_CO o,
+		 user_store_part u,Menu m,pagePerm p<!-- ,Menu subM -->
+		where 	s.userId='${userId}'
+				and	s.UserID=u.UserID 		and d.Store_part = u.Store_part 
+				and	u.StoreID=o.organise_ID and d.Store_part = p.Store_part 
+				and	p.pageID=m.id  	
+				and s.del = '0'		 
+				and m.PID='0' order by m.OrderBy<!-- ,subM.OrderBy -->
+  </select>
+</mapper>

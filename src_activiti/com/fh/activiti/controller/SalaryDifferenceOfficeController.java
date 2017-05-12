@@ -36,7 +36,6 @@ import com.fh.entity.GeneralStaffLeaveOffice;
 import com.fh.entity.biz.SalaryDifference;
 import com.fh.entity.biz.SalaryDifferenceQuery;
 import com.fh.entity.biz.SalaryDifferenceVO;
-import com.fh.entity.biz.Staff;
 import com.fh.entity.system.ActHiActinst;
 import com.fh.entity.system.ActHiActinstQuery;
 import com.fh.entity.system.Flag;
@@ -47,20 +46,22 @@ import com.fh.service.salarymanagement.SalaryDifferenceService;
 import com.fh.service.station.StaffService;
 import com.fh.service.system.StoreEmployeeService;
 import com.fh.service.system.UserStorePartService;
+import com.fh.util.DateUtil;
 
 /**
  * 工作流: 薪资差异申请
+ * 
  * @author zhang_yu
  *
  */
 @Controller
 public class SalaryDifferenceOfficeController {
 
-	@Autowired 
+	@Autowired
 	private StaffService staffService;
-	@Autowired 
+	@Autowired
 	private Activiti activiti;
-	@Autowired 
+	@Autowired
 	private StoreEmployeeService storeEmployeeService;
 	@Autowired
 	private ActHiActinstDao actHiActinstDao;
@@ -70,63 +71,78 @@ public class SalaryDifferenceOfficeController {
 	private SalaryDifferenceDao salaryDifferenceDao;
 	@Autowired
 	private UserStorePartService userStorePartService;
-	
+
 	@RequestMapping("/activiti/salaryDifferenceToView.do")
-	public String activitiToView(HttpServletRequest request, String taskId, Model model,String flag) {
-		
-		//获取当前登录者信息
-		StoreEmployee storeEmployee = (StoreEmployee) request.getSession().getAttribute(SysConstant.CURRENT_USER_INFO);
-		UserStorePart userStorePart = userStorePartService.findUserStorePartByUserId(storeEmployee.getUserid());
+	public String activitiToView(HttpServletRequest request, String taskId,
+			Model model, String flag) {
+
+		// 获取当前登录者信息
+		StoreEmployee storeEmployee = (StoreEmployee) request.getSession()
+				.getAttribute(SysConstant.CURRENT_USER_INFO);
+		UserStorePart userStorePart = userStorePartService
+				.findUserStorePartByUserId(storeEmployee.getUserid());
 		if ("R_001".equals(userStorePart.getStorePart())) {
 			Flag flag2 = new Flag();
 			flag2.setFlag("rlzyb");
 			model.addAttribute("Flag", flag2);
 		}
-		
+
 		Task task = activiti.getTask(taskId, null, null);
-		ProcessInstance pi = activiti.getProcessInstance(task.getProcessInstanceId());
+		String yearMonth = DateUtil.getYM(DateUtil.addMonth(
+				task.getCreateTime(), -1));
+		ProcessInstance pi = activiti.getProcessInstance(task
+				.getProcessInstanceId());
 		String buniness_key = pi.getBusinessKey();
 		// 5: 获取BUSINESS_KEY对应的主键ID, 使用主键ID
 		String buninessId = null;
 		String id = null;
 		String[] ids = null;
+		String stationCode = "";
 		if (StringUtils.isNotBlank(buniness_key)) {
 			buninessId = buniness_key.split("\\.")[1]; // 截取字符串,
-													   // 取buniness_key小数点的第2个值
+														// 取buniness_key小数点的第2个值
 			String[] split = buninessId.split(":");
 			if (split != null && split.length > 0) {
 				id = split[0];
 				ids = id.split(",");
-				flag=split[1];
+				flag = split[1];
+				stationCode = split[2];
 			}
 		}
-		//根据之前的员工编号平成的字符串, 再将员工的薪资差异记录查出来
+		// 根据之前的员工编号平成的字符串, 再将员工的薪资差异记录查出来
 		List<SalaryDifference> salaryDifferenceList = null;
 		if (null != ids && ids.length != 0) {
 			salaryDifferenceList = new ArrayList<SalaryDifference>();
-			for (String staffCode : ids) {
-				SalaryDifference salaryDifference = salaryDifferenceService.findSalaryDifferenceWithStationNameByStaffCode(staffCode);
-				salaryDifferenceList.add(salaryDifference);
-			}
+			salaryDifferenceList = salaryDifferenceService.findByStaffCodes(
+					stationCode, yearMonth, ids);
 		}
 		if (null != salaryDifferenceList && salaryDifferenceList.size() != 0) {
 			List<StoreEmployeeVO> storeEmployeeVOList = new ArrayList<StoreEmployeeVO>();
-			ProcessDefinitionEntity def = activiti.getProcessDefinitionEntity(task.getProcessDefinitionId());
+			ProcessDefinitionEntity def = activiti
+					.getProcessDefinitionEntity(task.getProcessDefinitionId());
 			// 根据流程定义获得所有的节点
 			ActivityImpl activityImpl = def.findActivity(pi.getActivityId());
 			String activityId = activityImpl.getId();
-			List<PvmTransition> outTransitions = activityImpl.getOutgoingTransitions();
+			List<PvmTransition> outTransitions = activityImpl
+					.getOutgoingTransitions();
 			for (PvmTransition tr : outTransitions) {
-				String substringActivityId = activityId.substring(activityId.length() - 1);
+				String substringActivityId = activityId.substring(activityId
+						.length() - 1);
 				PvmActivity destination = tr.getDestination();
 				String destinationActivityId = destination.getId();
-				String destinationSubstringActivityId = destinationActivityId.substring(destinationActivityId.length() - 1);
-				if (!"endevent".equals(destinationActivityId) && Integer.valueOf(destinationSubstringActivityId) > Integer.valueOf(substringActivityId)) {
+				String destinationSubstringActivityId = destinationActivityId
+						.substring(destinationActivityId.length() - 1);
+				if (!"endevent".equals(destinationActivityId)
+						&& Integer.valueOf(destinationSubstringActivityId) > Integer
+								.valueOf(substringActivityId)) {
 					// 获取线路的终点节点
 					ActivityImpl ac = (ActivityImpl) destination;
-					UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) ac.getActivityBehavior();
-					TaskDefinition taskDefinition = activityBehavior.getTaskDefinition();
-					Set<Expression> candidateGroupIdExpressions = taskDefinition.getCandidateGroupIdExpressions();
+					UserTaskActivityBehavior activityBehavior = (UserTaskActivityBehavior) ac
+							.getActivityBehavior();
+					TaskDefinition taskDefinition = activityBehavior
+							.getTaskDefinition();
+					Set<Expression> candidateGroupIdExpressions = taskDefinition
+							.getCandidateGroupIdExpressions();
 					for (Expression expression : candidateGroupIdExpressions) {
 						String departmentCode = null;
 						String[] groupRole = expression.toString().split(":");
@@ -134,12 +150,15 @@ public class SalaryDifferenceOfficeController {
 						String groupRoleCode = groupRole[0];
 						// 角色类型 0 油站 1 区域 2 总部
 						String groupRoleType = groupRole[1];
-						if("0".equals(groupRoleType)){
+						if ("0".equals(groupRoleType)) {
 							departmentCode = storeEmployee.getOrganiseId();
 						}
-						//TODO 区域
-						List<StoreEmployeeVO> storeEmployeeVO = storeEmployeeService.queryStoreEmployeeVOBypStorePart(groupRoleCode, departmentCode);
-						if (storeEmployeeVO != null && storeEmployeeVO.size() > 0) {
+						// TODO 区域
+						List<StoreEmployeeVO> storeEmployeeVO = storeEmployeeService
+								.queryStoreEmployeeVOBypStorePart(
+										groupRoleCode, departmentCode);
+						if (storeEmployeeVO != null
+								&& storeEmployeeVO.size() > 0) {
 							storeEmployeeVOList.add(storeEmployeeVO.get(0));
 						}
 					}
@@ -153,7 +172,8 @@ public class SalaryDifferenceOfficeController {
 			List<String> variableList = new ArrayList<String>();
 			String processDefinitionId = task.getProcessDefinitionId();
 			// 3：查询ProcessDefinitionEntiy对象
-			ProcessDefinitionEntity processDefinitionEntity =activiti.getProcessDefinitionEntity(processDefinitionId);
+			ProcessDefinitionEntity processDefinitionEntity = activiti
+					.getProcessDefinitionEntity(processDefinitionId);
 			// 获取当前活动的id
 			String aId = pi.getActivityId();
 			// 4：获取当前的活动
@@ -178,19 +198,22 @@ public class SalaryDifferenceOfficeController {
 			model.addAttribute("task", task);
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
-			
+
 			@SuppressWarnings("unchecked")
-			List<StoreEmployeeVO> storeEmployeeList = (List<StoreEmployeeVO>)session.getAttribute(SysConstant.USERS_INFO);
+			List<StoreEmployeeVO> storeEmployeeList = (List<StoreEmployeeVO>) session
+					.getAttribute(SysConstant.USERS_INFO);
 			model.addAttribute("storeEmployeeList", storeEmployeeList);
 		}
 		return "activiti/activitisalaryDifferenceOffice";
-		
+
 	}
-	
-	//区域经理或人力资源部批准执行或驳回
+
+	// 区域经理或人力资源部批准执行或驳回
 	@RequestMapping("/activiti/salaryDifferenceExecution.do")
-	public String execution(SalaryDifferenceVO salaryDifferenceVO, String id, String taskId, String message,String nextUserName, String outcome,String storePartNameCC,String sign) {
-		
+	public String execution(SalaryDifferenceVO salaryDifferenceVO, String id,
+			String taskId, String message, String nextUserName, String outcome,
+			String storePartNameCC, String sign) {
+
 		/**
 		 * 1：在完成之前，添加一个批注信息，向act_hi_comment表中添加数据，用于记录对当前申请人的一些审核信息
 		 */
@@ -201,19 +224,20 @@ public class SalaryDifferenceOfficeController {
 		StoreEmployee storeEmployee = SysConstant.getCurrentUser();
 		Map<String, Object> variables = new HashMap<String, Object>();
 
-		if (outcome != null && !outcome.equals("提交")) { //outcome = 批准,驳回
+		if (outcome != null && !outcome.equals("提交")) { // outcome = 批准,驳回
 			variables.put("outcome", outcome);
 		}
 		variables.put("checkUser", nextUserName);
 		// 3：使用任务ID，完成当前人的个人任务，同时流程变量
-		//更新 历史记录
-		activiti.updateActHiActinst(task,outcome);
-		//检查是否存在抄送任务
-		if(storePartNameCC!=null && !"".equals(storePartNameCC)){
-			outcome="发送";
+		// 更新 历史记录
+		activiti.updateActHiActinst(task, outcome);
+		// 检查是否存在抄送任务
+		if (storePartNameCC != null && !"".equals(storePartNameCC)) {
+			outcome = "发送";
 			activiti.ccTask(storePartNameCC, task, outcome, sign);
 		}
-		activiti.addComment(storeEmployee.getUsername(), taskId, processInstanceId, message);
+		activiti.addComment(storeEmployee.getUsername(), taskId,
+				processInstanceId, message);
 		activiti.complete(taskId, variables);
 		/**
 		 * 5：在完成任务之后，判断流程是否结束 如果流程结束了（审核中-->审核完成）
@@ -222,20 +246,22 @@ public class SalaryDifferenceOfficeController {
 		/**
 		 * 如果流程结束了: 那么, 将审批状态改为已审批, 应发工资和差异工资设置进去, 保存记录等下个月薪资来合并
 		 */
-		if (null == pi) { //流程结束
-			List<SalaryDifference> salaryDifferenceList = salaryDifferenceVO.getSalaryDifferenceList();
+		if (null == pi) { // 流程结束
+			List<SalaryDifference> salaryDifferenceList = salaryDifferenceVO
+					.getSalaryDifferenceList();
 			SalaryDifferenceQuery salaryDifferenceQuery = null;
 			for (SalaryDifference salaryDifference : salaryDifferenceList) {
 				salaryDifference.setApprovalStatus("2");
 				salaryDifferenceQuery = new SalaryDifferenceQuery();
-				salaryDifferenceQuery.createCriteria().andStaffCodeEqualTo(salaryDifference.getStaffCode());
-				salaryDifferenceDao.updateByExampleSelective(salaryDifference, salaryDifferenceQuery);
+				salaryDifferenceQuery.createCriteria().andStaffCodeEqualTo(
+						salaryDifference.getStaffCode());
+				salaryDifferenceDao.updateByExampleSelective(salaryDifference,
+						salaryDifferenceQuery);
 			}
 		}
 		return "redirect:/activiti/activitiTask.do";
 	}
-	
-	
+
 	/**
 	 * 查看历史薪资差异流程信息
 	 */
@@ -243,12 +269,13 @@ public class SalaryDifferenceOfficeController {
 	public String toCheck(String id, Model model) {
 		String flag = "";
 		List<GeneralStaffLeaveOffice> generalStaffLeaveOfficeList = new ArrayList<GeneralStaffLeaveOffice>();
-		
+
 		ActHiActinstQuery actHiActinstQuery = new ActHiActinstQuery();
 		actHiActinstQuery.createCriteria().andProcInstIdEqualTo(id);
 		actHiActinstQuery.setOrderByClause("start_time_ asc");
-		List<ActHiActinst> haqs =actHiActinstDao.selectByExample(actHiActinstQuery);
-		
+		List<ActHiActinst> haqs = actHiActinstDao
+				.selectByExample(actHiActinstQuery);
+
 		// 遍历查看结果
 		String processInstanceId = null;
 		for (ActHiActinst haq : haqs) {
@@ -258,10 +285,14 @@ public class SalaryDifferenceOfficeController {
 			processInstanceId = haq.getProcInstId();
 		}
 
-		HistoricProcessInstance pi = activiti.getHistoricProcessInstance(processInstanceId);
+		HistoricProcessInstance pi = activiti
+				.getHistoricProcessInstance(processInstanceId);
+		String yearMomth = DateUtil.getYM(DateUtil.addMonth(pi.getStartTime(),
+				-1));
 		String buniness_key = pi.getBusinessKey();
 		String buninessId = "";
 		String bid = "";
+		String stationCode = "";
 		if (StringUtils.isNotBlank(buniness_key)) {
 			// 截取字符串，取buniness_key小数点的第2个值
 			buninessId = buniness_key.split("\\.")[1];
@@ -270,6 +301,7 @@ public class SalaryDifferenceOfficeController {
 				if (split != null && split.length > 0) {
 					bid = split[0];
 					flag = split[1];
+					stationCode = split[2];
 				}
 			}
 		}
@@ -277,20 +309,15 @@ public class SalaryDifferenceOfficeController {
 		// 根据ID查询业务
 		List<SalaryDifference> salaryDifferenceList = null;
 		if (bid != null || !"".equals(bid) || !"null".equals(bid)) {
-			if (bid.contains(",")) {
-				String[] split = bid.split(",");
-				if (null != split && split.length != 0) {
-					salaryDifferenceList = new ArrayList<SalaryDifference>();
-					for (String staffCode : split) {
-						SalaryDifference salaryDifference = salaryDifferenceService.findSalaryDifferenceWithStationNameByStaffCode(staffCode);
-						salaryDifferenceList.add(salaryDifference);
-					}
-				}
+			String[] split = bid.split(",");
+			if (null != split && split.length != 0) {
+				salaryDifferenceList = salaryDifferenceService
+						.findByStaffCodes(stationCode, yearMomth, split);
 			}
 		}
 		model.addAttribute("salaryDifferenceList", salaryDifferenceList);
 		model.addAttribute("flag", flag);
 		return "activiti/historicactivitisalaryDifferenceOffice";
 	}
-	
+
 }

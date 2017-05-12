@@ -44,6 +44,15 @@ public class Parameter implements Serializable {
     public static final String KEY_STANDARD_LIMIT = "standard_limit";
     
     public static final String KEY_NON_OIL_STANDARD_LIMIT = "non_oil_standard_limit";
+    /**
+     * 薪资计算日
+     */
+    public static final String KEY_SALARY_DAY = "salaryDay";
+    /**
+     * 考勤是否可多次提交
+     */
+    public static String KEY_ATTEN_RESUBMIT = "atten_resubmit";
+    
 	public Integer getId() {
 		return id;
 	}

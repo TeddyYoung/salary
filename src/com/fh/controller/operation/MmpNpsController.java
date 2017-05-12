@@ -23,6 +23,7 @@ import com.fh.entity.biz.StationLevel;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetVO;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.masterdata.StationTargetService;
 import com.fh.service.operation.StarEvaluatingService;
 import com.fh.service.operation.StationLevelService;
@@ -119,7 +120,7 @@ public class MmpNpsController extends BaseController {
 	@RequestMapping("/mmpNpsRealSaveOrUpdate.do")
 	public String mmpNpsRealSaveOrUpdate(String districtCode, StationTargetVO stationTargetVO, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (stationTargetVO.getStationTargetList().size() != 0) {
 			starEvaluatingService.saveOrUpdateStarEvaluating(stationTargetVO.getStationTargetList());
@@ -137,7 +138,7 @@ public class MmpNpsController extends BaseController {
 	public String importList(HttpServletRequest request, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
@@ -189,15 +190,16 @@ public class MmpNpsController extends BaseController {
 		List<StationTarget> excelStationTargetList = new ArrayList<StationTarget>();
 		StationTarget stationTarget = null;
 		ExcelUtil excelUtil = new ExcelUtil();
+		String excMes = "";
 		for (int rowNum = 2; rowNum <= sheet.getLastRowNum(); rowNum++) {// 从第二行开始读取数据
 			cellNum = 0; // 从第三列(A列)开始梳理数据
 			//判断油站编号是否可用, 如果油站编号不可用, 则弃用整行数据
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
+				continue;
 			}
 			if (null == row2.getCell(cellNum) || "".equals(row2.getCell(cellNum).getStringCellValue())) {
-				break;
+				continue;
 			} 
 			
 			// 油站编号
@@ -211,7 +213,8 @@ public class MmpNpsController extends BaseController {
 			// MMP
 			BigDecimal cellValue = excelUtil.getBigDecimalValue(row2.getCell(cellNum++));
 			if (null == cellValue || "".equals(cellValue.toString().trim())) {
-				throw new Exception("第" + (rowNum + 1) + "行【MMP】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【MMP】未填写！";
+				//throw new Exception("第" + (rowNum + 1) + "行【MMP】未填写！");
 			} else {
 				stationTarget.setMmp(cellValue.doubleValue());
 			}
@@ -219,7 +222,8 @@ public class MmpNpsController extends BaseController {
 			// NPS
 			cellValue = excelUtil.getBigDecimalValue(row2.getCell(cellNum++));
 			if (null == cellValue || "".equals(cellValue.toString().trim())) {
-				throw new Exception("第" + (rowNum + 1) + "行【NPS】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【NPS】未填写！";
+				//throw new Exception("第" + (rowNum + 1) + "行【NPS】未填写！");
 			} else {
 				stationTarget.setNps(cellValue.doubleValue());
 			}
@@ -230,8 +234,18 @@ public class MmpNpsController extends BaseController {
 			//将Excel中的每一个StationTarget进入集合中
 			excelStationTargetList.add(stationTarget);
 		}
+		boolean submit = true;
+		if(!"".equals(excMes)){
+			submit = false;
+		}
 		//将Excel中的全部数据UPDATE入库
-		stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth);
+		ResultVO resultVO = stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth,submit);
+		if(resultVO.getFail() > 0){
+			excMes = excMes + resultVO.getFailMes();
+		}
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		return "redirect:/mmpNps/mmpNpsList.do";
 		
 	}

@@ -51,7 +51,7 @@ public class DutySalaryController extends BaseController {
 	@RequestMapping("/dutySalarySaveOrUpdate.do")
 	public String dutySalarySaveOrUpdate(DutySalary dutySalary) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		dutySalaryService.saveOrUpdate(dutySalary);
 		return "save_result";
@@ -72,7 +72,7 @@ public class DutySalaryController extends BaseController {
 	@RequestMapping("/dutySalaryDelete.do")
 	public void dutySalaryDelete(String dutySalaryId, HttpServletResponse response) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// json对象
 		JSONObject js = new JSONObject();

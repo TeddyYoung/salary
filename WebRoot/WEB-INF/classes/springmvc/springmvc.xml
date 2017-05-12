@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd	
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 处理器映射器, 处理器适配器 -->
+	<!--<mvc:annotation-driven validator="validator" />-->
+	<mvc:annotation-driven />
+	
+	<!-- SpringMVC注解扫描器只扫描Controller层的注解 -->
+	<!-- use-default-filters: 将默认的这些扫描注解的过滤器全部废弃掉 -->
+	<context:component-scan base-package="com.fh" use-default-filters="false">
+		<!-- 只包含Controller层的注解扫描器 -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- 视图解析器 -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 自定义Converter转化器, 转换日期形式, 过滤掉空字符串的参数或带有空字符串的参数..... -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<!-- 滤空字符串转换器 -->
+				<bean class="com.fh.common.convertion.CustomTrimConvertion"></bean>
+			</list>
+		</property>
+	</bean>
+	<!-- 异常拦截处理 -->
+	<bean id="exceptionResolver" class="com.fh.resolver.MyExceptionResolver"></bean>
+	<!-- 上传拦截，如最大上传值及最小上传值 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >   
+		<!-- <property name="maxUploadSize">    
+	        <value>104857600</value>    
+	    </property>  -->  
+	    <property name="defaultEncoding">    
+	        <value>utf-8</value>    
+	    </property> 
+   	</bean>  
+    
+    <!-- 自定义拦截器, 登录验证拦截 + 用户权限拦截 -->
+    <mvc:interceptors>
+    	<mvc:interceptor>
+    		<mvc:mapping path="/**"/>
+    		<bean class="com.fh.common.interceptor.LoginInterceptor"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
+	
+	<!-- 对静态资源文件的访问  restful
+	<mvc:resources mapping="/admin/**" location="/,/admin/" />
+	<mvc:resources mapping="/static/**" location="/,/static/" />
+	<mvc:resources mapping="/plugins/**" location="/,/plugins/" />
+	<mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" /> -->     
+	
+</beans>

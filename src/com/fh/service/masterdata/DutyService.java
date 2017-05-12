@@ -47,5 +47,9 @@ public interface DutyService {
 	 * 根据职务编号查询员工职务信息
 	 */
 	public Duty findDutyByDutyCode(String dutyCode);
+
+	public void init();
+
+	public String getDutyName(String dutyCode);
 	
 }

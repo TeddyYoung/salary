@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.StaffTransferDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.StaffTransfer" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="transfer_code" property="transferCode" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="before_station_code" property="beforeStationCode" jdbcType="VARCHAR" />
+    <result column="before_duty_code" property="beforeDutyCode" jdbcType="VARCHAR" />
+    <result column="staff_transfer_date" property="staffTransferDate" jdbcType="VARCHAR" />
+    <result column="staff_transfer_url" property="staffTransferUrl" jdbcType="VARCHAR" />
+    <result column="after_station_code" property="afterStationCode" jdbcType="VARCHAR" />
+    <result column="after_duty_code" property="afterDutyCode" jdbcType="VARCHAR" />
+    <result column="staff_transfer_cause" property="staffTransferCause" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, transfer_code, staff_code, before_station_code, before_duty_code, staff_transfer_date, 
+      staff_transfer_url, after_station_code, after_duty_code, staff_transfer_cause, sys_create_time, 
+      sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.StaffTransferQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_staff_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,transfer_code,staff_code,before_station_code,before_duty_code,staff_transfer_date,staff_transfer_url,after_station_code,after_duty_code,staff_transfer_cause,sys_create_time,sys_update_time,remark
+    from biz_staff_transfer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_staff_transfer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.StaffTransferQuery" >
+    delete from biz_staff_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.StaffTransfer" >
+    insert into biz_staff_transfer (id, transfer_code, staff_code, 
+      before_station_code, before_duty_code, staff_transfer_date, 
+      staff_transfer_url, after_station_code, after_duty_code, 
+      staff_transfer_cause, sys_create_time, sys_update_time, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{transferCode,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, 
+      #{beforeStationCode,jdbcType=VARCHAR}, #{beforeDutyCode,jdbcType=VARCHAR}, #{staffTransferDate,jdbcType=VARCHAR}, 
+      #{staffTransferUrl,jdbcType=VARCHAR}, #{afterStationCode,jdbcType=VARCHAR}, #{afterDutyCode,jdbcType=VARCHAR}, 
+      #{staffTransferCause,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.StaffTransfer" >
+    insert into biz_staff_transfer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="transferCode != null" >
+        transfer_code,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="beforeStationCode != null" >
+        before_station_code,
+      </if>
+      <if test="beforeDutyCode != null" >
+        before_duty_code,
+      </if>
+      <if test="staffTransferDate != null" >
+        staff_transfer_date,
+      </if>
+      <if test="staffTransferUrl != null" >
+        staff_transfer_url,
+      </if>
+      <if test="afterStationCode != null" >
+        after_station_code,
+      </if>
+      <if test="afterDutyCode != null" >
+        after_duty_code,
+      </if>
+      <if test="staffTransferCause != null" >
+        staff_transfer_cause,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="transferCode != null" >
+        #{transferCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeStationCode != null" >
+        #{beforeStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeDutyCode != null" >
+        #{beforeDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferDate != null" >
+        #{staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferUrl != null" >
+        #{staffTransferUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStationCode != null" >
+        #{afterStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="afterDutyCode != null" >
+        #{afterDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferCause != null" >
+        #{staffTransferCause,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.StaffTransferQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_staff_transfer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_staff_transfer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.transferCode != null" >
+        transfer_code = #{record.transferCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffCode != null" >
+        staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beforeStationCode != null" >
+        before_station_code = #{record.beforeStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beforeDutyCode != null" >
+        before_duty_code = #{record.beforeDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffTransferDate != null" >
+        staff_transfer_date = #{record.staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffTransferUrl != null" >
+        staff_transfer_url = #{record.staffTransferUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterStationCode != null" >
+        after_station_code = #{record.afterStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterDutyCode != null" >
+        after_duty_code = #{record.afterDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staffTransferCause != null" >
+        staff_transfer_cause = #{record.staffTransferCause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_staff_transfer
+    set id = #{record.id,jdbcType=BIGINT},
+      transfer_code = #{record.transferCode,jdbcType=VARCHAR},
+      staff_code = #{record.staffCode,jdbcType=VARCHAR},
+      before_station_code = #{record.beforeStationCode,jdbcType=VARCHAR},
+      before_duty_code = #{record.beforeDutyCode,jdbcType=VARCHAR},
+      staff_transfer_date = #{record.staffTransferDate,jdbcType=VARCHAR},
+      staff_transfer_url = #{record.staffTransferUrl,jdbcType=VARCHAR},
+      after_station_code = #{record.afterStationCode,jdbcType=VARCHAR},
+      after_duty_code = #{record.afterDutyCode,jdbcType=VARCHAR},
+      staff_transfer_cause = #{record.staffTransferCause,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.StaffTransfer" >
+    update biz_staff_transfer
+    <set >
+      <if test="transferCode != null" >
+        transfer_code = #{transferCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeStationCode != null" >
+        before_station_code = #{beforeStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeDutyCode != null" >
+        before_duty_code = #{beforeDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferDate != null" >
+        staff_transfer_date = #{staffTransferDate,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferUrl != null" >
+        staff_transfer_url = #{staffTransferUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStationCode != null" >
+        after_station_code = #{afterStationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="afterDutyCode != null" >
+        after_duty_code = #{afterDutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffTransferCause != null" >
+        staff_transfer_cause = #{staffTransferCause,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.StaffTransfer" >
+    update biz_staff_transfer
+    set transfer_code = #{transferCode,jdbcType=VARCHAR},
+      staff_code = #{staffCode,jdbcType=VARCHAR},
+      before_station_code = #{beforeStationCode,jdbcType=VARCHAR},
+      before_duty_code = #{beforeDutyCode,jdbcType=VARCHAR},
+      staff_transfer_date = #{staffTransferDate,jdbcType=VARCHAR},
+      staff_transfer_url = #{staffTransferUrl,jdbcType=VARCHAR},
+      after_station_code = #{afterStationCode,jdbcType=VARCHAR},
+      after_duty_code = #{afterDutyCode,jdbcType=VARCHAR},
+      staff_transfer_cause = #{staffTransferCause,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

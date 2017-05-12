@@ -2,11 +2,10 @@ package com.fh.service.operation;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.fh.common.exception.BizException;
 import com.fh.common.page.Page;
 import com.fh.entity.biz.ManageBase;
+import com.fh.entity.vo.ResultVO;
 
 /**
  * 管理岗位基础表维护 Service
@@ -53,7 +52,7 @@ public interface ManageBaseService {
 	 * 批量INSERT管理岗位数据
 	 * @param manageBaseList
 	 */
-	void insertAllByYearMonth(List<ManageBase> manageBaseList) throws BizException;
+	public ResultVO insertAllByYearMonth(List<ManageBase> manageBaseList,boolean submit) throws BizException;
 
 	/**
 	 * 查询当月管理岗位数据的数量
@@ -73,7 +72,7 @@ public interface ManageBaseService {
 	 * @param yearMonth
 	 * @return
 	 */
-	public Page findManageBaseByPage(Page page, String yearMonth, String staffName);
+	public Page findManageBaseByPage(Page page, ManageBase manageBase);
 	
 	/**
 	 * 通过条件获取管理岗位数据对象

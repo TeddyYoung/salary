@@ -44,5 +44,7 @@ public interface ParameterService {
 	public void init();
 
 	public String getBizValue(String paraKey);
+
+	public String getSysValue(String paraKey);
 	
 }

@@ -65,7 +65,7 @@ public class StandardBonusSetupController extends BaseController {
 	@RequestMapping(value="/standardBonusSetupSaveOrUpdate.do")
 	public String saveOrUpdate(StandardBonusSetup standardBonusSetup,Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		standardBonusSetupService.saveOrUpdate(standardBonusSetup);
 		return "save_result";
@@ -89,7 +89,7 @@ public class StandardBonusSetupController extends BaseController {
 	@RequestMapping(value="/standardBonusSetupDelById.do")
 	public void delStandardBonusSetupById(String id,HttpServletResponse response) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// json对象
 		JSONObject js = new JSONObject();

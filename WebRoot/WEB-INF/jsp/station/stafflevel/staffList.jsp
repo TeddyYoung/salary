@@ -165,7 +165,7 @@
 
 				<div class="row-fluid">
 					<!-- 检索  -->
-					<form action="<%=basePath%>staff/staffList.do" name="staffForm"
+					<form action="<%=basePath%>staffLevel/staffList.do" name="staffForm"
 						id="staffForm" method="post">
 						<table>
 							<tr>

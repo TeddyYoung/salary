@@ -101,7 +101,16 @@ public class SalaryDifferenceController {
 	 */
 	@RequestMapping("/salaryDifferenceSaveOrUpdate.do")
 	public String salaryDifferenceSaveOrUpdate(HttpServletRequest request, String ids, SalaryDifferenceVO salaryDifferenceVO, Model model) {
-		
+		StoreEmployee storeEmployee = (StoreEmployee) request.getSession()
+				.getAttribute(SysConstant.CURRENT_USER_INFO);
+		String stationCode = storeEmployee.getOrganiseId();
+		boolean exists = salaryDifferenceService.existsFlow(stationCode);
+		if(exists){
+			Flag flag = new Flag();
+			flag.setFlag("wftjsq");
+			model.addAttribute("Apply", flag);
+			return "salarymanagement/salarydifference/salaryDifferenceFillOut";
+		}
 		if (null !=salaryDifferenceVO && salaryDifferenceVO.getSalaryDifferenceList().size() != 0) {
 			//筛选出页面有勾选的员工
 			List<SalaryDifference> salaryDifferenceCheckedList = new ArrayList<SalaryDifference>();
@@ -111,15 +120,16 @@ public class SalaryDifferenceController {
 					salaryDifferenceCheckedList.add(salaryDifference);
 				}
 			}
-			boolean returnValue = salaryDifferenceService.saveOrUpdateSalaryDifference(salaryDifferenceCheckedList, request);
-			if (returnValue) {
-				return "redirect:/salaryDifference/salaryDifferenceList.do";
-			}else{
-				Flag flag = new Flag();
-				flag.setFlag("wftjsq");
-				model.addAttribute("Apply", flag);
-				return "salarymanagement/salarydifference/salaryDifferenceFillOut";
-			}
+			salaryDifferenceService.saveOrUpdateSalaryDifference(salaryDifferenceCheckedList, request,stationCode);
+			return "redirect:/salaryDifference/salaryDifferenceList.do";
+//			if (returnValue) {
+//				return "redirect:/salaryDifference/salaryDifferenceList.do";
+//			}else{
+//				Flag flag = new Flag();
+//				flag.setFlag("wftjsq");
+//				model.addAttribute("Apply", flag);
+//				return "salarymanagement/salarydifference/salaryDifferenceFillOut";
+//			}
 		}else{
 			throw new RuntimeException("Sorry, SalaryDifferenceVO entity is null or '', please check your page!");
 		}

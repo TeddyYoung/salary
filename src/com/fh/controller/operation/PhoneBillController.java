@@ -22,6 +22,7 @@ import com.fh.controller.BaseController;
 import com.fh.entity.biz.ManageBase;
 import com.fh.entity.system.DataDictionary;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.operation.ManageBaseService;
 import com.fh.service.station.StaffService;
 import com.fh.service.system.DataDictionaryService;
@@ -60,8 +61,8 @@ public class PhoneBillController extends BaseController {
 			String yearMonth = autoYearMonth.getAutoYearMonth(); //获取上个月的年月份日期
 			manageBase.setYearMonth(yearMonth);
 		}
-				
-		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase.getYearMonth(), manageBase.getStaffName());
+		manageBase.setPhoneCost(BigDecimal.ZERO);		
+		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase);
 		model.addAttribute("pageList", pageList);
 		model.addAttribute("st", manageBase);
 		return "operation/phoneBill/phoneBillList";
@@ -75,7 +76,7 @@ public class PhoneBillController extends BaseController {
 	public String importOilBaseInfo(HttpServletRequest request, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -122,17 +123,18 @@ public class PhoneBillController extends BaseController {
 		ManageBase manageBase = null;
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
-		
+		String excMes = "";
+		boolean submit = true;
 		//取第1部分数据: 油站经理
 		for (int rowNum = 2; rowNum < sheet.getLastRowNum() + 1; rowNum++) {
 			cellNum = 0; //油站编号
 			//以员工编号的有无判断数据的可用性
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
+				continue;
 			} 
 			if (null ==  row2.getCell(cellNum) || "".equals(String.valueOf( row2.getCell(cellNum)))) {
-				break;
+				continue;
 			}
 			manageBase = new ManageBase();
 			String stationCode = row2.getCell(cellNum).toString();
@@ -146,7 +148,8 @@ public class PhoneBillController extends BaseController {
 				staffCode = String.valueOf(row2.getCell(cellNum));
 				manageBase.setStaffCode(staffCode);
 			}else{
-				throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【员工编号】未填写！";
+				//throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
 			}
 			//员工姓名
 			cellNum++;
@@ -165,20 +168,23 @@ public class PhoneBillController extends BaseController {
 			//扣款金额
 			cellNum ++;
 			if (null == row2.getCell(cellNum) || "".equals(String.valueOf(row2.getCell(cellNum)))) {
-				throw new Exception("第" + (rowNum + 1) + "行【扣款金额】未填写！");
+			//	throw new Exception("第" + (rowNum + 1) + "行【扣款金额】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【扣款金额】未填写！";
 			}
 			BigDecimal deductionsAmt = excelUtil.getFormulaCellBigDecimalValue(row2.getCell(cellNum));
 			// 扣款类型
 			cellNum++;
 			if (null == row2.getCell(cellNum)
 					|| "".equals(row2.getCell(cellNum))) {
-				throw new Exception("第" + (rowNum + 1) + "行【扣款类型】未填写！");
+				//throw new Exception("第" + (rowNum + 1) + "行【扣款类型】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【扣款类型】未填写！";
 			}
 			String deductionsType = dataDictionaryService.getValueType(
 					DataDictionary.CT_DEDUCTIONS_TYPE, row2.getCell(cellNum)
 							.toString());
 			if (StringUtil.isEmpty(deductionsType)) {
-				throw new Exception("第" + (rowNum + 1) + "行【扣款类型】填写不正确！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【扣款类型】填写不正确！";
+				//throw new Exception("第" + (rowNum + 1) + "行【扣款类型】填写不正确！");
 			}
 			if(ManageBase.DEDUCTIONS_TYPE_PHONE_CHARGE.equals(deductionsType)){
 				manageBase.setPhoneCost(deductionsAmt);
@@ -194,13 +200,21 @@ public class PhoneBillController extends BaseController {
 			manageBase.setYearMonth(yearMonth);
 			manageBaseList.add(manageBase);
 		}
-		
 		//判断上传的是否是没有数据的空文件模板
 		if (null != manageBaseList && manageBaseList.size() != 0) {
 //			//判断当前月份, 先将上个月的相关数据全部DELETE, 然后再INSERT进去
 //			manageBaseService.deleteAllByYearMonth(yearMonth);
 //			// 通过月份和员工编号判断记录是否存在，如果存在则执行更新操作，如果不存在则执行新增操作
-			manageBaseService.insertAllByYearMonth(manageBaseList);
+			if(!"".equals(excMes)){
+				submit = false;
+			}
+			ResultVO resultVO = manageBaseService.insertAllByYearMonth(manageBaseList,submit);
+			if(resultVO.getFail() > 0){
+				excMes = excMes + resultVO.getFailMes();
+			}
+			if (!"".equals(excMes)) {
+				throw new Exception(excMes);
+			}
 			return "redirect:/phoneBill/phoneBillList.do";
 		}else{
 			Flag flag = new Flag();

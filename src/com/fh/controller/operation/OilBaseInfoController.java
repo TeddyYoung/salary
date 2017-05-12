@@ -22,6 +22,7 @@ import com.fh.controller.BaseController;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetVO;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.masterdata.StationTargetService;
 import com.fh.service.operation.OilBaseInfoService;
 import com.fh.util.AutoYearMonth;
@@ -103,7 +104,7 @@ public class OilBaseInfoController extends BaseController {
 	@RequestMapping("/oilBaseInfoRealSaveOrUpdate.do")
 	public String oilBaseInfoRealSaveOrUpdate(String districtCode, StationTargetVO stationTargetVO, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (stationTargetVO.getStationTargetList().size() != 0) {
 			oilBaseInfoService.saveOrUpdateOilBaseInfo(stationTargetVO.getStationTargetList());
@@ -121,7 +122,7 @@ public class OilBaseInfoController extends BaseController {
 	public String importOilBaseInfo(HttpServletRequest request, HttpServletResponse response, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -204,15 +205,16 @@ public class OilBaseInfoController extends BaseController {
 		//StringUtil strUtil = new StringUtil();
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth(); //获取上个月的年月份日期
+		String excMes = "";
 		for (int rowNum = 2; rowNum <= sheet.getLastRowNum(); rowNum++) {
 			cellNum = 0; // 第1列(A列)开始梳理数据
 			//判断油站编号是否可用, 如果油站编号不可用, 则弃用整行数据
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
+				continue;
 			}
 			if (null == row2.getCell(cellNum) || "".equals(row2.getCell(cellNum).getStringCellValue())) {
-				break;
+				continue;
 			} 
 			//油站编号
 			stationTarget = new StationTarget(); 
@@ -240,78 +242,6 @@ public class OilBaseInfoController extends BaseController {
 				stationStaffNumFloat = new Integer(Double.valueOf(row2.getCell(cellNum++).getNumericCellValue()).intValue());
 			}
 			stationTarget.setStationStaffNumFloat(stationStaffNumFloat);
-
-//			cellNum = 5;
-//			System.out.println(String.valueOf(row2.getCell(cellNum)));
-//			if (null != String.valueOf(row2.getCell(cellNum)) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-//				if (String.valueOf(row2.getCell(cellNum)).contains("#")) {
-//					stationTarget.setStationStaffNumFloat(0);
-//				}else{
-//					String floatNum = String.valueOf(row2.getCell(cellNum)).substring(0, String.valueOf(row2.getCell(cellNum)).indexOf("."));
-//					stationTarget.setStationStaffNumFloat(Integer.parseInt(floatNum));
-//				}
-//			}else{
-//				stationTarget.setStationStaffNumFloat(0);
-//			}
-			
-//			//MMP
-//			cellNum = 7;
-////			System.out.println(String.valueOf(row2.getCell(cellNum)));
-//			if (null != String.valueOf(row2.getCell(cellNum)) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-//				if (String.valueOf(row2.getCell(cellNum)).contains("#")) {
-//					stationTarget.setMmp(0d);
-//				}else{
-//					stationTarget.setMmp(Double.valueOf(strUtil.round(String.valueOf(row2.getCell(cellNum)))));
-//				}
-//			}else{
-//				stationTarget.setMmp(0d);
-//			}
-//			
-//			//NPS
-//			cellNum = 8;
-////			System.out.println(String.valueOf(row2.getCell(cellNum)));
-//			if (null != String.valueOf(row2.getCell(cellNum)) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-//				if (String.valueOf(row2.getCell(cellNum)).contains("#")) {
-//					stationTarget.setNps(0d);
-//				}else{
-//					stationTarget.setNps(Double.valueOf(strUtil.round(String.valueOf(row2.getCell(cellNum)))));
-//				}
-//			}else{
-//				stationTarget.setNps(0d);
-//			}
-//			
-//			//便利店业绩得分
-//			cellNum = 18;
-////			System.out.println(String.valueOf(row2.getCell(cellNum)));
-//			if (null != String.valueOf(row2.getCell(cellNum)) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-//				if (String.valueOf(row2.getCell(cellNum)).contains("#")) { //防止"#N/A"
-//					BigDecimal storeMarkScore = new BigDecimal("0");
-//					stationTarget.setStoreMarkScore(storeMarkScore);
-//				}else{
-//					BigDecimal storeMarkScore = new BigDecimal(String.valueOf(row2.getCell(cellNum)));
-//					stationTarget.setStoreMarkScore(storeMarkScore);
-//				}
-//			}else{
-//				BigDecimal storeMarkScore = new BigDecimal("0");
-//				stationTarget.setStoreMarkScore(storeMarkScore);
-//			}
-//			
-//			//便利店管理得分
-//			cellNum = 19;
-////			System.out.println(String.valueOf(row2.getCell(cellNum)));
-//			if (null != String.valueOf(row2.getCell(cellNum)) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-//				if (String.valueOf(row2.getCell(cellNum)).contains("#")) {
-//					BigDecimal storeManageScore = new BigDecimal("0");
-//					stationTarget.setStoreManageScore(storeManageScore);
-//				}else{
-//					BigDecimal storeManageScore = new BigDecimal(String.valueOf(row2.getCell(cellNum)));
-//					stationTarget.setStoreManageScore(storeManageScore);
-//				}
-//			}else{
-//				BigDecimal storeManageScore = new BigDecimal("0");
-//				stationTarget.setStoreManageScore(storeManageScore);
-//			}
-			
 			//年月份
 			stationTarget.setYearMonth(yearMonth);
 			
@@ -325,7 +255,13 @@ public class OilBaseInfoController extends BaseController {
 //		将数据库中的数据和Excel中的数据取舍入库
 //		stationTargetService.findAndComparisonStationTargetByStationCode(excelStationTargetList);
 		// TODO 如果存在则update，如果不存在则insert
-		stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth);
+		ResultVO resultVO = stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth,true);
+		if(resultVO.getFail() > 0){
+			excMes = excMes + resultVO.getFailMes();
+		}
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		return "redirect:/oilBaseInfo/oilBaseInfoList.do";
 		
 	}

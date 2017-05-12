@@ -1,12 +1,12 @@
 package com.fh.dao.biz;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetQuery;
+import com.fh.entity.vo.SellDataSearchVO;
 
 public interface StationTargetDao {
     int countByExample(StationTargetQuery example);
@@ -37,7 +37,7 @@ public interface StationTargetDao {
 	 * @param yearMonth	年份月份
 	 * @return
 	 */
-	int findCountByCriteriaQuery(@Param("stationCode") String stationCode, @Param("yearMonth") String yearMonth);
+	int findCountByCriteriaQuery(SellDataSearchVO searchVO);
 	
 	/**
 	 * 分页查询油站指标系数列表(支持模糊查询)
@@ -47,8 +47,7 @@ public interface StationTargetDao {
 	 * @param startIndex
 	 * @return
 	 */
-	List<StationTarget> findStationTargetsByPageCriteriaQuery(@Param("stationCode") String stationCode, 
-															  @Param("yearMonth") String yearMonth, 
+	List<StationTarget> findStationTargetsByPageCriteriaQuery(@Param("searchVO") SellDataSearchVO searchVO, 
 															  @Param("pageSize") int pageSize, 
 															  @Param("startIndex") int startIndex);
 	

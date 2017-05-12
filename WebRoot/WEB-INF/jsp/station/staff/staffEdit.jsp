@@ -40,54 +40,86 @@
 	}
 	//保存
 	function save(){
-/* 		if($("#staffCode").val()==""){
+//  		if($("#staffCode").val()==""){
 			
-			$("#staffCode").tips({
-				side:3,
-	            msg:'这里输入员工编号',
-	            bg:'#AE81FF',
-	            time:2
-	        });
+// 			$("#staffCode").tips({
+// 				side:3,
+// 	            msg:'这里输入员工编号',
+// 	            bg:'#AE81FF',
+// 	            time:2
+// 	        });
 			
-			$("#staffCode").focus();
-			return false;
-		}  
+// 			$("#staffCode").focus();
+// 			return false;
+// 		}  
 		if($("#staffName").val()==""){
-			
 			$("#staffName").tips({
 				side:3,
 	            msg:'这里输入员工姓名',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
 			$("#staffName").focus();
 			return false;
 		}     
 		if($("#staffIdcard").val()==""){
-			
 			$("#staffIdcard").tips({
 				side:3,
 	            msg:'这里输入身份证号',
 	            bg:'#AE81FF',
 	            time:2
 	        });
+			$("#staffIdcard").focus();
+			return false;
+		}
+		if(!/(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3})|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])(\d{4}|\d{3}[X|x]))$/.test($("#staffIdcard").val())){
+			$("#staffIdcard").tips({
+				side:3,
+	            msg:'请输入正确的身份证号',
+	            bg:'#AE81FF',
+	            time:2
+	        });
 			
 			$("#staffIdcard").focus();
 			return false;
-		}     
-		if($("#staffPhone").val()==""){
-			
+		}
+		var staffPhone = $("#staffPhone").val();
+		if(staffPhone==""){
 			$("#staffPhone").tips({
 				side:3,
 	            msg:'这里输入联系电话',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
 			$("#staffPhone").focus();
 			return false;
-		} */     
+		}else{
+			var patrn = /^1[34578]\d{9}$/;
+			if (!patrn.exec(staffPhone)){
+				$("#staffPhone").tips({
+					side:3,
+		            msg:'手机号码格式不正确',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#staffPhone").focus();
+				return false;
+			} 
+		}
+		var staffBankcard = $("#staffBankcard").val();
+		if(staffBankcard != ""){
+			var patrn = /^[0-9]*$/;
+			if (!patrn.exec(staffBankcard)){
+				$("#staffBankcard").tips({
+					side:3,
+		            msg:'银行卡格式不正确',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#staffBankcard").focus();
+				return false;
+			} 
+		}
 		$("#staffForm").submit();
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
@@ -103,22 +135,26 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 			<tr>
+				<td style="width:120px;text-align: right;padding-top: 13px;">员工所属职务：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;">
+					<select name="dutyCode" id="dutyCode" class="chzn-select" data-placeholder="请选择员工所属职务" 
+							style="vertical-align:top;width: 220px;" title="员工所属职务" >
+								<option value=""></option>
+								<biztab:biz type="duty" code="all">
+									<option value="${obj.dutyCode}"  ${obj.dutyCode==staff.dutyCode ? 'selected="selected"' : '' }>${obj.dutyName}</option>
+								</biztab:biz>
+					</select>
+				</td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">员工编号：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input disabled="disabled" type="text" name="staffCode" id="staffCode" placeholder="这里输入员工编号" value="${staff.staffCode }" title="员工编号"   maxlength="32"  /></td>
-				<td style="width:120px;text-align: right;padding-top: 13px;">员工姓名：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffName" id="staffName" placeholder="这里输入员工姓名" value="${staff.staffName }" title="员工姓名"   maxlength="32"  /></td>
-			</tr>
-			<tr>	
-				<td style="width:120px;text-align: right;padding-top: 13px;">开户行：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffBank" id="staffBank" placeholder="这里输入开户行" value="${staff.staffBank }" title="开户行"   maxlength="32" /></td>
-				<td style="width:120px;text-align: right;padding-top: 13px;">银行卡号：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffBankcard" id="staffBankcard" placeholder="这里输入银行卡号" value="${staff.staffBankcard }" title="银行卡号"   maxlength="32" /></td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input disabled="disabled" type="text" 
+					name="staffCode" id="staffCode" placeholder="这里输入员工编号" value="${staff.staffCode }" title="员工编号"   maxlength="8"  /></td>
 			</tr>
 			<tr>	
 				<td style="width:120px;text-align: right;padding-top: 13px;">身份证号：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffIdcard" id="staffIdcard" placeholder="这里输入身份证号" value="${staff.staffIdcard }" title="身份证号"   maxlength="32" /></td>
-				<td style="width:120px;text-align: right;padding-top: 13px;">联系电话：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffPhone" id="staffPhone" placeholder="这里输入联系电话" value="${staff.staffPhone }" title="联系电话"   maxlength="32" /></td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffIdcard" 
+					id="staffIdcard" placeholder="这里输入身份证号" value="${staff.staffIdcard }" title="身份证号"   maxlength="18" /></td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">员工姓名：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffName" id="staffName" placeholder="这里输入员工姓名" value="${staff.staffName }" title="员工姓名"   maxlength="10"  /></td>
 			</tr>
 			<tr>	
 				<td style="width:120px;text-align: right;padding-top: 13px;">员工性别：</td>
@@ -129,6 +165,13 @@
 								</systab:dataDictionary>
 					</select>
 				</td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">联系电话：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffPhone" 
+					id="staffPhone" placeholder="这里输入联系电话" value="${staff.staffPhone }" title="联系电话"   maxlength="11" /></td>
+			</tr>
+			<tr>	
+				<td style="width:120px;text-align: right;padding-top: 13px;">入职日期：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input class="span10 date-picker" name="staffInDate" name="staffInDate" style="width:205px;"  value="${staff.staffInDate}" type="text" data-date-format="yyyy-mm-dd" style="width:88px;" placeholder="入职日期" title="入职日期"/></td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">员工照片：</td>
 				<td style="width: 120px; text-align: left; padding-top: 13px;">
 					<c:if test="${staff.staffPhoto != null}">
@@ -140,21 +183,20 @@
 				</td>
 			</tr>
 			<tr>	
-				<td style="width:120px;text-align: right;padding-top: 13px;">入职日期：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input class="span10 date-picker" name="staffInDate" name="staffInDate" style="width:205px;"  value="${staff.staffInDate}" type="text" data-date-format="yyyy-mm-dd" style="width:88px;" placeholder="入职日期" title="入职日期"/></td>
-				<td style="width:120px;text-align: right;padding-top: 13px;">员工所属职务：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;">
-					<select name="dutyCode" id="dutyCode" class="chzn-select" data-placeholder="请选择员工所属职务" 
-							style="vertical-align:top;width: 220px;" title="员工所属职务" >
-								<option value=""></option>
-								<biztab:biz type="duty" code="all">
-									<option value="${obj.dutyCode}"  ${obj.dutyCode==staff.dutyCode ? 'selected="selected"' : '' }>${obj.dutyName}</option>
-								</biztab:biz>
-					</select>
-				</td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">银行卡号：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" 
+					name="staffBankcard" id="staffBankcard" placeholder="这里输入银行卡号" value="${staff.staffBankcard }" title="银行卡号"   maxlength="23" /></td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">开户行：</td>
+				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="staffBank" id="staffBank" placeholder="这里输入开户行" value="${staff.staffBank }" title="开户行"   maxlength="32" /></td>
 			</tr>
 			<tr>
-				<td style="width:120px;text-align: right;padding-top: 13px;">员工所属油站：</td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">银行卡备注：</td>
+				<td ><input type="text" name="bankCardRemark" id="bankCardRemark" placeholder="这里输入银行卡备注" value="${staff.bankCardRemark }" title="银行卡备注"   maxlength="100" /></td>
+				<td style="width:120px;text-align: right;padding-top: 13px;">员工备注：</td>
+				<td><input type="text" name="remark" id="remark" placeholder="这里输入员工备注" value="${staff.remark }" title="员工备注" /></td>
+			</tr>
+			<tr>
+				<td style="width:120px;text-align: right;padding-top: 13px;">所属油站/区域：</td>
 				<td style="width:120px;text-align: left;padding-top: 13px;">
 					<select name="stationCode" id="stationCode" class="chzn-select" data-placeholder="请选择员工所属油站" 
 						style="vertical-align:top;width: 220px;" title="员工所属油站" disabled=disabled >
@@ -164,8 +206,7 @@
 						</biztab:biz>
 					</select>
 				</td>
-				<td style="width:120px;text-align: right;padding-top: 13px;">备注：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><input type="text" name="remark" id="remark" placeholder="这里输入备注" value="${staff.remark}" title="备注" /></td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
 				<td  style="text-align: center;" colspan="10">

@@ -21,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
 import com.fh.entity.biz.LossBonus;
+import com.fh.entity.biz.Staff;
 import com.fh.entity.system.DataDictionary;
 import com.fh.entity.system.Flag;
 import com.fh.service.operation.LossBonusService;
+import com.fh.service.station.StaffService;
 import com.fh.service.system.DataDictionaryService;
 import com.fh.util.AutoYearMonth;
 import com.fh.util.StringUtil;
@@ -43,6 +45,9 @@ public class OtherBonusController extends BaseController {
 
 	@Autowired
 	private DataDictionaryService dataDictionaryService;
+	
+	@Autowired
+	private StaffService staffService;
 
 	/**
 	 * 查询列表 - 分页
@@ -58,11 +63,16 @@ public class OtherBonusController extends BaseController {
 			String yearMonth = autoYearMonth.getAutoYearMonth(); // 获取上个月的年月份日期
 			lossBonus.setYearMonth(yearMonth);
 		}
+		boolean clean = false;
 		if (StringUtil.isBlank(lossBonus.getType())) {
-			lossBonus.setType(LossBonus.TYPE_DEDUCT);// 获取补贴配置
+			lossBonus.setType(LossBonus.TYPE_DEDUCT + "," + LossBonus.TYPE_OTHERS);// 获取补贴配置
+			clean = true;
 		}
 		page = this.lossBonusService.queryPage(page, lossBonus);
 		model.addAttribute("pageList", page);
+		if(clean){
+			lossBonus.setType("");
+		}
 		model.addAttribute("lossBonus", lossBonus);
 		return "operation/otherBonus/otherBonusList";
 	}
@@ -74,7 +84,7 @@ public class OtherBonusController extends BaseController {
 	public String importLossBonus(HttpServletRequest request, String type,
 			MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -122,7 +132,8 @@ public class OtherBonusController extends BaseController {
 		LossBonus lossBonus = null;
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
-
+		String cellReference = "";
+		String excMes = "";
 		// 解析数据
 		for (int rowNum = 2; rowNum < sheet.getLastRowNum() + 1; rowNum++) {
 			cellNum = 0;
@@ -143,7 +154,7 @@ public class OtherBonusController extends BaseController {
 				stationCode = String.valueOf(row2.getCell(cellNum));
 				lossBonus.setStationCode(stationCode);
 			} else {
-				break;
+				continue;
 			}
 			// 油站名称
 			cellNum++;
@@ -154,8 +165,15 @@ public class OtherBonusController extends BaseController {
 					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				staffCode = String.valueOf(row2.getCell(cellNum));
 				lossBonus.setStaffCode(staffCode);
+				
+				Staff staff = staffService.queryStaffByStaffCode(staffCode,
+						stationCode);
+				if (staff == null) {
+					excMes = excMes + "\n" + "第" + (rowNum + 1) + "行员工不存在，请检查油站编号："+ stationCode
+							+ ",员工编号：" + staffCode;
+				}
 			} else {
-				throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【员工编号】未填写！";
 			}
 			// 员工姓名
 			cellNum++;
@@ -168,33 +186,41 @@ public class OtherBonusController extends BaseController {
 			// 奖金金额
 			cellNum++;
 			BigDecimal lossBonusAmt = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-				lossBonusAmt = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				// lossBonus.setOtherBonusAmt(otherBonusAmt);
-				lossBonus.setLossBonusAmt(lossBonusAmt);
-			} else {
-				// lossBonus.setOtherBonusAmt(BigDecimal.ZERO);
-				throw new Exception("第" + (rowNum + 1) + "行【奖金金额】未填写！");
+			try {
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+					cellReference = row2.getCell(cellNum).getReference();
+					lossBonusAmt = new BigDecimal(String.valueOf(row2
+							.getCell(cellNum)));
+					// lossBonus.setOtherBonusAmt(otherBonusAmt);
+					lossBonus.setLossBonusAmt(lossBonusAmt);
+				} else {
+					// lossBonus.setOtherBonusAmt(BigDecimal.ZERO);
+					excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【奖金金额】未填写！";
+				}
+			} catch (NumberFormatException e) {
+				excMes = excMes + "\n" + "单元格:" + cellReference + ",数据格式有误(数值型)！";
 			}
 			// 奖金类型
 			cellNum++;
 			if (null == row2.getCell(cellNum)
 					|| "".equals(row2.getCell(cellNum))) {
-				throw new Exception("第" + (rowNum + 1) + "行【奖金类型】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【奖金类型】未填写！";
 			}
 			String bonusType = dataDictionaryService.getValueType(
 					DataDictionary.CT_BONUS_TYPE, row2.getCell(cellNum)
 							.toString());
 			if (StringUtil.isEmpty(bonusType)) {
-				throw new Exception("第" + (rowNum + 1) + "行【奖金类型】填写不正确！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【奖金类型】填写不正确！";
+				continue;
 			}
 			lossBonus.setType(bonusType);
 			lossBonus.setYearMonth(yearMonth);
 			lossBonusList.add(lossBonus);
 		}
-
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		// 判断上传的是否是没有数据的空文件模板
 		if (null != lossBonusList && lossBonusList.size() != 0) {
 			lossBonusService.insertAllByYearMonth(lossBonusList);

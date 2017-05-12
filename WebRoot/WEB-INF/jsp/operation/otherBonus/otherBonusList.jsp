@@ -88,7 +88,6 @@
 					<!-- 检索  -->
 					<form action="<%=basePath%>otherBonus/queryList.do"
 						name="manageBaseForm" id="manageBaseForm" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="type" value="11"/>
 						<table>
 							<tr>
 								<td style="vertical-align:top;"><span class="input-icon"> <input readonly="readonly"

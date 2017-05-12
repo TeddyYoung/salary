@@ -21,6 +21,7 @@ import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
 import com.fh.entity.biz.ManageBase;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.operation.ManageBaseService;
 import com.fh.util.AutoYearMonth;
 import com.fh.util.UploadFile;
@@ -42,8 +43,8 @@ public class PartStationBonusController extends BaseController {
 			String yearMonth = autoYearMonth.getAutoYearMonth(); //获取上个月的年月份日期
 			manageBase.setYearMonth(yearMonth);
 		}
-				
-		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase.getYearMonth(),manageBase.getStaffName());
+		manageBase.setBonusBase(BigDecimal.ZERO);		
+		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase);
 		model.addAttribute("pageList", pageList);
 		model.addAttribute("st", manageBase);
 		return "masterdata/partStationBonus/partStationBonusList";
@@ -57,7 +58,7 @@ public class PartStationBonusController extends BaseController {
 	public String importPartStationBonus(HttpServletRequest request, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -103,7 +104,7 @@ public class PartStationBonusController extends BaseController {
 		ManageBase manageBase = null;
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
-		
+		String excMes = "";
 		// 解析数据
 		for (int rowNum = 2; rowNum < sheet.getLastRowNum() + 1; rowNum++) {
 			cellNum = 0; //油站编号
@@ -115,7 +116,7 @@ public class PartStationBonusController extends BaseController {
 				stationCode = String.valueOf(row2.getCell(cellNum));
 				manageBase.setStationCode(stationCode);
 			}else{
-				break;
+				continue;
 			}
 			//油站名称
 			cellNum++;
@@ -126,7 +127,8 @@ public class PartStationBonusController extends BaseController {
 				staffCode = String.valueOf(row2.getCell(cellNum));
 				manageBase.setStaffCode(staffCode);
 			}else{
-				throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【员工编号】未填写！";
+				//throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
 			}
 			
 			//员工姓名
@@ -142,16 +144,26 @@ public class PartStationBonusController extends BaseController {
 			if (null != row2.getCell(cellNum) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				bonusBase = new BigDecimal(String.valueOf(row2.getCell(cellNum)));
 			}else{
-				throw new Exception("第" + (rowNum + 1) + "行【兼站奖金】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【兼站奖金】未填写！";
+				//throw new Exception("第" + (rowNum + 1) + "行【兼站奖金】未填写！");
 			}
 			manageBase.setBonusBase(bonusBase);
 			manageBase.setYearMonth(yearMonth);
 			manageBaseList.add(manageBase);
 		}
-		
+		boolean submit = true;
 		//判断上传的是否是没有数据的空文件模板
 		if (null != manageBaseList && manageBaseList.size() != 0) {
-			manageBaseService.insertAllByYearMonth(manageBaseList);
+			if(!"".equals(excMes)){
+				submit = false;
+			}
+			ResultVO resultVO = manageBaseService.insertAllByYearMonth(manageBaseList,submit);
+			if(resultVO.getFail() > 0){
+				excMes = excMes + resultVO.getFailMes();
+			}
+			if (!"".equals(excMes)) {
+				throw new Exception(excMes);
+			}
 			return "redirect:/partStationBonus/queryList.do";
 		}else{
 			Flag flag = new Flag();

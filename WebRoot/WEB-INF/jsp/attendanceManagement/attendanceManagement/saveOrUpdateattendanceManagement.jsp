@@ -30,12 +30,30 @@
 <!-- 确认窗口 -->
 <!-- 引入 -->
 <script type="text/javascript" src="static/js/jquery.tips.js"></script>
+<!-- <script src="http://cdn.bootcss.com/jquery/1.12.2/jquery.js"></script> -->
+<script src="static/js/dataTables/dataTables.fixedColumns.min.js"></script>
+<link href='static/js/dataTables/fixedColumns.bootstrap.min.css'/>
+<script>
+$(document).ready(function() {
+    var table = $('#table-body').DataTable( {
+        scrollY:        "3500px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        ordering: false,//排序功能
+        searching: false,
+        fixedColumns:   {
+            leftColumns: 5
+        }
+    } );
+} );
+</script>
 <!--提示框-->
 <script type="text/javascript">
 	$(top.hangge());
 	
 	//确认添加或修改信息
-	function ok() {
+	function ok(flag) {
 		//验证每一个输入域的值, 必须是数字
 		var count=${fn:length(attendanceManagementList)};
 		var reg=new RegExp("^([0-9])+(\\.[0-9]+)?$"); //数字就可以
@@ -563,8 +581,35 @@
 				return false;
 			}
 		} 
-		top.jzts();
-		$("#attendanceManagementForm").submit();
+		//top.jzts();
+		bootbox.confirm("请确认考勤信息已填写完整无误,审批中的考勤信息将不能修改。确定立即提交？", function(result) {
+			if(result) {
+				if(flag == 1){
+					$.ajax({
+		                type: "POST",
+		                url:'<%=basePath%>attendanceManagement/attendanceUpdate.do?isSubmit=0',
+		                data:$('#attendanceManagementForm').serialize(),// 
+		                async: false,
+		                error:function() {
+		                	alert("保存失败");
+		                },
+		                success: function(data) {
+		                	if(data.result == 1){
+		                		alert("保存成功,请提交审批");
+			                	window.close();
+		                	}else{
+		                		alert(date.message);
+		                	}
+		                	
+		                }
+		            });
+				}else{
+					$("#attendanceManagementForm").submit();
+				}
+				
+			}
+		});	
+		
 	}
 
 	//取消
@@ -633,10 +678,16 @@
     border-color: rgb(221, 221, 221);
     vertical-align:baseline;
 }
-
+th, td { white-space: nowrap; }
+.DTFC_LeftBodyWrapper{
+	background:#fff;
+}
+#table-body_info{
+	display:none
+}
 </style>
 </head>
-<body>
+<body style="overflow-x:hidden">
 	<div class="container-fluid" id="main-container">
 		<div id="page-content" class="clearfix" style="padding:0px 20px 24px;">
 			<div class="row-fluid">
@@ -664,29 +715,92 @@
 						<div style="margin-left:-100px;position:fixed;background:white; padding: 7px;padding-left:0;width: 5500px;margin-top: -5px;">
 							<table>
 								<tr>
-									<td><a 
-										class="btn btn-mini btn-info" onclick="ok();" style="margin-top:-10px;margin-left:100px;">提交审批</a></td>
+								<c:choose>  
+							   <c:when test="${isSave == 1}">
+					                   <td><a 
+										class="btn btn-mini btn-info" onclick="ok(1);" style="margin-top:-10px;margin-left:100px;">
+										保存</a></td>      
+							   </c:when>  
+							   <c:otherwise>
+							    <td><a 
+									class="btn btn-mini btn-info" onclick="ok(0);" style="margin-top:-10px;margin-left:100px;">
+										  提交审批</a></td>     
+							   </c:otherwise>  
+							</c:choose>  
 									<td><a
-										class="btn btn-mini btn-info" onclick="no();" style="margin-top:-10px;">取消</a>
+										class="btn btn-mini btn-danger" onclick="no();" style="margin-top:-10px;">取消</a>
 								</tr>
 							</table>
 						</div>
 						<div style="height:30px;"></div>
-						<table id="table_report" border="1px" style="width:3500px;border:1px solid #ddd;position:absolute!important;">
+<!-- 						<table id="table_report" border="1px" style="width:3500px;border:1px solid #ddd;position:absolute!important;"> -->
 							
-							<thead >
-								<tr style="background:linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);">
+<!-- 							<thead > -->
+<!-- 								<tr style="background:linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);"> -->
+<!-- 									
+<!-- 									<th class="center"style="width:70px;color:#707070" >油站名称</th> -->
+<!-- 									<th class="center"style="width:75px;color:#707070">油站编号</th> -->
+<!-- 									<th class="center"style="width:80px;color:#707070">地区类型</th> -->
+<!-- 									<th class="center"style="width:75px;color:#707070">油站星级</th> -->
+<!-- 									 --> 
+<!-- 									<th class="center"style="width:33px;color:#707070">序号</th> -->
+<!-- 									<th class="center"style="width:65px;color:#707070">员工编号</th> -->
+<!-- 									<th class="center"style="width:65px;color:#707070">员工姓名</th> -->
+<!-- 		                            <th class="center" style="width:60px;color:#707070">职务</th> -->
+<!-- 									<th class="center"style="width:80px;color:#707070">入职日期</th> -->
+<!-- 									<th class="center"style="width:44px;color:#707070">工作日</th> -->
+<!-- 									<th class="center"style="width:100px;color:#707070">是否管站\带班</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否实习期内</th> -->
+<!-- 									<th class="center" style="width:140px;color:#707070">本月实习期满后工作天数</th> -->
+<!-- 									<th class="center" style="width:65px;color:#707070">平时超时</th> -->
+<!-- 									<th class="center" style="width:65px;color:#707070">节日加班</th> -->
+<!-- 									<th class="center" style="width:80px;color:#707070">跨站支援(天)</th> -->
+<!-- 									<th class="center" style="width:80px;color:#707070">年夜饭在岗</th> -->
+<!-- 									<th class="center"style="width:120px;color:#707070">春节在岗</th> -->
+<!-- <!-- 									<th class="center"style="width:120px;color:#707070">春节在岗（阶段二）</th> --> 
+<!-- 									<th class="center"style="width:120px;color:#707070">夜班在岗</th> -->
+<!-- 									<th class="center" style="width:60px;color:#707070">本月离职</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">事假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">旷工</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">病假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">年假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">婚假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">产假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">丧假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">调休</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">警告</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">记过</th> -->
+<!-- 									<th class="center" style="width:75px;color:#707070">重大事故</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否保留宿舍</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否搭伙</th> -->
+<!-- 									<th class="center" style="width:90px;color:#707070">精彩卡-蓝色版</th> -->
+<!-- 									<th class="center" style="width:90px;color:#707070">精彩卡-绿色版</th> -->
+<!-- 									<th class="center" style="width:110px;color:#707070">兼职便利店员比例(%)</th> -->
+<!-- 									<th class="center" style="width:130px;color:#707070">月度绩效<font color="red">（百分制）</font></th> -->
+<!-- 									<th class="center" style="width:110px;color:#707070">经理奖金分配比例(%)</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">备注</th> -->
+<!-- 									<th class="center" style="width:70px;color:#707070">月份</th> -->
+<!-- 								</tr> -->
+<!-- 							</thead> -->
+<!-- 							</table> -->
+							
+							<div class="table-body" style="margin-top:45px;">
+							<table id="table-body" border="1px" style="width:3500px;border:1px solid #ddd;" class="11 stripe row-border order-column" cellspacing="0" width="100%">
+							<thead>
+						
+							<tr style="background:linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);">
 									<!-- 
 									<th class="center"style="width:70px;color:#707070" >油站名称</th>
 									<th class="center"style="width:75px;color:#707070">油站编号</th>
 									<th class="center"style="width:80px;color:#707070">地区类型</th>
 									<th class="center"style="width:75px;color:#707070">油站星级</th>
 									 -->
-									<th class="center"style="width:33px;color:#707070">序号</th>
+									<th class="center"style="width:40px;color:#707070">序号</th>
 									<th class="center"style="width:65px;color:#707070">员工编号</th>
 									<th class="center"style="width:65px;color:#707070">员工姓名</th>
 		                            <th class="center" style="width:60px;color:#707070">职务</th>
 									<th class="center"style="width:80px;color:#707070">入职日期</th>
+									<th class="center"style="width:80px;color:#707070">离职日期</th>
 									<th class="center"style="width:44px;color:#707070">工作日</th>
 									<th class="center"style="width:100px;color:#707070">是否管站\带班</th>
 									<th class="center" style="width:100px;color:#707070">是否实习期内</th>
@@ -720,12 +834,8 @@
 									<th class="center" style="width:100px;color:#707070">备注</th>
 									<th class="center" style="width:70px;color:#707070">月份</th>
 								</tr>
-							</thead>
-							</table>
-							
-							<div class="table-body" style="margin-top:45px;">
-							<table border="1px" style="width:3500px;border:1px solid #ddd;" class="11" >
-							<tbody>
+								</thead>
+								<tbody>
 								<c:choose>
 									<c:when test="${!empty attendanceManagementList}">
 										<c:forEach items="${attendanceManagementList}" var="am" varStatus="vs">
@@ -738,16 +848,17 @@
 												<td>${am.areaName}</td>
 												<td>${am.stationLevelName}</td>
 												 -->
-												<td style="width:42px;">
-													<input type="hidden" name="attendanceManagementList[${vs.index}].id" value="${am.id}" />
-													<input type="hidden" name="attendanceManagementList[${vs.index}].staffCode" value="${am.staffCode}" />
-													<input type="hidden" name="attendanceManagementList[${vs.index}].stationCode" value="${am.stationCode}" />
+												<td style="width:40px;">
 													${vs.count}
 												</td>
+												<input type="hidden" name="attendanceManagementList[${vs.index}].id" value="${am.id}" />
+												<input type="hidden" name="attendanceManagementList[${vs.index}].staffCode" value="${am.staffCode}" />
+												<input type="hidden" name="attendanceManagementList[${vs.index}].stationCode" value="${am.stationCode}" />
 												<td style="width:82px;">${am.staffCode}</td>
 												<td style="width:82px;">${am.staffName}</td>
 												<td style="width:76px;">${am.dutyName}</td>
 												<td style="width:101px;">${am.staffInDate}</td>
+												<td style="width:101px;">${am.staffOutDate}</td>
 												<td style="width:56px;">
 													<input style="width:40px;margin-top:5px;" type="text" id="workingDay${vs.index}" name="attendanceManagementList[${vs.index}].workingDay"
 														   value="<fmt:formatNumber type='number' value='${am.workingDay==null?0:am.workingDay}' pattern='0.0' maxFractionDigits='2' />"/>
@@ -905,54 +1016,54 @@
 								</c:choose>
 							</tbody>
 						</table>
-						<table id="table_report" border="1px" style="width:3500px;border:1px solid #ddd;position:absolute!important;">
+<!-- 						<table id="table_report" border="1px" style="width:3500px;border:1px solid #ddd;position:absolute!important;"> -->
 							
-							<thead >
-								<tr style="background:linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);">
-									<!-- 
-									<th class="center"style="width:70px;color:#707070" >油站名称</th>
-									<th class="center"style="width:75px;color:#707070">油站编号</th>
-									<th class="center"style="width:80px;color:#707070">地区类型</th>
-									<th class="center"style="width:75px;color:#707070">油站星级</th>
-									 -->
-									<th class="center"style="width:33px;color:#707070">序号</th>
-									<th class="center"style="width:65px;color:#707070">员工编号</th>
-									<th class="center"style="width:65px;color:#707070">员工姓名</th>
-		                            <th class="center" style="width:60px;color:#707070">职务</th>
-									<th class="center"style="width:80px;color:#707070">入职日期</th>
-									<th class="center"style="width:44px;color:#707070">工作日</th>
-									<th class="center"style="width:100px;color:#707070">是否管站\带班</th>
-									<th class="center" style="width:100px;color:#707070">是否实习期内</th>
-									<th class="center" style="width:140px;color:#707070">本月实习期满后工作天数</th>
-									<th class="center" style="width:65px;color:#707070">平时超时</th>
-									<th class="center" style="width:65px;color:#707070">节日加班</th>
-									<th class="center" style="width:80px;color:#707070">年夜饭在岗</th>
-									<th class="center"style="width:120px;color:#707070">春节在岗（阶段一）</th>
-									<th class="center"style="width:120px;color:#707070">春节在岗（阶段二）</th>
-									<th class="center" style="width:60px;color:#707070">本月离职</th>
-									<th class="center" style="width:50px;color:#707070">事假</th>
-									<th class="center" style="width:50px;color:#707070">旷工</th>
-									<th class="center" style="width:50px;color:#707070">病假</th>
-									<th class="center" style="width:50px;color:#707070">年假</th>
-									<th class="center" style="width:50px;color:#707070">婚假</th>
-									<th class="center" style="width:50px;color:#707070">产假</th>
-									<th class="center" style="width:50px;color:#707070">丧假</th>
-									<th class="center" style="width:50px;color:#707070">调休</th>
-									<th class="center" style="width:50px;color:#707070">警告</th>
-									<th class="center" style="width:50px;color:#707070">记过</th>
-									<th class="center" style="width:75px;color:#707070">重大事故</th>
-									<th class="center" style="width:100px;color:#707070">是否保留宿舍</th>
-									<th class="center" style="width:100px;color:#707070">是否搭伙</th>
-									<th class="center" style="width:90px;color:#707070">精彩卡-蓝色版</th>
-									<th class="center" style="width:90px;color:#707070">精彩卡-绿色版</th>
-									<th class="center" style="width:110px;color:#707070">兼职便利店员比例(%)</th>
-									<th class="center" style="width:130px;color:#707070">月度绩效<font color="red">（百分制）</font></th>
-									<th class="center" style="width:110px;color:#707070">经理奖金分配比例(%)</th>
-									<th class="center" style="width:100px;color:#707070">备注</th>
-									<th class="center" style="width:70px;color:#707070">月份</th>
-								</tr>
-							</thead>
-							</table>
+<!-- 							<thead > -->
+<!-- 								<tr style="background:linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);"> -->
+<!-- 									
+<!-- 									<th class="center"style="width:70px;color:#707070" >油站名称</th> -->
+<!-- 									<th class="center"style="width:75px;color:#707070">油站编号</th> -->
+<!-- 									<th class="center"style="width:80px;color:#707070">地区类型</th> -->
+<!-- 									<th class="center"style="width:75px;color:#707070">油站星级</th> -->
+<!-- 									 --> 
+<!-- 									<th class="center"style="width:33px;color:#707070">序号</th> -->
+<!-- 									<th class="center"style="width:65px;color:#707070">员工编号</th> -->
+<!-- 									<th class="center"style="width:65px;color:#707070">员工姓名</th> -->
+<!-- 		                            <th class="center" style="width:60px;color:#707070">职务</th> -->
+<!-- 									<th class="center"style="width:80px;color:#707070">入职日期</th> -->
+<!-- 									<th class="center"style="width:44px;color:#707070">工作日</th> -->
+<!-- 									<th class="center"style="width:100px;color:#707070">是否管站\带班</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否实习期内</th> -->
+<!-- 									<th class="center" style="width:140px;color:#707070">本月实习期满后工作天数</th> -->
+<!-- 									<th class="center" style="width:65px;color:#707070">平时超时</th> -->
+<!-- 									<th class="center" style="width:65px;color:#707070">节日加班</th> -->
+<!-- 									<th class="center" style="width:80px;color:#707070">年夜饭在岗</th> -->
+<!-- 									<th class="center"style="width:120px;color:#707070">春节在岗（阶段一）</th> -->
+<!-- 									<th class="center"style="width:120px;color:#707070">春节在岗（阶段二）</th> -->
+<!-- 									<th class="center" style="width:60px;color:#707070">本月离职</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">事假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">旷工</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">病假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">年假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">婚假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">产假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">丧假</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">调休</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">警告</th> -->
+<!-- 									<th class="center" style="width:50px;color:#707070">记过</th> -->
+<!-- 									<th class="center" style="width:75px;color:#707070">重大事故</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否保留宿舍</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">是否搭伙</th> -->
+<!-- 									<th class="center" style="width:90px;color:#707070">精彩卡-蓝色版</th> -->
+<!-- 									<th class="center" style="width:90px;color:#707070">精彩卡-绿色版</th> -->
+<!-- 									<th class="center" style="width:110px;color:#707070">兼职便利店员比例(%)</th> -->
+<!-- 									<th class="center" style="width:130px;color:#707070">月度绩效<font color="red">（百分制）</font></th> -->
+<!-- 									<th class="center" style="width:110px;color:#707070">经理奖金分配比例(%)</th> -->
+<!-- 									<th class="center" style="width:100px;color:#707070">备注</th> -->
+<!-- 									<th class="center" style="width:70px;color:#707070">月份</th> -->
+<!-- 								</tr> -->
+<!-- 							</thead> -->
+<!-- 							</table> -->
 						</div>
 					</form>
 
@@ -975,4 +1086,5 @@
 		table tr:nth-child(odd){background:#F9F9F9;}
 	</style>
 </body>
+
 </html>

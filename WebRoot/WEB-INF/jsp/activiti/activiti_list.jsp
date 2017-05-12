@@ -12,7 +12,7 @@
 	<head>
 		<base href="<%=basePath%>">
 		<meta charset="utf-8" />
-		<title>油站会计-待办事项</title>
+		<title>待办事项</title>
 		<meta name="description" content="overview & stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link href="static/css/bootstrap.min.css" rel="stylesheet" />
@@ -54,6 +54,7 @@
 		<tr>
 			<th class="center"  style="width: 50px;">序号</th>
 			<th class='center'>流程类型</th>
+			<th class='center'>所属油站</th>
 			<th class='center'>任务名称</th>
 			<th class='center'>执行者</th>
 			<th class='center'>开始时间</th>
@@ -74,6 +75,7 @@
 					<c:if test="${generalStaffLeaveOffice.flag==4}">考勤申请</c:if>
 					<c:if test="${generalStaffLeaveOffice.flag==5}">薪资差异申请</c:if>
 				</td>
+				<td class='center'>${generalStaffLeaveOffice.staff.stationName}</td>
 				<td class='center'>${generalStaffLeaveOffice.task.name}</td>
 				<td class='center'>${generalStaffLeaveOffice.task.assignee}</td>
 				<td class='center'><fmt:formatDate value="${generalStaffLeaveOffice.task.createTime}" type="both"/></td>

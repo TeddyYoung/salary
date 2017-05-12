@@ -71,6 +71,7 @@
 				<td style="width: 120px; text-align: right; padding-top: 13px;">批注：</td>
 				<td colspan="3">
 					<textarea rows="4" cols="38" style="width: 666px" id="message" name="message"></textarea>
+					<input type="hidden" name="nextUserName" id="nextUserName" value="${storeEmployeeVOList[0].username }" />
 				</td>
 			</tr>
 <!-- 			<tr>	 -->
@@ -91,11 +92,22 @@
 <!-- 			</tr> -->
 			<tr>
 				<td style="text-align: center;" colspan="10">
+					<input type="button" class="btn btn-mini btn-danger" name="outcome" onclick="javascript:history.go(-1)" value="返回" />
 					<c:forEach items="${variableList}" var="variable" varStatus="vs">
 						<input type="submit" class="btn btn-mini btn-primary" name="outcome" value="${variable}">
 					</c:forEach>
-					<a class="btn btn-mini btn-info" target="_blank"
-						href="<%=basePath%>attendanceManagement/saveOrUpdateattendanceManagement.do" >修改考勤数据</a>	
+<!-- 					<a class="btn btn-mini btn-info" target="_blank" -->
+<%-- 						href="<%=basePath%>attendanceManagement/saveOrUpdateattendanceManagement.do" >修改考勤数据</a>	 --%>
+					<c:choose>  
+					   <c:when test="${isMod == '1'}">
+						                 <a class="btn btn-mini btn-info" target="_blank"
+							href="<%=basePath%>attendanceManagement/saveOrUpdateattendanceManagement.do?isSubmit=0">修改考勤数据</a>	  
+					   </c:when>  
+					   <c:otherwise>  
+						 		<a class="btn btn-mini btn-info" target="_blank"
+							href="<%=basePath%>attendanceManagement/attendanceManagementList.do?${stationCode}">查看考勤数据</a>	
+					   </c:otherwise>  
+					</c:choose>  
 				</td>
 			</tr>
 		</table>
@@ -112,6 +124,7 @@
 			<th class='center'>任务名称</th>
 			<th class='center'>执行者</th>
 			<th class='center'>操作</th>
+			<th class='center'>批注</th>
 			<th class='center'>开始时间</th>
 			<th class='center'>结束时间</th>
 		</tr>
@@ -124,6 +137,14 @@
 				<td class='center'>${actHiActinst.actName} </td>
 				<td class='center'>${actHiActinst.assignee}</td>
 				<td class='center'>${actHiActinst.operation}</td>
+				<c:choose>
+					<c:when test="${actHiActinst.taskId != null && actHiActinst.taskId != ''}">
+						<td class='center'>${comment[actHiActinst.taskId]}</td>
+					</c:when>
+					<c:otherwise>
+						<td></td>
+					</c:otherwise>
+				</c:choose>
 				<td class='center'><fmt:formatDate value="${actHiActinst.startTime}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 				<td class='center'><fmt:formatDate value="${actHiActinst.endTime}" pattern="yyyy-MM-dd HH:mm:ss" /> </td>
 				</tr>

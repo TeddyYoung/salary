@@ -36,6 +36,8 @@ public class AttendanceManagement implements Serializable {
      */
     private String staffBankcard;
     
+    private String bankCardRemark;
+    
     /**
      * 关联员工银行卡号所属银行
      */
@@ -268,6 +270,10 @@ public class AttendanceManagement implements Serializable {
      * 库提奖金
      */
     private BigDecimal inventoryDeductAmt;
+    /**
+     * 其他奖金
+     */
+    private BigDecimal otherBonus;
     
     /**
      * 医疗保险
@@ -288,6 +294,15 @@ public class AttendanceManagement implements Serializable {
      * 继续教育扣款
      */
     private BigDecimal educationCost;
+    
+    /**
+     * 离职日期
+     */
+    private String staffOutDate;
+    
+    public static final String STATUS_SUBMITTED = "0";
+    
+    public static final String STATUS_APPROVED = "1";
 
     
     private static final long serialVersionUID = 1L;
@@ -812,6 +827,30 @@ public class AttendanceManagement implements Serializable {
 
 	public void setEducationCost(BigDecimal educationCost) {
 		this.educationCost = educationCost;
+	}
+
+	public String getStaffOutDate() {
+		return staffOutDate;
+	}
+
+	public void setStaffOutDate(String staffOutDate) {
+		this.staffOutDate = staffOutDate;
+	}
+
+	public BigDecimal getOtherBonus() {
+		return otherBonus;
+	}
+
+	public void setOtherBonus(BigDecimal otherBonus) {
+		this.otherBonus = otherBonus;
+	}
+
+	public String getBankCardRemark() {
+		return bankCardRemark;
+	}
+
+	public void setBankCardRemark(String bankCardRemark) {
+		this.bankCardRemark = bankCardRemark;
 	}
 
 

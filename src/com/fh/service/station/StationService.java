@@ -61,5 +61,6 @@ public interface StationService {
 	 * @return
 	 */
 	public List<Station> findAllStationWithStationTypeName();
+	public List<Station> findByDistrict(String districtCode);
 	
 }

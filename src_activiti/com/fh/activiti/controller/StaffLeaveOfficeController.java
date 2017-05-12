@@ -270,7 +270,7 @@ public class StaffLeaveOfficeController {
 		// 流程结束了
 		if (pi == null) {
 			staff.setStaffStatus("2");
-			staff.setStaffOutStatus(null);
+			staff.setStaffOutStatus("2");
 		} else {
 			staff.setStaffOutStatus("1");
 		}

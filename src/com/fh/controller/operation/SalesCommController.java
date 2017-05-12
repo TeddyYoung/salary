@@ -50,7 +50,7 @@ public class SalesCommController extends BaseController {
 	public String importExcel(HttpServletRequest request, String type,
 			MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();

@@ -32,7 +32,7 @@ public class SysConstant {
 	public static String CURRENT_USER_PASSWORD = "123456";
 	
 	//分页显示中每页显示的记录条数
-	public static Integer CURRENT_PAGE_SIZE = 30;
+	public static Integer CURRENT_PAGE_SIZE = 15;
 	
 	//上传文件的根目录
 	public static String UPLOAD_ROOT_DIRECTORY = "uploadFiles";

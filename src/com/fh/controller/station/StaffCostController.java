@@ -66,7 +66,9 @@ public class StaffCostController extends BaseController {
 	 */
 	@RequestMapping("/saveOrUpdateStaffCost.do")
 	public String saveOrUpdateStaffCost(HttpServletRequest request,Model model) throws Exception {
-		
+		if (!this.checkData()) {
+			throw new Exception("数据维护日期已截止,无法操作!");
+		}
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth(); //获取上个月的年月份日期
 		StoreEmployee user = (StoreEmployee)request.getSession().getAttribute(SysConstant.CURRENT_USER_INFO);
@@ -103,9 +105,9 @@ public class StaffCostController extends BaseController {
 	 */
 	@RequestMapping("/staffCostRealSaveOrUpdate.do")
 	public String StaffCostRealSaveOrUpdate(StaffCostVO staffCostVO, Model model) throws Exception {
-		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
-		}
+//		if (!this.checkData()) {
+//			throw new Exception("数据维护日期已截止,无法操作!");
+//		}
 		if (staffCostVO.getStaffCostList() != null && staffCostVO.getStaffCostList().size() > 0) {
 			staffCostService.saveOrUpdateStaffCost(staffCostVO.getStaffCostList());
 		}
@@ -117,11 +119,12 @@ public class StaffCostController extends BaseController {
 	 * 上传员工数据表
 	 * 只需要Excel中的一个字段, "共计"
 	 */
-	@RequestMapping("/importStaffData.do")
+	//@RequestMapping("/importStaffData.do")
+	@Deprecated
 	public String importStaffData(HttpServletRequest request, String type, String ym, 
 			   MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -169,32 +172,32 @@ public class StaffCostController extends BaseController {
 		XSSFRow row = null;
 		XSSFCell cell = null;
 		ExcelUtil excelUtil = new ExcelUtil();
-		for (int rowNum = 2; rowNum < sheet.getLastRowNum(); rowNum++) { //从第3行开始
-			row = sheet.getRow(rowNum);
-			cellNum = 3; //读取员工的身份证号
-			cell = row.getCell(cellNum);
-			String idCardCellValue = String.valueOf(cell);
-			String stationCode = "";
-			if (null != idCardCellValue && !"".equals(idCardCellValue)) {
-				StaffCost staffCost = staffCostService.findStaffCostByStaffIdCardAndYearMonth(idCardCellValue, yearMonth,stationCode);
-				if (null != staffCost) { //设置共计的值
-					cellNum = 4;
-					cell = row.getCell(cellNum);
-					BigDecimal cellValue = excelUtil.getBigDecimalValue(cell);
-					if (null == cellValue) {
-						BigDecimal bigDecimal = new BigDecimal("0");
-						staffCost.setTotal(bigDecimal);
-					}else{
-						staffCost.setTotal(cellValue);
-					}
-					staffCostService.update(staffCost);
-				}else{
-					continue;
-				}
-			}else{
-				break;
-			}
-		} 
+//		for (int rowNum = 2; rowNum < sheet.getLastRowNum(); rowNum++) { //从第3行开始
+//			row = sheet.getRow(rowNum);
+//			cellNum = 3; //读取员工的身份证号
+//			cell = row.getCell(cellNum);
+//			String idCardCellValue = String.valueOf(cell);
+//			String stationCode = "";
+//			if (null != idCardCellValue && !"".equals(idCardCellValue)) {
+//				StaffCost staffCost = staffCostService.findStaffCostByStaffIdCardAndYearMonth(idCardCellValue, yearMonth,stationCode);
+//				if (null != staffCost) { //设置共计的值
+//					cellNum = 4;
+//					cell = row.getCell(cellNum);
+//					BigDecimal cellValue = excelUtil.getBigDecimalValue(cell);
+//					if (null == cellValue) {
+//						BigDecimal bigDecimal = new BigDecimal("0");
+//						staffCost.setTotal(bigDecimal);
+//					}else{
+//						staffCost.setTotal(cellValue);
+//					}
+//					staffCostService.update(staffCost);
+//				}else{
+//					continue;
+//				}
+//			}else{
+//				break;
+//			}
+//		} 
 		return "redirect:/staffCost/staffCostList.do";
 		
 	}

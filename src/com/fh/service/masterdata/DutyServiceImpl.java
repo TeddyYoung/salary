@@ -1,7 +1,9 @@
 package com.fh.service.masterdata;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class DutyServiceImpl implements DutyService {
 	
 	@Autowired
 	private DutyDao dutyDao;
+	
+	private static Map<String, String> dutyNameMap = new HashMap<String, String>();
 	
 	/**
 	 * 根据页码查询分页记录, 支持模糊查询
@@ -99,6 +103,24 @@ public class DutyServiceImpl implements DutyService {
 	public List<Duty> queryAll(){
 		DutyQuery dutyQuery=new DutyQuery();
 		return dutyDao.selectByExample(dutyQuery);
+	}
+	
+	@Override
+	public void init() {
+		List<Duty> list = queryAll();
+	//	dicList = list;
+		for (Duty duty : list) {
+			dutyNameMap.put(duty.getDutyCode(), duty.getDutyName());
+		}
+	}
+	
+	@Override
+	public String getDutyName(String dutyCode) {
+		if (dutyNameMap.size() == 0) {
+			init();
+		}
+		return dutyNameMap.get(dutyCode);
+
 	}
 
 }

@@ -36,12 +36,14 @@ import com.fh.dao.system.ActHiActinstDao;
 import com.fh.dao.system.CcTaskDao;
 import com.fh.entity.GeneralStaffLeaveOffice;
 import com.fh.entity.biz.Staff;
+import com.fh.entity.biz.Station;
 import com.fh.entity.system.ActHiActinst;
 import com.fh.entity.system.ActHiActinstQuery;
 import com.fh.entity.system.CcTask;
 import com.fh.entity.system.CcTaskQuery;
 import com.fh.entity.system.StoreEmployee;
 import com.fh.service.station.StaffService;
+import com.fh.service.station.StationService;
 
 /**
  * 工作流
@@ -76,6 +78,9 @@ public class ActivitiController {
 	//工作流工具类
 	@Autowired
 	private Activiti activiti;
+	
+	@Autowired
+	private StationService stationService;
 
 	// 跳转activiti发布页面
 	@RequestMapping("/activiti/todeploy.do")
@@ -145,6 +150,9 @@ public class ActivitiController {
 				String buninessId = "";
 				String flag = "";
 				String id = "";
+				String stationCode = "";
+				String stationName = "";
+				Staff staff = new Staff();
 				if (StringUtils.isNotBlank(buniness_key)) {
 					// 截取字符串，取buniness_key小数点的第2个值
 					buninessId = buniness_key.split("\\.")[1];
@@ -154,13 +162,19 @@ public class ActivitiController {
 						if (split != null && split.length > 0) {
 							id = split[0];
 							flag = split[1];
+							if(split.length > 2){
+								stationCode = split[2];
+								Station station = stationService.findOnlyStationByStationCode(stationCode);
+								stationName = station.getStationName();
+								staff.setStationName(stationName);
+							}
 						}
 					}
 				}
 				if (id == null || "".equals(id) || "null".equals(id)) {
-					Staff staff = staffService.queryStaffById(id);
-					generalStaffLeaveOffice.setStaff(staff);
+					staff = staffService.queryStaffById(id);
 				}
+				generalStaffLeaveOffice.setStaff(staff);
 				generalStaffLeaveOffice.setTask(task);
 				generalStaffLeaveOffice.setFlag(flag);
 				generalStaffLeaveOfficeList.add(generalStaffLeaveOffice);
@@ -196,6 +210,9 @@ public class ActivitiController {
 					String buniness_key = pi.getBusinessKey();
 					String buninessId = "";
 					String bid = "";
+					String stationCode = "";
+					String stationName = "";
+					Staff staff = new Staff();
 					if (StringUtils.isNotBlank(buniness_key)) {
 						// 截取字符串，取buniness_key小数点的第2个值
 						buninessId = buniness_key.split("\\.")[1];
@@ -205,14 +222,20 @@ public class ActivitiController {
 							if (split != null && split.length > 0) {
 								bid = split[0];
 								flag = split[1];
+								if(split.length > 2){
+									stationCode = split[2];
+									Station station = stationService.findOnlyStationByStationCode(stationCode);
+									stationName = station.getStationName();
+									staff.setStationName(stationName);
+								}
 							}
 						}
 					}
 					// 根据ID查询业务
 					if (bid == null || "".equals(bid) || "null".equals(bid)) {
-						Staff staff = staffService.queryStaffById(bid);
-						generalStaffLeaveOffice.setStaff(staff);
+						staff = staffService.queryStaffById(bid);
 					}
+					generalStaffLeaveOffice.setStaff(staff);
 					generalStaffLeaveOffice.setFlag(flag);
 					generalStaffLeaveOffice.setActHiActinst(hpi);
 					generalStaffLeaveOfficeList.add(generalStaffLeaveOffice);

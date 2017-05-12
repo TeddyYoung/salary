@@ -240,6 +240,7 @@
 									<th class="center">序号</th>
 									<!-- 									<th class='center'>员工编号</th> -->
 									<th class='center'>员工姓名</th>
+									<th class='center'>员工编号</th>
 									<th class="center">员工职务</th>
 									<th class='center'>身份证号</th>
 									<th class='center'>联系电话</th>
@@ -268,6 +269,7 @@
 												<%-- 														code="${staff.stationCode}">${obj.stationName }</biztab:biz></td> --%>
 												<%-- 												<td class="center">${staff.staffCode}</td> --%>
 												<td class="center">${staff.staffName}</td>
+												<td class="center">${staff.staffCode}</td>
 												<td class="center"><biztab:biz type="duty"
 														code="${staff.dutyCode }">${obj.dutyName }</biztab:biz></td>
 												<td class="center">${staff.staffIdcard}</td>

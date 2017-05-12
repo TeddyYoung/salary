@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 全局映射器启用缓存
+	<settings> 
+        <setting name="cacheEnabled" value="true" />  
+        <setting name="useGeneratedKeys" value="true" /> 
+        <setting name="defaultExecutorType" value="REUSE" /> 
+    </settings> -->   
+     <!-- mybatis 懒加载 
+    <settings>  
+        <setting name="lazyLoadingEnabled" value="true"/>  
+        <setting name="aggressiveLazyLoading" value="false"/>  
+    </settings> -->  
+
+	<typeAliases>
+		<package name="com.fh.entity"/>
+	</typeAliases>
+	
+	<!-- <plugins>
+		<plugin interceptor="com.fh.plugin.PagePlugin">
+			<property name="dialect" value="mysql"/>
+			<property name="pageSqlId" value=".*listPage.*"/>
+		</plugin>
+	</plugins> -->
+	
+</configuration>

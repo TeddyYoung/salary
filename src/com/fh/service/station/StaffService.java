@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fh.common.exception.BizException;
 import com.fh.common.page.Page;
 import com.fh.entity.biz.Staff;
 import com.fh.entity.biz.StaffTransfer;
@@ -82,7 +83,8 @@ public interface StaffService {
 	 * @param staff 员工调动对象
 	 */
 	public boolean staffTransfer(HttpServletRequest request,String type,
-			MultipartFile uploadPic,StaffTransfer staffTransfer,String sign,String flag,String staffId);
+			MultipartFile uploadPic,StaffTransfer staffTransfer,String sign,String flag,String staffId)
+			throws BizException;
 	/**
 	 * 根据id更新员工信息
 	 */

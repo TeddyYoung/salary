@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.ActHiActinstDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.ActHiActinst" >
+    <id column="ID_" property="id" jdbcType="NVARCHAR" />
+    <result column="PROC_DEF_ID_" property="procDefId" jdbcType="NVARCHAR" />
+    <result column="PROC_INST_ID_" property="procInstId" jdbcType="NVARCHAR" />
+    <result column="EXECUTION_ID_" property="executionId" jdbcType="NVARCHAR" />
+    <result column="ACT_ID_" property="actId" jdbcType="NVARCHAR" />
+    <result column="TASK_ID_" property="taskId" jdbcType="NVARCHAR" />
+    <result column="CALL_PROC_INST_ID_" property="callProcInstId" jdbcType="NVARCHAR" />
+    <result column="ACT_NAME_" property="actName" jdbcType="NVARCHAR" />
+    <result column="ACT_TYPE_" property="actType" jdbcType="NVARCHAR" />
+    <result column="ASSIGNEE_" property="assignee" jdbcType="NVARCHAR" />
+    <result column="START_TIME_" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME_" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="DURATION_" property="duration" jdbcType="NUMERIC" />
+    <result column="OPERATION_" property="operation" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      ID_, PROC_DEF_ID_, PROC_INST_ID_, EXECUTION_ID_, ACT_ID_, TASK_ID_, CALL_PROC_INST_ID_, 
+      ACT_NAME_, ACT_TYPE_, ASSIGNEE_, START_TIME_, END_TIME_, DURATION_, OPERATION_
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.ActHiActinstQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ACT_HI_ACTINST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    ID_,PROC_DEF_ID_,PROC_INST_ID_,EXECUTION_ID_,ACT_ID_,TASK_ID_,CALL_PROC_INST_ID_,ACT_NAME_,ACT_TYPE_,ASSIGNEE_,START_TIME_,END_TIME_,DURATION_,OPERATION_
+    from ACT_HI_ACTINST
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from ACT_HI_ACTINST
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.ActHiActinstQuery" >
+    delete from ACT_HI_ACTINST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.ActHiActinst" >
+    insert into ACT_HI_ACTINST (ID_, PROC_DEF_ID_, PROC_INST_ID_, 
+      EXECUTION_ID_, ACT_ID_, TASK_ID_, 
+      CALL_PROC_INST_ID_, ACT_NAME_, ACT_TYPE_, 
+      ASSIGNEE_, START_TIME_, END_TIME_, 
+      DURATION_, OPERATION_)
+    values (#{id,jdbcType=NVARCHAR}, #{procDefId,jdbcType=NVARCHAR}, #{procInstId,jdbcType=NVARCHAR}, 
+      #{executionId,jdbcType=NVARCHAR}, #{actId,jdbcType=NVARCHAR}, #{taskId,jdbcType=NVARCHAR}, 
+      #{callProcInstId,jdbcType=NVARCHAR}, #{actName,jdbcType=NVARCHAR}, #{actType,jdbcType=NVARCHAR}, 
+      #{assignee,jdbcType=NVARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{duration,jdbcType=NUMERIC}, #{operation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.ActHiActinst" >
+    insert into ACT_HI_ACTINST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID_,
+      </if>
+      <if test="procDefId != null" >
+        PROC_DEF_ID_,
+      </if>
+      <if test="procInstId != null" >
+        PROC_INST_ID_,
+      </if>
+      <if test="executionId != null" >
+        EXECUTION_ID_,
+      </if>
+      <if test="actId != null" >
+        ACT_ID_,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID_,
+      </if>
+      <if test="callProcInstId != null" >
+        CALL_PROC_INST_ID_,
+      </if>
+      <if test="actName != null" >
+        ACT_NAME_,
+      </if>
+      <if test="actType != null" >
+        ACT_TYPE_,
+      </if>
+      <if test="assignee != null" >
+        ASSIGNEE_,
+      </if>
+      <if test="startTime != null" >
+        START_TIME_,
+      </if>
+      <if test="endTime != null" >
+        END_TIME_,
+      </if>
+      <if test="duration != null" >
+        DURATION_,
+      </if>
+      <if test="operation != null" >
+        OPERATION_,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=NVARCHAR},
+      </if>
+      <if test="procDefId != null" >
+        #{procDefId,jdbcType=NVARCHAR},
+      </if>
+      <if test="procInstId != null" >
+        #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="executionId != null" >
+        #{executionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="actId != null" >
+        #{actId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=NVARCHAR},
+      </if>
+      <if test="callProcInstId != null" >
+        #{callProcInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="actName != null" >
+        #{actName,jdbcType=NVARCHAR},
+      </if>
+      <if test="actType != null" >
+        #{actType,jdbcType=NVARCHAR},
+      </if>
+      <if test="assignee != null" >
+        #{assignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="operation != null" >
+        #{operation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.ActHiActinstQuery" resultType="java.lang.Integer" >
+    select count(*) from ACT_HI_ACTINST
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update ACT_HI_ACTINST
+    <set >
+      <if test="record.id != null" >
+        ID_ = #{record.id,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.procDefId != null" >
+        PROC_DEF_ID_ = #{record.procDefId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.procInstId != null" >
+        PROC_INST_ID_ = #{record.procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.executionId != null" >
+        EXECUTION_ID_ = #{record.executionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.actId != null" >
+        ACT_ID_ = #{record.actId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taskId != null" >
+        TASK_ID_ = #{record.taskId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.callProcInstId != null" >
+        CALL_PROC_INST_ID_ = #{record.callProcInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.actName != null" >
+        ACT_NAME_ = #{record.actName,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.actType != null" >
+        ACT_TYPE_ = #{record.actType,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.assignee != null" >
+        ASSIGNEE_ = #{record.assignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME_ = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME_ = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.duration != null" >
+        DURATION_ = #{record.duration,jdbcType=NUMERIC},
+      </if>
+      <if test="record.operation != null" >
+        OPERATION_ = #{record.operation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update ACT_HI_ACTINST
+    set ID_ = #{record.id,jdbcType=NVARCHAR},
+      PROC_DEF_ID_ = #{record.procDefId,jdbcType=NVARCHAR},
+      PROC_INST_ID_ = #{record.procInstId,jdbcType=NVARCHAR},
+      EXECUTION_ID_ = #{record.executionId,jdbcType=NVARCHAR},
+      ACT_ID_ = #{record.actId,jdbcType=NVARCHAR},
+      TASK_ID_ = #{record.taskId,jdbcType=NVARCHAR},
+      CALL_PROC_INST_ID_ = #{record.callProcInstId,jdbcType=NVARCHAR},
+      ACT_NAME_ = #{record.actName,jdbcType=NVARCHAR},
+      ACT_TYPE_ = #{record.actType,jdbcType=NVARCHAR},
+      ASSIGNEE_ = #{record.assignee,jdbcType=NVARCHAR},
+      START_TIME_ = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME_ = #{record.endTime,jdbcType=TIMESTAMP},
+      DURATION_ = #{record.duration,jdbcType=NUMERIC},
+      OPERATION_ = #{record.operation,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.system.ActHiActinst" >
+    update ACT_HI_ACTINST
+    <set >
+      <if test="procDefId != null" >
+        PROC_DEF_ID_ = #{procDefId,jdbcType=NVARCHAR},
+      </if>
+      <if test="procInstId != null" >
+        PROC_INST_ID_ = #{procInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="executionId != null" >
+        EXECUTION_ID_ = #{executionId,jdbcType=NVARCHAR},
+      </if>
+      <if test="actId != null" >
+        ACT_ID_ = #{actId,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskId != null" >
+        TASK_ID_ = #{taskId,jdbcType=NVARCHAR},
+      </if>
+      <if test="callProcInstId != null" >
+        CALL_PROC_INST_ID_ = #{callProcInstId,jdbcType=NVARCHAR},
+      </if>
+      <if test="actName != null" >
+        ACT_NAME_ = #{actName,jdbcType=NVARCHAR},
+      </if>
+      <if test="actType != null" >
+        ACT_TYPE_ = #{actType,jdbcType=NVARCHAR},
+      </if>
+      <if test="assignee != null" >
+        ASSIGNEE_ = #{assignee,jdbcType=NVARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME_ = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME_ = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duration != null" >
+        DURATION_ = #{duration,jdbcType=NUMERIC},
+      </if>
+      <if test="operation != null" >
+        OPERATION_ = #{operation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.system.ActHiActinst" >
+    update ACT_HI_ACTINST
+    set PROC_DEF_ID_ = #{procDefId,jdbcType=NVARCHAR},
+      PROC_INST_ID_ = #{procInstId,jdbcType=NVARCHAR},
+      EXECUTION_ID_ = #{executionId,jdbcType=NVARCHAR},
+      ACT_ID_ = #{actId,jdbcType=NVARCHAR},
+      TASK_ID_ = #{taskId,jdbcType=NVARCHAR},
+      CALL_PROC_INST_ID_ = #{callProcInstId,jdbcType=NVARCHAR},
+      ACT_NAME_ = #{actName,jdbcType=NVARCHAR},
+      ACT_TYPE_ = #{actType,jdbcType=NVARCHAR},
+      ASSIGNEE_ = #{assignee,jdbcType=NVARCHAR},
+      START_TIME_ = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME_ = #{endTime,jdbcType=TIMESTAMP},
+      DURATION_ = #{duration,jdbcType=NUMERIC},
+      OPERATION_ = #{operation,jdbcType=VARCHAR}
+    where ID_ = #{id,jdbcType=NVARCHAR}
+  </update>
+</mapper>

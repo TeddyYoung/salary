@@ -83,7 +83,7 @@ public class StaffLevelController extends BaseController {
 	public String saveOrUpdate(HttpServletRequest request,String type,
 			Staff staff, Model model,String flag,MultipartFile uploadPic) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (staff.getId() == null || "".equals(staff.getId())) {// 新增操作
 			Staff staffTemp = this.staffService.getStaffByCondition(staff);

@@ -29,10 +29,28 @@ public class StaffCostServiceImpl implements StaffCostService {
 		int totalRecordsNum = staffCostDao.findCountByCriteriaQuerySelf(
 				yearMonth, stationCode, staffName);
 		page.setTotalRecordsNum(totalRecordsNum);
-		//String[] stationCodes = stationCode.split(",");
+		// String[] stationCodes = stationCode.split(",");
 		// 分页查询记录
 		List<StaffCostVO> records = staffCostDao
 				.findStaffCostByPageCriteriaQuerySelf(yearMonth,
+						page.getPageSize(), page.getStartIndex(), stationCode,
+						staffName);
+		page.setRecords(records);
+		return page;
+
+	}
+
+	@Override
+	public Page findStaffBonusByPage(Page page, String yearMonth,
+			String stationCode, String staffName) {
+		// 查询总记录条数(需要判断是否带着查询条件进来, 且带进来几个查询条件)
+		int totalRecordsNum = staffCostDao.findBonusCountByCriteriaQuerySelf(
+				yearMonth, stationCode, staffName);
+		page.setTotalRecordsNum(totalRecordsNum);
+		// String[] stationCodes = stationCode.split(",");
+		// 分页查询记录
+		List<StaffCostVO> records = staffCostDao
+				.findBonusByPageCriteriaQuerySelf(yearMonth,
 						page.getPageSize(), page.getStartIndex(), stationCode,
 						staffName);
 		page.setRecords(records);
@@ -92,26 +110,17 @@ public class StaffCostServiceImpl implements StaffCostService {
 
 	}
 
-	/**
-	 * 根据员工的身份证号查询员工成本信息
-	 */
-	public StaffCost findStaffCostByStaffIdCardAndYearMonth(
-			String idCardCellValue, String yearMonth,String stationCode) {
-		// modify by yangjj
-		// StaffCost staffCost = new StaffCost();
+	public StaffCost findStaffCostByStaffCode(String stationCode,
+			String staffCode, String yearMonth) {
 		StaffCost staffCost = null;
-		if (null != idCardCellValue && !"".equals(idCardCellValue)) {
+		if (null != staffCode && !"".equals(staffCode)) {
 			List<StaffCost> staffCostList = staffCostDao
-					.findStaffCostByStaffIdCardAndYearMonth(idCardCellValue,
-							yearMonth,stationCode);
+					.findStaffCostByStaffMap(staffCode, yearMonth, stationCode);
 			if (staffCostList != null && staffCostList.size() > 0) {
 				staffCost = staffCostList.get(0);
 			}
-			return staffCost;
-		} else {
-			throw new RuntimeException(
-					"Sorry! The idCardCellValue is null or ''!Please check your Controller code!");
 		}
+		return staffCost;
 
 	}
 

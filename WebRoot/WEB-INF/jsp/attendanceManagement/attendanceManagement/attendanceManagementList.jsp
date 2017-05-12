@@ -36,7 +36,7 @@
 	
 	//添加星级评测信息
 	function saveOrUpdateAttendanceManagement() {
-		if($("#nav-search-input").val() != "${st.yearMonth}"){
+		if($("#nav-search-input").val() != "${searchVO.yearMonth}"){
 			$("#nav-search-input").tips({
 				side:3,
 	            msg:'对不起，仅可以添加或修改上个月的考勤管理信息',
@@ -45,7 +45,39 @@
 	        });
 			return false;
 		}
-		window.location.href = "<%=basePath%>attendanceManagement/saveOrUpdateattendanceManagement.do?stationCode=" + $("#stationCode").val();
+		
+		if($("#status").val() == '1' && $("#isResubmit").val() == '0'){
+			$("#saveOrUpdateAttendanceManagement").tips({
+				side:3,
+	            msg:'考勤已经生效,不能重复修改',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			return false;
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath %>attendanceManagement/checkSubmittedAtten.do',
+			dataType:'json',
+			async: false, 
+			cache: false,
+			success: function(data){
+				var result = data.result;
+				if(result == 1){
+					$("#saveOrUpdateAttendanceManagement").tips({
+						side:3,
+			            msg:'有审批中的考勤,不能修改',
+			            bg:'#AE81FF',
+			            time:2
+			        });
+					return false;
+				}else{
+					window.location.href = "<%=basePath%>attendanceManagement/saveOrUpdateattendanceManagement.do?stationCode=" + $("#stationCode").val();
+				}
+			}
+		});
+		
 	}
 	
 	function exportExcel() {
@@ -58,6 +90,29 @@
 		$("#zhongxin").hide();
 		$("#zhongxin2").show();
 	}
+	
+	function getStationList(districtCode) {
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath %>station/getListByDistrict.do',
+			data: {districtCode:districtCode},
+			dataType:'json',
+			async:false,
+			cache: true,
+			success: function(data){
+				var html = "<option value=''></option>"
+				  $.each(data.list,function(index,value){
+                      html += "<option value='"+value.stationCode+"'>"+value.stationName+"</option>";
+                  })
+			//	console.log(html);
+				console.log($("#stationCode").html());
+				$("#stationCode").html(html);
+				console.log($("#stationCode").html());
+			}
+		});
+	
+	}
+	
 </script>
 <script type="text/javascript">
 $(function() {
@@ -110,29 +165,51 @@ $(function() {
 					<form id="attendanceManagementCriteriaQuery"
 						  action="<%=basePath%>attendanceManagement/attendanceManagementList.do" method="post">
 						<table>
+							<input type="hidden" name="isSearchHide" value="${searchVO.isSearchHide}" />
+							<input type="hidden" id="status"  value="${searchVO.status}" />
+							<input type="hidden" id="isResubmit"  value="${isResubmit}" />
+							<c:if test="${isSearchHide == '0'}">
 							<tr>
-								<!-- <td style="vertical-align:top;"><select name="stationCode" id="stationCode" class="chzn-select" data-placeholder="请选择所属油站" style="vertical-align:top;width: 220px;" title="所属油站">
-									<option value="">全部</option>
-										<biztab:biz type="station" code="all">
-											<option value="${obj.stationCode}" ${obj.stationCode == st.stationCode ? 'selected="selected"' : '' }>${obj.stationName}</option>
+								<td style="vertical-align:top;"><select name="districtCode" id="districtCode" 
+									 onchange="getStationList(this.value)" class="chzn-select" data-placeholder="请选择所属区域" style="vertical-align:top;width: 220px;" title="所属区域">
+									<option value=""></option>
+										<biztab:biz type="district" code="all">
+											<option value="${obj.organiseId}" ${obj.organiseId == searchVO.districtCode ? 'selected="selected"' : '' }>${obj.organiseName}</option>
 										</biztab:biz>
 								</select>
-								</td> -->
+								</td>
+								 <td style="vertical-align:top;">
+								 <select name="stationCode" id="stationCode" 
+								 	 data-placeholder="请选择所属油站" 
+								 		style="vertical-align:top;width: 220px;" title="所属油站">
+									<option value=""></option>
+									<biztab:biz type="station" code="all" pcode="${searchVO.districtCode}">
+										<option value="${obj.stationCode}" ${obj.stationCode == searchVO.stationCode ? 'selected="selected"' : '' }>${obj.stationName}</option>
+									</biztab:biz>
+								</select>
+								</td>
 								<td style="vertical-align: top;"><span class="input-icon">
 										<input autocomplete="off" id="nav-search-input" type="text"
 										class="span10 date-picker" name="yearMonth"
-										value="${st.yearMonth}" data-date-format="yyyy-mm"
+										value="${searchVO.yearMonth}" data-date-format="yyyy-mm"
 										style="vertical-align: top; width: 150px;"
 										placeholder="请选择年份月份" /> <i id="nav-search-icon"
 										class="icon-search"></i>
 								</span></td>
 								<td style=""><a
 									class="btn btn-mini btn-info" onclick="searchAttendanceManagement();" style="margin-top:-11px;">查询</a></td>
+									<c:if test="${isMod == '1'}">
 								<td style=";"><a
-									class="btn btn-mini btn-info" onclick="saveOrUpdateAttendanceManagement();" style="margin-top:-11px;">考勤维护</a></td>
-								<td style=";"><a
-									class="btn btn-mini btn-info" onclick="exportExcel();" style="margin-top:-11px;">下载公示</a></td>
+									class="btn btn-mini btn-info" id="saveOrUpdateAttendanceManagement" onclick="saveOrUpdateAttendanceManagement();" style="margin-top:-11px;">考勤维护</a></td>
+									</c:if>
+<!-- 								<td style=";"><a -->
+<!-- 									class="btn btn-mini btn-info" onclick="exportExcel();" style="margin-top:-11px;">下载公示</a></td> -->
+								<td align="right" class="position"><a>考勤维护截止日期：2017-05-08 18时</a></td>
 							</tr>
+							</c:if>
+							<c:if test="${isSearchHide == '1'}">
+								<input type="hidden" name="stationCode" value="${searchVO.stationCode}" />
+							</c:if>
 						</table>
 						<table id="table_report" border="1px" style="width:3400px;height:350px;border:1px solid #ddd;">
 							<thead>
@@ -148,7 +225,9 @@ $(function() {
 									<th class="center"style="width:65px;color:#707070">员工姓名</th>
 		                            <th class="center" style="width:60px;color:#707070">职务</th>
 									<th class="center"style="width:80px;color:#707070">入职日期</th>
+									<th class="center"style="width:80px;color:#707070">离职日期</th>
 									<th class="center"style="width:40px;color:#707070">工作日</th>
+									<th class="center" style="width:60px;color:#707070">(是否)本月离职</th>
 									<th class="center"style="width:100px;color:#707070">是否管站\带班</th>
 									<th class="center" style="width:100px;color:#707070">是否实习期内</th>
 									<th class="center" style="width:140px;color:#707070">本月实习期满后工作天数</th>
@@ -159,7 +238,6 @@ $(function() {
 									<th class="center"style="width:120px;color:#707070">春节在岗</th>
 <!-- 									<th class="center"style="width:120px;color:#707070">春节在岗（阶段二）</th> -->
 									<th class="center" style="width:60px;color:#707070">夜班在岗</th>
-									<th class="center" style="width:60px;color:#707070">本月离职</th>
 									<th class="center" style="width:50px;color:#707070">事假</th>
 									<th class="center" style="width:50px;color:#707070">旷工</th>
 									<th class="center" style="width:50px;color:#707070">病假</th>
@@ -178,7 +256,8 @@ $(function() {
 									<th class="center" style="width:110px;color:#707070">兼职便利店员比例(%)</th>
 									<th class="center" style="width:130px;color:#707070">月度绩效<font color="red">（百分制）</font></th>
 									<th class="center" style="width:110px;color:#707070">经理奖金分配比例(%)</th>
-									<th class="center" style="width:100px;color:#707070">备注</th>
+									<th class="center" style="width:50px;color:#707070">备注</th>
+									<th class="center" style="width:50px;color:#707070">考勤状态</th>
 									<th class="center" style="width:70px;color:#707070">月份</th>
 								</tr>
 							</thead>
@@ -197,7 +276,9 @@ $(function() {
 											<td>${am.staffName}</td>
 											<td>${am.dutyName}</td>
 											<td>${am.staffInDate}</td>
+											<td>${am.staffOutDate}</td>
 											<td><fmt:formatNumber type='number' value='${am.workingDay}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td>${am.isDeparture}</td>
 											<td>${am.isStamanageForeman}</td>
 											<td>${am.isInternship}</td>
 											<td><fmt:formatNumber type='number' value='${am.afterIntershipWorking}' pattern='0.0' maxFractionDigits='2' /></td>
@@ -208,7 +289,6 @@ $(function() {
 											<td>${am.isFamilyReunionDinnerOn}</td>
 											<td><fmt:formatNumber type='number' value='${am.onTheSpringFestivaOne}' pattern='0.0' maxFractionDigits='2' /></td>
 											<td><fmt:formatNumber type='number' value='${am.nightShiftDays}' pattern='0.0' maxFractionDigits='1' /></td>
-											<td>${am.isDeparture}</td>
 											<td><fmt:formatNumber type='number' value='${am.casualLeave}' pattern='0.0' maxFractionDigits='2' /></td>
 											<td><fmt:formatNumber type='number' value='${am.absenteeism}' pattern='0.0' maxFractionDigits='2' /></td>
 											<td><fmt:formatNumber type='number' value='${am.sickLeave}' pattern='0.0' maxFractionDigits='2' /></td>
@@ -224,13 +304,54 @@ $(function() {
 											<td>${am.isBoarder}</td>
 											<td><fmt:formatNumber type='number' value='${am.splendorCardBlue}' pattern='0' /></td>
 											<td><fmt:formatNumber type='number' value='${am.splendorCardGreen}' pattern='0' /></td>
-											<td><fmt:formatNumber type='number' value='${am.partTimeScale}' pattern='0.00' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${am.partTimeScale}' pattern='0.00' maxFractionDigits='2' />%</td>
 											<td><fmt:formatNumber type='number' value='${am.monthPerformance}' pattern='0.0' maxFractionDigits='2' /></td>
-											<td><fmt:formatNumber type='number' value='${am.managerBonusScale}' pattern='0.00' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${am.managerBonusScale}' pattern='0.00' maxFractionDigits='2' />%</td>
 											<td>${am.remark}</td>
+											<td>${am.status == 1 ? '已生效' : '未生效'}</td>
 											<td>${am.yearMonth}</td>
 										</tr>
 									</c:forEach>
+									<tr class="center" >
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>合计：</td>
+											<td><fmt:formatNumber type='number' value='${sumVO.workingDay}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td>${am.isDeparture}</td>
+											<td>${am.isStamanageForeman}</td>
+											<td>${am.isInternship}</td>
+											<td><fmt:formatNumber type='number' value='${sumVO.afterIntershipWorking}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.peacetimeTimeout}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.holidayOvertime}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.supportDays}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td>——</td>
+											<td><fmt:formatNumber type='number' value='${sumVO.onTheSpringFestiva}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.nightShiftDays}' pattern='0.0' maxFractionDigits='1' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.casualLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.absenteeism}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.sickLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.annualLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.marriageLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.maternityLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.funeralLeave}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.daysOff}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.verbalWarnings}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.writtenWarning}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.majorAccident}' pattern='0.0' maxFractionDigits='2' /></td>
+											<td>——</td>
+											<td>——</td>
+											<td><fmt:formatNumber type='number' value='${sumVO.splendorCardBlue}' pattern='0' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.splendorCardGreen}' pattern='0' /></td>
+											<td><fmt:formatNumber type='number' value='${sumVO.partTimeScale}' pattern='0.00' maxFractionDigits='2' />%</td>
+											<td>——</td>
+											<td><fmt:formatNumber type='number' value='${sumVO.managerBonusScale}' pattern='0.00' maxFractionDigits='2' />%</td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
 								</c:when>
 								<c:otherwise>
 									<tr>
@@ -262,5 +383,6 @@ $(function() {
 	<style>
 		table tr:hover{background:#f9f9f9;}
 		table tr:nth-child(odd){background:#F9F9F9;}
+		.position{position: absolute;right: 15px;margin-top: 5px;}
 	</style>
 </html>

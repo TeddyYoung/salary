@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,8 @@ import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetVO;
+import com.fh.entity.vo.SellDataSearchVO;
 import com.fh.service.masterdata.StationTargetService;
-
-import net.sf.json.JSONObject;
 
 /**
  * 油站指标系数维护
@@ -37,7 +38,7 @@ public class StationTargetController extends BaseController {
 	 * 油站指标系数列表查询(支持分页, 支持模糊查询)
 	 */
 	@RequestMapping("/stationTargetList.do")
-	public String list(Page page, StationTarget stationTarget, Model model) {
+	public String list(Page page, SellDataSearchVO searchVO, Model model) {
 
 //		if ("".equals(stationTarget.getYearMonth()) || null == stationTarget.getYearMonth()) {
 //			AutoYearMonth autoYearMonth = new AutoYearMonth();
@@ -45,14 +46,13 @@ public class StationTargetController extends BaseController {
 //			stationTarget.setYearMonth(yearMonth);
 //		}
 		
-		Page pageList = stationTargetService.findStationTargetsByPage(page,
-				stationTarget.getStationCode(), stationTarget.getYearMonth());
+		Page pageList = stationTargetService.findStationTargetsByPage(page,searchVO);
 		model.addAttribute("pageList", pageList);
 
-		StationTarget st = new StationTarget();
-		st.setStationCode(stationTarget.getStationCode());
-		st.setYearMonth(stationTarget.getYearMonth());
-		model.addAttribute("st", st);
+		// StationTarget st = new StationTarget();
+		// st.setStationCode(stationTarget.getStationCode());
+		// st.setYearMonth(stationTarget.getYearMonth());
+		model.addAttribute("searchVO", searchVO);
 
 		return "masterdata/stationTarget/stationTargetList";
 
@@ -74,7 +74,7 @@ public class StationTargetController extends BaseController {
 	@RequestMapping("/stationTargetSaveOrUpdate.do")
 	public String stationTargetSaveOrUpdate(StationTargetVO stationTargetvo) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (stationTargetvo.getStationTargetList().size() != 0) {
 			stationTargetService.saveOrUpdate(stationTargetvo
@@ -172,7 +172,7 @@ public class StationTargetController extends BaseController {
 	@RequestMapping("/stationTargetDelById.do")
 	public void delete(String ids, HttpServletResponse response) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// json对象
 		JSONObject js = new JSONObject();

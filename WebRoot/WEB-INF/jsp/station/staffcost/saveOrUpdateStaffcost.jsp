@@ -42,18 +42,20 @@
 		var count=${fn:length(staffCostVOList)};
 		var reg=new RegExp("^([0-9])+(\.[0-9]+)?$"); //数字就可以
 			for(var i=0;i<count;i++){
+				var staffCostAccFund = $("#staffCostAccFund"+i).val();
 				if($("#staffCostAccFund"+i).val().length != 0){
 					if(!reg.test($("#staffCostAccFund"+i).val())){
 					$("#staffCostAccFund"+i).tips({
 						side:1,
-			            msg:'请输入公积金',
+			            msg:'公积金格式不正确',
 			            bg:'#AE81FF',
 			            time:2
 			        });
 					$("#staffCostAccFund"+i).focus();
 					$("#staffCostAccFund"+i).val(1);
 					return false;
-				}}
+					}
+				}
 			if($("#staffCostEndowment"+i).val().length != 0){
 				if(!reg.test($("#staffCostEndowment"+i).val())){
 					$("#staffCostEndowment"+i).tips({
@@ -97,6 +99,9 @@
 	//取消
 	function no() {
 		window.location.href = "<%=basePath%>staffCost/staffCostList.do";
+	}
+	function checkDigits(obj){
+		var val = obj.value;
 	}
 </script>
 <script type="text/javascript">
@@ -148,6 +153,7 @@
 									<th class="center">序号</th>
 									<th class='center'>所属油站</th>
 									<th class='center'>员工姓名</th>
+									<th class='center'>员工职务</th>
 									<th class='center'>公积金</th>
 									<th class='center'>养老保险</th>
 									<th class='center'>失业保险</th>
@@ -171,29 +177,31 @@
 													<biztab:biz type="station" code="${staffCostVO.stationCode}">${obj.stationName }</biztab:biz>
 													</td>
 												<td class="center">${staffCostVO.staffName}</td>
+												<td class="center"><biztab:biz type="duty"
+														code="${staffCostVO.staffCost.dutyCode }">${obj.dutyName }</biztab:biz></td>
 												<td class="center">
 													<input type="text" name="staffCostList[${vs.index}].staffCostAccFund" 
-														   value="<fmt:formatNumber type="number" value="${staffCostVO.staffCost.staffCostAccFund}" pattern="0.00" maxFractionDigits="2" />"
-														   id="staffCostAccFund${vs.index}"
-														   placeholder="请输入公积金" title="员工公积金" maxlength="32" class="input_100"/>
+														   value="<fmt:formatNumber type="number" pattern='0.00' value="${staffCostVO.staffCost.staffCostAccFund.unscaledValue() == 0 ? null : staffCostVO.staffCost.staffCostAccFund}"  maxFractionDigits="2" />"
+														   id="staffCostAccFund${vs.index}" onblur="checkDigits(this)"
+														   placeholder="请输入公积金" title="员工公积金" maxlength="7" class="input_100"/>
 												</td>
 												<td class="center">
 													<input type="text" name="staffCostList[${vs.index}].staffCostEndowment" 
-														   value="<fmt:formatNumber type="number" value="${staffCostVO.staffCost.staffCostEndowment}" pattern="0.00" maxFractionDigits="2" />"
+														   value="<fmt:formatNumber type="number" pattern='0.00' value="${staffCostVO.staffCost.staffCostEndowment.unscaledValue() == 0 ? null : staffCostVO.staffCost.staffCostEndowment}"  maxFractionDigits="2" />"
 														   id="staffCostEndowment${vs.index}"
-														   placeholder="请输入养老保险" title="员工养老保险" maxlength="32"  class="input_100" />
+														   placeholder="请输入养老保险" title="员工养老保险" maxlength="7"  class="input_100" />
 												</td>
 												<td class="center">
 													<input type="text" name="staffCostList[${vs.index}].staffCostUnemployment" 
-														   value="<fmt:formatNumber type="number" value="${staffCostVO.staffCost.staffCostUnemployment}" pattern="0.00" maxFractionDigits="2" />"
+														   value="<fmt:formatNumber type="number" pattern='0.00' value="${staffCostVO.staffCost.staffCostUnemployment.unscaledValue() == 0 ? null : staffCostVO.staffCost.staffCostUnemployment}"  maxFractionDigits="2" />"
 														   id="staffCostUnemployment${vs.index}"
-														   placeholder="请输入失业保险" title="员工失业保险" maxlength="32" class="input_100" />
+														   placeholder="请输入失业保险" title="员工失业保险" maxlength="7" class="input_100" />
 												</td>
 												<td class="center">
 													<input type="text" name="staffCostList[${vs.index}].staffCostMedical" 
-														   value="<fmt:formatNumber type="number" value="${staffCostVO.staffCost.staffCostMedical}" pattern="0.00" maxFractionDigits="2" />"
+														   value="<fmt:formatNumber type="number" pattern='0.00' value="${staffCostVO.staffCost.staffCostMedical.unscaledValue() == 0 ? null : staffCostVO.staffCost.staffCostMedical}"  maxFractionDigits="2" />"
 														   id="staffCostMedical${vs.index}"
-														   placeholder="请输入医疗保险" title="员工医疗保险" maxlength="32"  class="input_100"/>
+														   placeholder="请输入医疗保险" title="员工医疗保险" maxlength="7"  class="input_100"/>
 												</td>
 												<td class="center">
 													<input type="hidden" name="staffCostList[${vs.index}].staffCostYearMonth" value="${staffCostVO.staffCost.staffCostYearMonth}" />

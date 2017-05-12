@@ -37,7 +37,7 @@
 		} else if (flag=='4') {// 考勤申请
 			window.location.href='<%=basePath%>/activiti/attendance/toCheck.do?id='+id;
 		} else if (flag=='5') {// 薪资差异申请
-			window.location.href='<%=basePath%>activiti/staffTransferToCheck.do?id='+id;
+			window.location.href='<%=basePath%>/activiti/salaryDifferenceToCheck.do?id='+id;
 		}
 	}
 </script>
@@ -51,6 +51,7 @@
 		<tr>
 			<th class="center"  style="width: 50px;">序号</th>
 			<th class='center'>流程类型</th>
+			<th class='center'>所属油站</th>
 			<th class='center'>任务名称</th>
 			<th class='center'>执行者</th>
 			<th class='center'>执行操作</th>
@@ -73,6 +74,7 @@
 					<c:if test="${generalStaffLeaveOffice.flag==4}">考勤申请</c:if>
 					<c:if test="${generalStaffLeaveOffice.flag==5}">薪资差异申请</c:if>
 				</td>
+				<td class='center'>${generalStaffLeaveOffice.staff.stationName}</td>
 				<td class='left'>${generalStaffLeaveOffice.actHiActinst.actName}</td>
 				<td class='left'>${generalStaffLeaveOffice.actHiActinst.assignee}</td>
 				<td class='center'>${generalStaffLeaveOffice.actHiActinst.operation}</td>

@@ -47,7 +47,7 @@ public class Staff implements Serializable {
     private String staffPhoto;
 
     /**
-     * 员工状态(1-在职 2-离职)
+     * 员工状态(1-在职 2-离职 3-调动)
      */
     private String staffStatus;
 
@@ -167,6 +167,8 @@ public class Staff implements Serializable {
     private BigDecimal workingDay;
     
     private String jobLevel;
+    
+    private String bankCardRemark;
     
     public String getJobLevel() {
 		return jobLevel;
@@ -452,7 +454,15 @@ public class Staff implements Serializable {
 				+ ", staffTransferStatus=" + staffTransferStatus
 				+ ", staffOutStatus=" + staffOutStatus + ", staffCheckType="
 				+ staffCheckType + ", duty=" + duty + ", workingDay="
-				+ workingDay + "]";
+				+ workingDay + " , bankCardRemark=" + bankCardRemark + "]";
+	}
+
+	public String getBankCardRemark() {
+		return bankCardRemark;
+	}
+
+	public void setBankCardRemark(String bankCardRemark) {
+		this.bankCardRemark = bankCardRemark;
 	}
 
 }

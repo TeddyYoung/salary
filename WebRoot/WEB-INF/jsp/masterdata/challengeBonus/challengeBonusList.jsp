@@ -159,12 +159,27 @@
 							action="<%=basePath%>challengeBonus/challengeBonusList.do" method="post">
 						<table>
 							<tr>
+								<td style="vertical-align:top;"><select name="districtCode" id="districtCode" class="chzn-select" data-placeholder="请选择所属区域" style="vertical-align:top;width: 220px;" title="所属区域">
+									<option value="">全部</option>
+										<biztab:biz type="district" code="all">
+											<option value="${obj.organiseId}" ${obj.organiseId == searchVO.districtCode ? 'selected="selected"' : '' }>${obj.organiseName}</option>
+										</biztab:biz>
+								</select>
+								</td>
+								<td style="vertical-align:top;"><span class="input-icon"> <input
+										autocomplete="off" id="nav-search-input" type="text" class="span10 date-picker"
+										name="yearMonth" value="${searchVO.yearMonth}" data-date-format="yyyy-mm" style="vertical-align:top;width: 150px;"
+										placeholder="这里输入年份月份" /> <i id="nav-search-icon"
+										class="icon-search"></i>
+								</span></td>
 								<td style="vertical-align:top;">
 									<select name="type" id="type"  class="chzn-select" data-placeholder="挑战奖金类型" 
 										style="vertical-align:top;width: 150px;" title="挑战奖金类型">
 										<option value=""></option>
 										<systab:dataDictionary codeType="challenge_bonus_type" valueType="all">
-											<option value="${dataDictionary.valuetype}"  ${dataDictionary.valuetype==challengeBonus.type ? 'selected="selected"' : '' }>${dataDictionary.valuename}</option>
+											<option value="${dataDictionary.valuetype}"  
+												${dataDictionary.valuetype==searchVO.type ? 'selected="selected"' : '' }>
+												${dataDictionary.valuename}</option>
 										</systab:dataDictionary>
 									</select>
 								</td>

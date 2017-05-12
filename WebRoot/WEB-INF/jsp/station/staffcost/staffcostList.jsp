@@ -129,6 +129,7 @@
 									<th class="center">序号</th>
 									<th class='center'>所属油站</th>
 									<th class='center'>员工姓名</th>
+									<th class='center'>员工职务</th>
 									<th class='center'>公积金</th>
 									<th class='center'>养老保险</th>
 									<th class='center'>失业保险</th>
@@ -145,9 +146,11 @@
 											<tr>
 												<td class='center' style="width: 30px;">${vs.count}</td>
 												<td class="center">
-													<biztab:biz type="station" code="${staffCostVO.stationCode}">${obj.stationName }</biztab:biz>
+													<biztab:biz type="station" code="${staffCostVO.staffCost.stationCode}">${obj.stationName }</biztab:biz>
 												</td>
 												<td class="center">${staffCostVO.staffName}</td>
+												<td class="center"><biztab:biz type="duty"
+														code="${staffCostVO.staffCost.dutyCode }">${obj.dutyName }</biztab:biz></td>
 												<td class="center">
 													<fmt:formatNumber type="number" value="${staffCostVO.staffCost.staffCostAccFund}" pattern="0.00" maxFractionDigits="2" />
 												</td>

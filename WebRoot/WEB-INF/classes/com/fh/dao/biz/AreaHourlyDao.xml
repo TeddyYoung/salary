@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.AreaHourlyDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.AreaHourly" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+    <result column="duty_code" property="dutyCode" jdbcType="VARCHAR" />
+    <result column="normal_hourly" property="normalHourly" jdbcType="DECIMAL" />
+    <result column="ot_hourly" property="otHourly" jdbcType="DECIMAL" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, area_code, duty_code, normal_hourly, ot_hourly, sys_create_time, sys_update_time, 
+      remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.AreaHourlyQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_area_hourly
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,area_code,duty_code,normal_hourly,ot_hourly,sys_create_time,sys_update_time,remark
+    from biz_area_hourly
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_area_hourly
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.AreaHourlyQuery" >
+    delete from biz_area_hourly
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.AreaHourly" >
+    insert into biz_area_hourly (id, area_code, duty_code, 
+      normal_hourly, ot_hourly, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=BIGINT}, #{areaCode,jdbcType=VARCHAR}, #{dutyCode,jdbcType=VARCHAR}, 
+      #{normalHourly,jdbcType=DECIMAL}, #{otHourly,jdbcType=DECIMAL}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.AreaHourly" >
+    insert into biz_area_hourly
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="areaCode != null" >
+        area_code,
+      </if>
+      <if test="dutyCode != null" >
+        duty_code,
+      </if>
+      <if test="normalHourly != null" >
+        normal_hourly,
+      </if>
+      <if test="otHourly != null" >
+        ot_hourly,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="normalHourly != null" >
+        #{normalHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="otHourly != null" >
+        #{otHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.AreaHourlyQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_area_hourly
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_area_hourly
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaCode != null" >
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dutyCode != null" >
+        duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.normalHourly != null" >
+        normal_hourly = #{record.normalHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otHourly != null" >
+        ot_hourly = #{record.otHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_area_hourly
+    set id = #{record.id,jdbcType=BIGINT},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      duty_code = #{record.dutyCode,jdbcType=VARCHAR},
+      normal_hourly = #{record.normalHourly,jdbcType=DECIMAL},
+      ot_hourly = #{record.otHourly,jdbcType=DECIMAL},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.AreaHourly" >
+    update biz_area_hourly
+    <set >
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyCode != null" >
+        duty_code = #{dutyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="normalHourly != null" >
+        normal_hourly = #{normalHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="otHourly != null" >
+        ot_hourly = #{otHourly,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.AreaHourly" >
+    update biz_area_hourly
+    set area_code = #{areaCode,jdbcType=VARCHAR},
+      duty_code = #{dutyCode,jdbcType=VARCHAR},
+      normal_hourly = #{normalHourly,jdbcType=DECIMAL},
+      ot_hourly = #{otHourly,jdbcType=DECIMAL},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+    <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(distinct duty_code) from biz_area_hourly
+  	<if test="areaCode != null">
+  		<where>
+  			area_code like '%${areaCode}%'
+  		</where>
+  		<if test="dutyCode != null">
+  			and duty_code like '%${dutyCode}%'
+  		</if>
+  	</if>
+  	<if test="areaCode == null">
+  		<if test="dutyCode != null">
+  			<where>
+  				duty_code like '%${dutyCode}%'
+  			</where>
+  		</if>
+  	</if>
+  </select>
+  
+  <select id="findAreaHourlysByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} duty_code from  (select distinct duty_code from biz_area_hourly) as tt
+    <where>
+    	tt.duty_code not in (select top ${startIndex} duty_code from (select distinct duty_code from biz_area_hourly) as ttt
+    	<if test="areaCode != null">
+    		<where>
+    			ttt.area_code like '%${areaCode}%'
+    			<if test="dutyCode != null">
+    				and ttt.duty_code like '%${dutyCode}%'
+    			</if>
+    		</where>
+    	</if>
+    	<if test="areaCode == null">
+    		<if test="dutyCode != null">
+    			<where>
+    				ttt.duty_code like '%${dutyCode}%'
+    			</where>
+    		</if>
+    	</if>
+    	order by ttt.duty_code)
+    	<if test="areaCode != null">
+    		and tt.area_code like '%${areaCode}%'
+    		<if test="dutyCode != null">
+    			and tt.duty_code like '%${dutyCode}%'
+    		</if>
+    	</if>
+    	<if test="areaCode == null">
+    		<if test="dutyCode != null">
+    			and tt.duty_code like '%${dutyCode}%'
+    		</if>
+    	</if>
+    	order by tt.duty_code
+    </where>
+  </select>
+</mapper>

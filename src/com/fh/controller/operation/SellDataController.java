@@ -31,9 +31,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
+import com.fh.entity.biz.Station;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.SellDataSearchVO;
 import com.fh.service.masterdata.StationTargetService;
+import com.fh.service.station.StationService;
 import com.fh.util.AutoYearMonth;
 import com.fh.util.UploadFile;
 
@@ -49,28 +52,30 @@ public class SellDataController extends BaseController {
 
 	@Autowired
 	private StationTargetService stationTargetService;
+	@Autowired
+	private StationService stationService;
+	
 
 	/**
 	 * 销售数据列表查询(支持分页, 支持模糊查询)
 	 */
 	@RequestMapping("/sellDataList.do")
-	public String list(Page page, StationTarget stationTarget, Model model) {
+	public String list(Page page, SellDataSearchVO searchVO, Model model) {
 
-		if ("".equals(stationTarget.getYearMonth())
-				|| null == stationTarget.getYearMonth()) {
+		if ("".equals(searchVO.getYearMonth())
+				|| null == searchVO.getYearMonth()) {
 			AutoYearMonth autoYearMonth = new AutoYearMonth();
 			String yearMonth = autoYearMonth.getAutoYearMonth(); // 获取上个月的年月份日期
-			stationTarget.setYearMonth(yearMonth);
+			searchVO.setYearMonth(yearMonth);
 		}
 
-		Page pageList = stationTargetService.findStationTargetsByPage(page,
-				stationTarget.getStationCode(), stationTarget.getYearMonth());
+		Page pageList = stationTargetService.findStationTargetsByPage(page,searchVO);
 		model.addAttribute("pageList", pageList);
 
-		StationTarget st = new StationTarget();
-		st.setStationCode(stationTarget.getStationCode());
-		st.setYearMonth(stationTarget.getYearMonth());
-		model.addAttribute("st", st);
+//		StationTarget st = new StationTarget();
+//		st.setStationCode(stationTarget.getStationCode());
+//		st.setYearMonth(stationTarget.getYearMonth());
+		model.addAttribute("searchVO", searchVO);
 
 		return "operation/sellData/sellDataList";
 
@@ -93,9 +98,9 @@ public class SellDataController extends BaseController {
 	public String sellDataSaveOrUpdate(StationTarget stationTarget)
 			throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
-		
+
 		stationTargetService.saveOrUpdateStationTarget(stationTarget);
 		return "save_result";
 
@@ -141,7 +146,7 @@ public class SellDataController extends BaseController {
 	public void delete(String id, HttpServletResponse response)
 			throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// json对象
 		JSONObject js = new JSONObject();
@@ -166,7 +171,7 @@ public class SellDataController extends BaseController {
 	public void importData(String sale_month, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		BufferedReader in = null;
 		PrintWriter out = null;
@@ -289,7 +294,7 @@ public class SellDataController extends BaseController {
 	public String importSellData(HttpServletRequest request, String type,
 			MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -337,9 +342,10 @@ public class SellDataController extends BaseController {
 		StationTarget stationTarget = null;
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
-
+		String excMes = "";
 		// 解析数据
 		for (int rowNum = 3; rowNum < sheet.getLastRowNum() + 1; rowNum++) {
+			String cellReference = "";
 			cellNum = 0; // 员工编号(油站会计)
 
 			// 以员工编号的有无判断数据的可用性
@@ -348,107 +354,132 @@ public class SellDataController extends BaseController {
 			String stationCode = "";
 			if (null != row2.getCell(cellNum)
 					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
+				cellReference = row2.getCell(cellNum).getReference();
 				stationCode = String.valueOf(row2.getCell(cellNum));
 				stationTarget.setStationCode(stationCode);
-			}else{
-				break;
+				
+				Station station = stationService
+						.findOnlyStationByStationCode(stationCode);
+				if (station == null) {
+					excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【油站编号】不存在！";
+				}
+			} else {
+				continue;
 			}
 			// 油站名称
 			cellNum++;
-			// 油品目标销量（升）
-			cellNum++;
-			BigDecimal oilTargetVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				oilTargetVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setOilTargetVolume(oilTargetVolume.setScale(2,
-						BigDecimal.ROUND_CEILING));
-			}
-			// 油品实际销量（升）
-			cellNum++;
-			BigDecimal oilRealVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				oilRealVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setOilRealVolume(oilRealVolume.setScale(2,
-						BigDecimal.ROUND_CEILING));
-			}
-			// 油品日均销量（升）
-			cellNum++;
-			BigDecimal oilDayAverageVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				oilDayAverageVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setOilDayAverageVolume(oilDayAverageVolume
-						.setScale(2, BigDecimal.ROUND_CEILING));
-			}
-			
-			//油站经理小配、直销奖金
-			cellNum++;
-			BigDecimal directSellingBonus = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				directSellingBonus = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum))).setScale(2, BigDecimal.ROUND_CEILING);
-			}
-			stationTarget.setDirectSellingBonus(directSellingBonus);
-			// 油品达标率
-			// cellNum++;
-			// BigDecimal oilStandardRate = new BigDecimal(0);
-			// if (null != row2.getCell(cellNum) &&
-			// !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-			// oilStandardRate = new
-			// BigDecimal(String.valueOf(row2.getCell(cellNum)));
-			// stationTarget.setOilStandardRate(oilStandardRate);
-			// }
+			try {
+				// 油品目标销量（升）
+				cellNum++;
+				BigDecimal oilTargetVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					oilTargetVolume = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget.setOilTargetVolume(oilTargetVolume);
+				// 油品实际销量（升）
+				cellNum++;
+				BigDecimal oilRealVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					oilRealVolume = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget.setOilRealVolume(oilRealVolume);
+				// 油品日均销量（升）
+				cellNum++;
+				BigDecimal oilDayAverageVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					oilDayAverageVolume = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_HALF_UP);
+				}
+				stationTarget.setOilDayAverageVolume(oilDayAverageVolume);
 
-			// 非油品目标销量
-			cellNum++;
-			BigDecimal nonOilTargetVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				nonOilTargetVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setNonOilTargetVolume(nonOilTargetVolume
-						.setScale(2, BigDecimal.ROUND_CEILING));
+				// 油站经理小配、直销奖金
+				cellNum++;
+				BigDecimal directSellingBonus = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					directSellingBonus = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget.setDirectSellingBonus(directSellingBonus);
+				// 油品达标率
+				// cellNum++;
+				// BigDecimal oilStandardRate = new BigDecimal(0);
+				// if (null != row2.getCell(cellNum) &&
+				// !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+				// oilStandardRate = new
+				// BigDecimal(String.valueOf(row2.getCell(cellNum)));
+				// stationTarget.setOilStandardRate(oilStandardRate);
+				// }
+
+				// 非油品目标销量
+				cellNum++;
+				BigDecimal nonOilTargetVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					nonOilTargetVolume = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget.setNonOilTargetVolume(nonOilTargetVolume);
+				// 非油品实际销量
+				cellNum++;
+				BigDecimal nonOilRealVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					nonOilRealVolume = new BigDecimal(row2.getCell(cellNum)
+							.getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget.setNonOilRealVolume(nonOilRealVolume);
+				// 非油品日均销量
+				cellNum++;
+				BigDecimal nonOilDayAverageVolume = new BigDecimal(0);
+				if (null != row2.getCell(cellNum)
+						&& !"".equals(String.valueOf(row2.getCell(cellNum))
+								.trim())) {
+					cellReference = row2.getCell(cellNum).getReference();
+					nonOilDayAverageVolume = new BigDecimal(row2.getCell(
+							cellNum).getNumericCellValue()).setScale(2,
+							BigDecimal.ROUND_CEILING);
+				}
+				stationTarget
+				.setNonOilDayAverageVolume(nonOilDayAverageVolume);
+
+			} catch (NumberFormatException e) {
+				excMes = excMes + "\n" + "单元格:" + cellReference + ",数据格式有误(数值型)！";
+				//throw new Exception("单元格:" + cellReference + ",数据格式有误(数值型)！");
+			} catch (IllegalStateException e) {
+				excMes = excMes + "\n" + "单元格:" + cellReference + ",数据格式有误(数值型)！";
+				//throw new Exception("单元格:" + cellReference + ",数据格式有误(数值型)！");
 			}
-			// 非油品实际销量
-			cellNum++;
-			BigDecimal nonOilRealVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				nonOilRealVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setNonOilRealVolume(nonOilRealVolume.setScale(2,
-						BigDecimal.ROUND_CEILING));
-			}
-			// 非油品日均销量
-			cellNum++;
-			BigDecimal nonOilDayAverageVolume = new BigDecimal(0);
-			if (null != row2.getCell(cellNum)
-					&& !"".equals(String.valueOf(row2.getCell(cellNum)).trim())) {
-				nonOilDayAverageVolume = new BigDecimal(String.valueOf(row2
-						.getCell(cellNum)));
-				stationTarget.setNonOilDayAverageVolume(nonOilDayAverageVolume
-						.setScale(2, BigDecimal.ROUND_CEILING));
-			}
-			// 非油品达标率
-			// cellNum++;
-			// BigDecimal nonOilStandardRate = new BigDecimal(0);
-			// if (null != row2.getCell(cellNum) &&
-			// !"".equals(String.valueOf(row2.getCell(cellNum)))) {
-			// nonOilStandardRate = new
-			// BigDecimal(String.valueOf(row2.getCell(cellNum)));
-			// stationTarget.setNonOilStandardRate(nonOilStandardRate);
-			// }
-			
+
 			stationTarget.setYearMonth(yearMonth);
 			stationTargetList.add(stationTarget);
 		}
-
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		// 判断上传的是否是没有数据的空文件模板
 		if (null != stationTargetList && stationTargetList.size() != 0) {
 			stationTargetService.insertAllByYearMonth(stationTargetList);

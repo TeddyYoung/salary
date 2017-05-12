@@ -79,6 +79,17 @@ public class ParameterServiceImpl implements ParameterService {
 		return valueMap.get(key);
 
 	}
+	
+	@Override
+	public String getSysValue(String paraKey) {
+		if (valueMap.size() == 0) {
+			init();
+		}
+		String key = String.format("%s:%s", new Object[] {
+				Parameter.PARAMETER_TYPE_SYS, paraKey });
+		return valueMap.get(key);
+
+	}
 
 	@Override
 	public void init() {

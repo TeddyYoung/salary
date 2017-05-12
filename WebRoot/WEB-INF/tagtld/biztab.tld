@@ -27,6 +27,11 @@
         	<required>false</required><!-- 是否必须的 -->
         	<rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+        	<name>pcode</name>
+        	<required>false</required><!-- 是否必须的 -->
+        	<rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
     <tag>
         <name>bizAreaHourly</name>

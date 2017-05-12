@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.fh.service.masterdata.DutyService;
 import com.fh.service.system.DataDictionaryService;
 import com.fh.service.system.ParameterService;
 
@@ -20,6 +21,10 @@ public class SysApplicationListener implements
 
 	@Autowired
 	private ParameterService parameterService;
+	
+	@Autowired
+	private DutyService dutyService;
+	
 
 	/**
 	 * 在web 项目中(spring mvc),系统会存在两个容器,<br>
@@ -36,6 +41,8 @@ public class SysApplicationListener implements
 			dataDictionaryService.init();
 			// 初始化参数数据
 			parameterService.init();
+			//初始化职务数据
+			dutyService.init();
 		}
 	}
 }

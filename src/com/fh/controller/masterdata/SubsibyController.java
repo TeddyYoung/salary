@@ -66,7 +66,7 @@ public class SubsibyController extends BaseController {
 	@RequestMapping("/subsibySaveOrUpdate.do")
 	public String subsibySaveOrUpdate(Holiday holiday) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// holiday.setType("1");
 		holidayService.saveOrUpdate(holiday);
@@ -90,7 +90,7 @@ public class SubsibyController extends BaseController {
 	public void subsibyDelete(String holidayId, HttpServletResponse response)
 			throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// json对象
 		JSONObject js = new JSONObject();

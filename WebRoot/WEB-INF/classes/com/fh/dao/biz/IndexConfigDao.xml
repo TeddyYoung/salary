@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.IndexConfigDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.IndexConfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="index_code" property="indexCode" jdbcType="VARCHAR" />
+    <result column="index_name" property="indexName" jdbcType="VARCHAR" />
+    <result column="index_value" property="indexValue" jdbcType="DECIMAL" />
+    <result column="index_order" property="indexOrder" jdbcType="VARCHAR" />
+    <result column="index_type" property="indexType" jdbcType="VARCHAR" />
+    <result column="index_type_name" property="indexTypeName" jdbcType="VARCHAR" />
+    <result column="index_standard2" property="indexStandard2" jdbcType="VARCHAR" />
+    <result column="index_standard" property="indexStandard" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, index_code, index_name, index_value, index_order, index_type, index_type_name, 
+      index_standard2, index_standard, sys_create_time, sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.biz.IndexConfigQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from biz_index_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,index_code,index_name,index_value,index_order,index_type,index_type_name,index_standard2,index_standard,sys_create_time,sys_update_time,remark
+    from biz_index_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from biz_index_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fh.entity.biz.IndexConfigQuery" >
+    delete from biz_index_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.biz.IndexConfig" >
+    insert into biz_index_config (id, index_code, index_name, 
+      index_value, index_order, index_type, 
+      index_type_name, index_standard2, index_standard, 
+      sys_create_time, sys_update_time, remark
+      )
+    values (#{id,jdbcType=BIGINT}, #{indexCode,jdbcType=VARCHAR}, #{indexName,jdbcType=VARCHAR}, 
+      #{indexValue,jdbcType=DECIMAL}, #{indexOrder,jdbcType=VARCHAR}, #{indexType,jdbcType=VARCHAR}, 
+      #{indexTypeName,jdbcType=VARCHAR}, #{indexStandard2,jdbcType=VARCHAR}, #{indexStandard,jdbcType=VARCHAR}, 
+      #{sysCreateTime,jdbcType=TIMESTAMP}, #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.biz.IndexConfig" >
+    insert into biz_index_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indexCode != null" >
+        index_code,
+      </if>
+      <if test="indexName != null" >
+        index_name,
+      </if>
+      <if test="indexValue != null" >
+        index_value,
+      </if>
+      <if test="indexOrder != null" >
+        index_order,
+      </if>
+      <if test="indexType != null" >
+        index_type,
+      </if>
+      <if test="indexTypeName != null" >
+        index_type_name,
+      </if>
+      <if test="indexStandard2 != null" >
+        index_standard2,
+      </if>
+      <if test="indexStandard != null" >
+        index_standard,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="indexCode != null" >
+        #{indexCode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexName != null" >
+        #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexValue != null" >
+        #{indexValue,jdbcType=DECIMAL},
+      </if>
+      <if test="indexOrder != null" >
+        #{indexOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="indexType != null" >
+        #{indexType,jdbcType=VARCHAR},
+      </if>
+      <if test="indexTypeName != null" >
+        #{indexTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexStandard2 != null" >
+        #{indexStandard2,jdbcType=VARCHAR},
+      </if>
+      <if test="indexStandard != null" >
+        #{indexStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.biz.IndexConfigQuery" resultType="java.lang.Integer" >
+    select count(*) from biz_index_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update biz_index_config
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.indexCode != null" >
+        index_code = #{record.indexCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexName != null" >
+        index_name = #{record.indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexValue != null" >
+        index_value = #{record.indexValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.indexOrder != null" >
+        index_order = #{record.indexOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexType != null" >
+        index_type = #{record.indexType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexTypeName != null" >
+        index_type_name = #{record.indexTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexStandard2 != null" >
+        index_standard2 = #{record.indexStandard2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexStandard != null" >
+        index_standard = #{record.indexStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update biz_index_config
+    set id = #{record.id,jdbcType=BIGINT},
+      index_code = #{record.indexCode,jdbcType=VARCHAR},
+      index_name = #{record.indexName,jdbcType=VARCHAR},
+      index_value = #{record.indexValue,jdbcType=DECIMAL},
+      index_order = #{record.indexOrder,jdbcType=VARCHAR},
+      index_type = #{record.indexType,jdbcType=VARCHAR},
+      index_type_name = #{record.indexTypeName,jdbcType=VARCHAR},
+      index_standard2 = #{record.indexStandard2,jdbcType=VARCHAR},
+      index_standard = #{record.indexStandard,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fh.entity.biz.IndexConfig" >
+    update biz_index_config
+    <set >
+      <if test="indexCode != null" >
+        index_code = #{indexCode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexName != null" >
+        index_name = #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexValue != null" >
+        index_value = #{indexValue,jdbcType=DECIMAL},
+      </if>
+      <if test="indexOrder != null" >
+        index_order = #{indexOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="indexType != null" >
+        index_type = #{indexType,jdbcType=VARCHAR},
+      </if>
+      <if test="indexTypeName != null" >
+        index_type_name = #{indexTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexStandard2 != null" >
+        index_standard2 = #{indexStandard2,jdbcType=VARCHAR},
+      </if>
+      <if test="indexStandard != null" >
+        index_standard = #{indexStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fh.entity.biz.IndexConfig" >
+    update biz_index_config
+    set index_code = #{indexCode,jdbcType=VARCHAR},
+      index_name = #{indexName,jdbcType=VARCHAR},
+      index_value = #{indexValue,jdbcType=DECIMAL},
+      index_order = #{indexOrder,jdbcType=VARCHAR},
+      index_type = #{indexType,jdbcType=VARCHAR},
+      index_type_name = #{indexTypeName,jdbcType=VARCHAR},
+      index_standard2 = #{indexStandard2,jdbcType=VARCHAR},
+      index_standard = #{indexStandard,jdbcType=VARCHAR},
+      sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

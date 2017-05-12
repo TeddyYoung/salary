@@ -24,6 +24,7 @@ import com.fh.entity.biz.StationLevel;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetVO;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.masterdata.StationTargetService;
 import com.fh.service.operation.StarEvaluatingService;
 import com.fh.service.operation.StationLevelService;
@@ -118,7 +119,7 @@ public class StarEvaluatingController extends BaseController {
 	public String starEvaluatingRealSaveOrUpdate(String districtCode,
 			StationTargetVO stationTargetVO, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (stationTargetVO.getStationTargetList().size() != 0) {
 			starEvaluatingService.saveOrUpdateStarEvaluating(stationTargetVO
@@ -138,7 +139,7 @@ public class StarEvaluatingController extends BaseController {
 	public String importOilBaseInfo(HttpServletRequest request, String type,
 			MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断营运部门当月上月数据是否有维护
 		// 如果没有维护, 给予提示, 先让营运部门维护营运数据
@@ -220,6 +221,7 @@ public class StarEvaluatingController extends BaseController {
 		XSSFRow row2 = null;
 		List<StationTarget> excelStationTargetList = new ArrayList<StationTarget>();
 		StationTarget stationTarget = null;
+		String excMes = "";
 		List<StationLevel> stationLevelList = this.stationLevelService
 				.queryAll();
 		Map<String, String> stationLevelMap = new HashMap<String, String>();
@@ -232,12 +234,12 @@ public class StarEvaluatingController extends BaseController {
 			// 判断油站编号是否可用, 如果油站编号不可用, 则弃用整行数据
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
+				continue;
 			}
 			if (null == row2.getCell(cellNum)
 					|| "".equals(row2.getCell(cellNum).getStringCellValue())) {
 				//throw new Exception("第" + (rowNum + 1) + "行【油站编号】未填写！");
-				break;
+				continue;
 			}
 
 			// 油站编号
@@ -250,12 +252,14 @@ public class StarEvaluatingController extends BaseController {
 			cellNum++;
 			if (null == row2.getCell(cellNum)
 					&& "".equals(String.valueOf(row2.getCell(cellNum)))) {
-				throw new Exception("第" + (rowNum + 1) + "行【油站星级】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【油站星级】未填写！";
+			//	throw new Exception("第" + (rowNum + 1) + "行【油站星级】未填写！");
 			}
 			String stationLevelName = String.valueOf(row2.getCell(cellNum));
 			String stationLevelCode = stationLevelMap.get(stationLevelName);
 			if (StringUtil.isEmpty(stationLevelCode)) {
-				throw new Exception("第" + (rowNum + 1) + "行【油站星级】填写不正确！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【油站星级】填写不正确！";
+				//throw new Exception("第" + (rowNum + 1) + "行【油站星级】填写不正确！");
 			}
 			stationTarget.setStationLevelName(stationLevelName);
 			stationTarget.setStationLevelCode(stationLevelCode);
@@ -266,10 +270,20 @@ public class StarEvaluatingController extends BaseController {
 			// 将Excel中的每一个StationTarget进入集合中
 			excelStationTargetList.add(stationTarget);
 		}
+		boolean submit = true;
+		if(!"".equals(excMes)){
+			submit = false;
+		}
 		// 将Excel中的全部数据UPDATE入库
 		// starEvaluatingService.updateExcelDataByStationCode(excelStationTargetList);
-		stationTargetService.updateStationTargetByStationCode(
-				excelStationTargetList, yearMonth);
+		ResultVO resultVO = stationTargetService.updateStationTargetByStationCode(
+				excelStationTargetList, yearMonth,submit);
+		if(resultVO.getFail() > 0){
+			excMes = excMes + resultVO.getFailMes();
+		}
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		return "redirect:/starEvaluating/starEvaluatingList.do";
 
 	}

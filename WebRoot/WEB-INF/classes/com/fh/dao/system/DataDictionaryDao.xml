@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.system.DataDictionaryDao" >
+  <resultMap id="BaseResultMap" type="com.fh.entity.system.DataDictionary" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="codeType" property="codetype" jdbcType="VARCHAR" />
+    <result column="codeName" property="codename" jdbcType="VARCHAR" />
+    <result column="valueType" property="valuetype" jdbcType="VARCHAR" />
+    <result column="valueName" property="valuename" jdbcType="VARCHAR" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, codeType, codeName, valueType, valueName, sys_create_time, sys_update_time, remark
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fh.entity.system.DataDictionaryQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.fh.entity.system.DataDictionaryQuery" >
+    delete from data_dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fh.entity.system.DataDictionary" >
+    insert into data_dictionary (id, codeType, codeName, 
+      valueType, valueName, sys_create_time, 
+      sys_update_time, remark)
+    values (#{id,jdbcType=INTEGER}, #{codetype,jdbcType=VARCHAR}, #{codename,jdbcType=VARCHAR}, 
+      #{valuetype,jdbcType=VARCHAR}, #{valuename,jdbcType=VARCHAR}, #{sysCreateTime,jdbcType=TIMESTAMP}, 
+      #{sysUpdateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fh.entity.system.DataDictionary" >
+    insert into data_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="codetype != null" >
+        codeType,
+      </if>
+      <if test="codename != null" >
+        codeName,
+      </if>
+      <if test="valuetype != null" >
+        valueType,
+      </if>
+      <if test="valuename != null" >
+        valueName,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="codetype != null" >
+        #{codetype,jdbcType=VARCHAR},
+      </if>
+      <if test="codename != null" >
+        #{codename,jdbcType=VARCHAR},
+      </if>
+      <if test="valuetype != null" >
+        #{valuetype,jdbcType=VARCHAR},
+      </if>
+      <if test="valuename != null" >
+        #{valuename,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fh.entity.system.DataDictionaryQuery" resultType="java.lang.Integer" >
+    select count(*) from data_dictionary
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_dictionary
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.codetype != null" >
+        codeType = #{record.codetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codename != null" >
+        codeName = #{record.codename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valuetype != null" >
+        valueType = #{record.valuetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valuename != null" >
+        valueName = #{record.valuename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysCreateTime != null" >
+        sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysUpdateTime != null" >
+        sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_dictionary
+    set id = #{record.id,jdbcType=INTEGER},
+      codeType = #{record.codetype,jdbcType=VARCHAR},
+      codeName = #{record.codename,jdbcType=VARCHAR},
+      valueType = #{record.valuetype,jdbcType=VARCHAR},
+      valueName = #{record.valuename,jdbcType=VARCHAR},
+      sys_create_time = #{record.sysCreateTime,jdbcType=TIMESTAMP},
+      sys_update_time = #{record.sysUpdateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+      
+  <select id="findCountByCriteriaQuery" parameterType="map" resultType="java.lang.Integer">
+  	select count(*) from data_dictionary
+  		<if test="codename != null">
+  			<where>
+  				codeName like '%${codename}%'
+  			</where>
+  		</if>
+  </select>
+  
+  <select id="findDataDictionarysByPageCriteriaQuery" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from  (select * from data_dictionary) as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from (select * from data_dictionary) as ttt
+    		<if test="codename != null">
+    			<where>
+    				ttt.codeName like '%${codename}%'
+    			</where>
+    		</if>
+    	order by ttt.id)
+    		<if test="codename != null">
+    			and tt.codeName like '%${codename}%'
+    		</if>
+    	order by tt.id
+    </where>
+  </select>
+</mapper>

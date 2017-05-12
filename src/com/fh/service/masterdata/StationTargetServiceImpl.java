@@ -1,20 +1,26 @@
 package com.fh.service.masterdata;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.fh.common.exception.BizException;
 import com.fh.common.page.Page;
+import com.fh.controller.salarymanagement.StationTrialController;
 import com.fh.dao.biz.StationTargetDao;
 import com.fh.entity.biz.Station;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.biz.StationTargetQuery;
 import com.fh.entity.system.Parameter;
 import com.fh.entity.vo.ResultVO;
+import com.fh.entity.vo.SellDataSearchVO;
 import com.fh.service.station.StationService;
 import com.fh.service.system.ParameterService;
 import com.fh.util.Constants;
@@ -28,6 +34,8 @@ import com.fh.util.Constants;
 @Service
 public class StationTargetServiceImpl implements StationTargetService {
 
+	private static Logger log = LoggerFactory
+			.getLogger(StationTargetServiceImpl.class);
 	@Autowired
 	private StationTargetDao stationTargetDao;
 
@@ -40,17 +48,15 @@ public class StationTargetServiceImpl implements StationTargetService {
 	/**
 	 * 根据页码查询分页记录, 支持模糊查询
 	 */
-	public Page findStationTargetsByPage(Page page, String stationTargetName,
-			String stationTargetLevel) {
+	public Page findStationTargetsByPage(Page page, SellDataSearchVO searchVO) {
 		// 查询总记录条数(需要判断是否带着查询条件进来, 且带进来几个查询条件)
-		int totalRecordsNum = stationTargetDao.findCountByCriteriaQuery(
-				stationTargetName, stationTargetLevel);
+		int totalRecordsNum = stationTargetDao
+				.findCountByCriteriaQuery(searchVO);
 		page.setTotalRecordsNum(totalRecordsNum);
 		// 分页查询记录
 		List<StationTarget> records = stationTargetDao
-				.findStationTargetsByPageCriteriaQuery(stationTargetName,
-						stationTargetLevel, page.getPageSize(),
-						page.getStartIndex());
+				.findStationTargetsByPageCriteriaQuery(searchVO,
+						page.getPageSize(), page.getStartIndex());
 		page.setRecords(records);
 		return page;
 
@@ -245,14 +251,18 @@ public class StationTargetServiceImpl implements StationTargetService {
 
 	/**
 	 * DELETE相应月份的所有记录, 再将Excel中的全部记录INSERT进去
-	 * @throws BizException 
+	 * 
+	 * @throws BizException
 	 */
 	public ResultVO updateStationTargetByStationCode(
-			List<StationTarget> excelStationTargetList, String yearMonth) throws BizException {
+			List<StationTarget> excelStationTargetList, String yearMonth,boolean submit)
+			throws BizException {
 		ResultVO resultVO = new ResultVO();
 		int success = 0;
 		int fail = 0;
-
+		String excMes = "";
+		List<Station> stationList = new ArrayList<Station>();
+		List<StationTarget> updateList = new ArrayList<StationTarget>();
 		for (StationTarget stationTarget : excelStationTargetList) {
 			String stationCode = stationTarget.getStationCode();
 			Integer stationStaffNum = stationTarget.getStationStaffNum();
@@ -261,33 +271,43 @@ public class StationTargetServiceImpl implements StationTargetService {
 			Station station = stationService
 					.findOnlyStationByStationCode(stationCode);
 			if (station == null) {
-//				fail++;
-//				continue;
-				throw new BizException("油站编号填写有误:"+stationCode);
+				fail++;
+				excMes = excMes + "\n" + "油站编号填写有误:" + stationCode;
+				continue;
+				// throw new BizException("油站编号填写有误:" + stationCode);
 			}
 			if (stationStaffNum != null && stationStaffNumFloat != null) {
 				station.setStationStaffNum(stationTarget.getStationStaffNum());
 				station.setStationStaffNumFloat(stationTarget
 						.getStationStaffNumFloat());
-				stationService.saveOrUpdate(station);
+				stationList.add(station);
+				// stationService.saveOrUpdate(station);
 			}
-
-			// 根据油站编号和月份获取数据，如果存在则update，不存在则insert
-			List<StationTarget> stationTargetList = this.stationTargetDao
-					.findByCondition(stationTarget);
-			if (stationTargetList != null && stationTargetList.size() > 0) {// 更新
-				StationTarget stationTargetTemp = stationTargetList.get(0);
-				stationTarget.setId(stationTargetTemp.getId());
-				stationTargetDao.updateByPrimaryKeySelective(stationTarget);
-			} else {
-				stationTargetDao.insertSelective(stationTarget);
-			}
+			updateList.add(stationTarget);
 			success++;
 		}
+		if (fail == 0 && submit) {
+			for (Station station : stationList) {
+				stationService.saveOrUpdate(station);
+			}
+			for (StationTarget stationTarget : updateList) {
+				// 根据油站编号和月份获取数据，如果存在则update，不存在则insert
+				List<StationTarget> stationTargetList = this.stationTargetDao
+						.findByCondition(stationTarget);
+				if (stationTargetList != null && stationTargetList.size() > 0) {// 更新
+					StationTarget stationTargetTemp = stationTargetList.get(0);
+					stationTarget.setId(stationTargetTemp.getId());
+					stationTargetDao.updateByPrimaryKeySelective(stationTarget);
+				} else {
+					stationTargetDao.insertSelective(stationTarget);
+				}
+			}
+
+		}
+		resultVO.setFailMes(excMes);
 		resultVO.setFail(fail);
 		resultVO.setSuccess(success);
 		return resultVO;
-
 	}
 
 	/**
@@ -316,7 +336,8 @@ public class StationTargetServiceImpl implements StationTargetService {
 	/**
 	 * 批量INSERT管理岗位数据
 	 */
-	public ResultVO insertAllByYearMonth(List<StationTarget> stationTargetList) throws Exception {
+	public ResultVO insertAllByYearMonth(List<StationTarget> stationTargetList)
+			throws Exception {
 		ResultVO resultVO = new ResultVO();
 		int success = 0;
 		int fail = 0;
@@ -325,13 +346,13 @@ public class StationTargetServiceImpl implements StationTargetService {
 				String stationCode = stationTarget.getStationCode();
 				String yearMonth = stationTarget.getYearMonth();
 				StationTarget stationTargetQuery = new StationTarget();
-				Station station = stationService
-						.findOnlyStationByStationCode(stationCode);
-				if (station == null) {
+//				Station station = stationService
+//						.findOnlyStationByStationCode(stationCode);
+//				if (station == null) {
 //					fail++;
 //					continue;
-					throw new BizException("油站编号填写有误:"+stationCode);
-				}
+//					//throw new BizException("油站编号填写有误:" + stationCode);
+//				}
 				// 达标率上限
 				String standardLimitStr = parameterService
 						.getBizValue(Parameter.KEY_STANDARD_LIMIT);
@@ -343,16 +364,18 @@ public class StationTargetServiceImpl implements StationTargetService {
 						nonOilStandardLimitStr);
 				BigDecimal oilTargetVolume = stationTarget.getOilTargetVolume();// 油品本月目标销量;
 				BigDecimal oilRealVolume = stationTarget.getOilRealVolume();// 油品本月实际销量
-				BigDecimal directSellingBonus = stationTarget.getDirectSellingBonus();//经理小配
+				BigDecimal directSellingBonus = stationTarget
+						.getDirectSellingBonus();// 经理小配
 				BigDecimal nonOilTargetVolume = stationTarget
 						.getNonOilTargetVolume();// 非油品本月目标销量
 				BigDecimal nonOilRealVolume = stationTarget
 						.getNonOilRealVolume();// 非油品本月实际销量
 				BigDecimal oilStandardRate = BigDecimal.ZERO;// 油品达标率
 				BigDecimal nonOilStandardRate = BigDecimal.ZERO;// 非油品达标率
-				
+
 				// 油品达标率 = (实际销量+经理小配)/目标销量，且不大于达标率上限
-				BigDecimal oilRealVolumeTmp = oilRealVolume.add(directSellingBonus);
+				BigDecimal oilRealVolumeTmp = oilRealVolume
+						.add(directSellingBonus);
 				if (oilRealVolumeTmp.compareTo(BigDecimal.ZERO) > 0
 						&& oilTargetVolume.compareTo(BigDecimal.ZERO) > 0) {
 					BigDecimal oilStandardRateTmp = oilRealVolumeTmp.divide(
@@ -403,12 +426,14 @@ public class StationTargetServiceImpl implements StationTargetService {
 					stationTargetDao
 							.updateByPrimaryKeySelective(stationTargetTemp);
 				} else {
+					//System.out.println(JSON.toJSONString(stationTarget));
 					stationTargetDao.insertSelective(stationTarget);
 				}
 				success++;
 
 			}
 		} catch (Exception e) {
+			log.error("销售数据保存异常====="+e.getMessage());
 			throw e;
 		}
 		resultVO.setFail(fail);

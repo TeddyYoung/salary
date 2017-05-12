@@ -27,6 +27,11 @@ public interface StaffCostDao {
 	List<StaffCostVO> findStaffCostByPageCriteriaQuerySelf( @Param("yearMonth") String yearMonth, @Param("pageSize") int pageSize, 
 			@Param("startIndex") int startIndex, @Param("stationCode") String stationCode, @Param("staffName")String staffName);
 	
+	int findBonusCountByCriteriaQuerySelf(@Param("yearMonth") String yearMonth, @Param("stationCode") String stationCode, @Param("staffName") String staffName);
+	
+	List<StaffCostVO> findBonusByPageCriteriaQuerySelf( @Param("yearMonth") String yearMonth, @Param("pageSize") int pageSize, 
+			@Param("startIndex") int startIndex, @Param("stationCode") String stationCode, @Param("staffName")String staffName);
+	
 	/**
 	 * 查询员工成本信息列表(不分页)
 	 * @param yearMonth	年份月份
@@ -63,7 +68,7 @@ public interface StaffCostDao {
      * @param idCardCellValue
      * @return
      */
-	List<StaffCost> findStaffCostByStaffIdCardAndYearMonth(@Param("idCardCellValue") String idCardCellValue,
+	List<StaffCost> findStaffCostByStaffMap(@Param("staffCode") String staffCode,
 													 @Param("yearMonth") String yearMonth,@Param("stationCode") String stationCode);
 
 	/**

@@ -59,7 +59,7 @@
 				<td colspan="4" style="width:120px;text-align: center;padding-top: 13px;">
 					<input type="button" class="btn btn-mini btn-danger" name="outcome" onclick="javascript:history.go(-1)" value="返回" />
 					<a class="btn btn-mini btn-info" target="_blank"
-						href="<%=basePath%>attendanceManagement/attendanceManagementList.do" >查看考勤数据</a>
+						href="<%=basePath%>attendanceManagement/attendanceManagementList.do?${stationCode}" >查看考勤数据</a>
 				</td>
 			</tr>
 		</table>

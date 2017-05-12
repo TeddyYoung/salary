@@ -30,10 +30,18 @@
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript" src="static/js/myjs/city.js"></script>
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
 </head>
 
 <script type="text/javascript">
 	$(top.hangge());
+	function submit(){
+		bootbox.confirm("提交离职后,员工信息将不可见,确认立即提交？", function(result) {
+			if(result) {
+				save();
+			}
+		});	
+	}
 	//保存
 	function save(){
 		if($("#staffOutDate").val()==""){// 离职日期必填
@@ -134,12 +142,14 @@
 			<tr>
 				<td style="width:120px;text-align: right;padding-top: 13px;">离职日期：</td>
 				<td style="width:120px;text-align: left;padding-top: 13px;">
-					<input class="span10 date-picker" readonly name="staffOutDate" id="staffOutDate" style="width:205px;"  value="" type="text" data-date-format="yyyy-mm-dd" style="width:88px;" placeholder="请选择离职日期" title="离职日期"/>
+					<input class="span10 date-picker" name="staffOutDate" id="staffOutDate" style="width:205px;"  
+						value="" type="text" data-date-format="yyyy-mm-dd" style="width:88px;" 
+						placeholder="请选择离职日期" title="离职日期"/>
 					<font style="color:red;">备注：离职日期为员工真实离职日期，不是当前操作日期！</font>
 				</td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">离职附件：</td>
 				<td>
-					<input type="file" id="uploadPic" name="uploadPic" value="" style="width:220px;" />
+					<input disabled="disabled" type="file" id="uploadPic" name="uploadPic" value="" style="width:220px;" />
 				</td>
 			</tr>
 			<tr>	
@@ -164,7 +174,7 @@
 			</tr>
 			<tr>
 				<td  style="text-align: center;" colspan="10">
-					<a class="btn btn-mini btn-primary" onclick="save();">提交</a>
+					<a class="btn btn-mini btn-primary" onclick="submit();">提交</a>
 					<a class="btn btn-mini btn-danger" onclick="javascript:history.go(-1)">取消</a>
 				</td>
 			</tr>

@@ -114,12 +114,12 @@ public class LossBonusServiceImpl implements LossBonusService {
 			lossBonusTemp.setStationCode(stationCode);
 			lossBonusTemp.setType(lossBonus.getType());
 
-			Staff staff = staffService.queryStaffByStaffCode(staffCode,
-					stationCode);
-			if (staff == null) {
-				throw new BizException("员工不存在，请检查油站编号：" + stationCode
-						+ ",员工编号：" + staffCode);
-			}
+//			Staff staff = staffService.queryStaffByStaffCode(staffCode,
+//					stationCode);
+//			if (staff == null) {
+//				throw new BizException("员工不存在，请检查油站编号：" + stationCode
+//						+ ",员工编号：" + staffCode);
+//			}
 			// 通过员工编号和月份获取管理岗位数据
 			List<LossBonus> lossBonusListTemp = this.lossBonusDao
 					.queryList(lossBonusTemp);

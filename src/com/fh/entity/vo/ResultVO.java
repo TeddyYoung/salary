@@ -4,6 +4,8 @@ public class ResultVO {
 	private int success;
 	
 	private int fail;
+	
+	private String failMes;
 
 	public int getSuccess() {
 		return success;
@@ -19,5 +21,13 @@ public class ResultVO {
 
 	public void setFail(int fail) {
 		this.fail = fail;
+	}
+
+	public String getFailMes() {
+		return failMes;
+	}
+
+	public void setFailMes(String failMes) {
+		this.failMes = failMes;
 	}
 }

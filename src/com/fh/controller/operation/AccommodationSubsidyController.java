@@ -21,6 +21,7 @@ import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
 import com.fh.entity.biz.StationTarget;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.masterdata.StationTargetService;
 import com.fh.service.operation.AccommodationSubsidyService;
 import com.fh.util.AutoYearMonth;
@@ -74,7 +75,7 @@ public class AccommodationSubsidyController extends BaseController {
 	public String importOilBaseInfo(HttpServletRequest request, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		//判断营运部门当月上月数据是否有维护
 		//如果没有维护, 给予提示, 先让营运部门维护营运数据
@@ -124,15 +125,16 @@ public class AccommodationSubsidyController extends BaseController {
 		ExcelUtil excelUtil = new ExcelUtil();
 		List<StationTarget> excelStationTargetList = new ArrayList<StationTarget>();
 		StationTarget stationTarget = null;
+		String excMes = "";
 		for (int rowNum = 2; rowNum <= sheet.getLastRowNum(); rowNum++) {
 			int cellNum = 0;
 			//判断油站编号是否可用, 如果油站编号不可用, 则弃用整行数据
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
+				continue;
 			}
 			if (null == row2.getCell(cellNum) || "".equals(String.valueOf(row2.getCell(cellNum)))) {
-				break;
+				continue;
 			}
 			//油站编号
 			stationTarget = new StationTarget(); 
@@ -145,7 +147,8 @@ public class AccommodationSubsidyController extends BaseController {
 			if (null != cell && !"".equals(cell.toString())) {
 				stationTarget.setAccommodationSubsidy(excelUtil.getBigDecimalValue(cell));
 			}else{
-				throw new Exception("第" + (rowNum + 1) + "行【住宿补贴】未填写！");
+				//throw new Exception("第" + (rowNum + 1) + "行【住宿补贴】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【住宿补贴】未填写！";
 			}
 			stationTarget.setIsAccommoSubsidyArti(Constants.YES_FLAG);
 			//年月份
@@ -154,8 +157,18 @@ public class AccommodationSubsidyController extends BaseController {
 			//将Excel中的每一个StationTarget进入集合中
 			excelStationTargetList.add(stationTarget);
 		}
+		boolean submit = true;
+		if(!"".equals(excMes)){
+			submit = false;
+		}
 		//将Excel中的全部数据UPDATE入库
-		stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth);
+		ResultVO resultVO = stationTargetService.updateStationTargetByStationCode(excelStationTargetList, yearMonth,submit);
+		if(resultVO.getFail() > 0){
+			excMes = excMes + resultVO.getFailMes();
+		}
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
 		return "redirect:/accommodationSubsidy/list.do";
 		
 	}

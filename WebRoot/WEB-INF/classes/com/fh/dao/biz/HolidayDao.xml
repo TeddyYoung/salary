@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fh.dao.biz.HolidayDao" >
+
+  <resultMap id="BaseResultMap" type="com.fh.entity.biz.Holiday" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="year_month" property="yearMonth" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="holiday_name" property="holidayName" jdbcType="VARCHAR" />
+    <result column="holiday_money" property="holidayMoney" jdbcType="DECIMAL" />
+    <result column="sys_create_time" property="sysCreateTime" jdbcType="TIMESTAMP" />
+    <result column="sys_update_time" property="sysUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getHoliday" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select * from biz_holiday_cost
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.Long" >
+    delete from biz_holiday_cost where id = #{id, jdbcType=BIGINT}
+  </delete>
+
+  <insert id="save" parameterType="com.fh.entity.biz.Holiday" >
+    insert into biz_holiday_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="yearMonth != null" >
+        year_month,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="holidayName != null" >
+        holiday_name,
+      </if>
+      <if test="holidayMoney != null" >
+        holiday_money,
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time,
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="yearMonth != null" >
+        #{yearMonth,jdbcType=VARCHAR},
+      </if>
+       <if test="yearMonth != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayName != null" >
+        #{holidayName,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayMoney != null" >
+        #{holidayMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="findCount" parameterType="com.fh.entity.biz.Holiday" resultType="java.lang.Integer" >
+    select count(*) from biz_holiday_cost where 1=1
+    <if test="yearMonth != null">
+		and year_month like '%${yearMonth}%'
+  	</if>
+  	<if test="holidayName != null">
+  		and holiday_name like '%#{holidayName}%'
+  	</if>
+  	<if test="type != null">
+  		and type in (${type})
+  	</if>
+    
+  </select>
+  <update id="update" parameterType="com.fh.entity.biz.Holiday" >
+    update biz_holiday_cost
+    <set >
+      <if test="yearMonth != null" >
+        year_month = #{yearMonth,jdbcType=VARCHAR},
+      </if>
+       <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayName != null" >
+        holiday_name = #{holidayName,jdbcType=VARCHAR},
+      </if>
+      <if test="holidayMoney != null" >
+        holiday_money = #{holidayMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="sysCreateTime != null" >
+        sys_create_time = #{sysCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysUpdateTime != null" >
+        sys_update_time = #{sysUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findHolidayPage" parameterType="map" resultMap="BaseResultMap">
+  	select top ${pageSize} * from biz_holiday_cost as tt
+    <where>
+    	tt.id not in (select top ${startIndex} id from biz_holiday_cost as ttt where 1=1
+    	<if test="yearMonth != null">
+    		and ttt.year_month like '%${yearMonth}%'
+    	</if>
+    	<if test="type != null">
+    		and ttt.type in (${type})
+    	</if>
+    	)
+    	<if test="yearMonth != null">
+    		and tt.year_month like '%${yearMonth}%'
+    	</if>
+    	<if test="type != null">
+    		and tt.type in (${type})
+    	</if>
+    	order by tt.id
+    </where>
+  </select>
+  
+  <select id="findByYearMonth" parameterType="map" resultMap="BaseResultMap">
+  		select * from biz_holiday_cost hc
+   		where hc.year_month = '${yearMonth}'
+    	<if test="type != null">
+    		and hc.type in (${type})
+    	</if>
+  </select>
+</mapper>

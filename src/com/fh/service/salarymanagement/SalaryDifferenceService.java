@@ -32,7 +32,7 @@ public interface SalaryDifferenceService {
 	 * 提交薪资差异申请, 启动流程
 	 * @param salaryDifferenceList 薪资差异List集合
 	 */
-	public boolean saveOrUpdateSalaryDifference(List<SalaryDifference> salaryDifferenceCheckedList, HttpServletRequest request);
+	public boolean saveOrUpdateSalaryDifference(List<SalaryDifference> salaryDifferenceCheckedList, HttpServletRequest request,String stationCode);
 
 	/**
 	 * 根据员工编号查询相应的薪资差异信息
@@ -54,5 +54,10 @@ public interface SalaryDifferenceService {
 	 * @return
 	 */
 	public SalaryDifference findSalaryDifferenceWithStationNameByStaffCode(String staffCode);
+
+	public boolean existsFlow(String stationCode);
+
+	public List<SalaryDifference> findByStaffCodes(String stationCode,
+			String yearMomth, String[] staffCodes);
 
 }

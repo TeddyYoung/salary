@@ -71,6 +71,8 @@ public class SalaryDifference implements Serializable {
      * 备注
      */
     private String remark;
+    
+    private String stationCode;
 	
     private static final long serialVersionUID = 1L;
 
@@ -189,6 +191,14 @@ public class SalaryDifference implements Serializable {
 				+ yearMonth + ", sysCreateTime=" + sysCreateTime
 				+ ", sysUpdateTime=" + sysUpdateTime + ", remark=" + remark
 				+ "]";
+	}
+
+	public String getStationCode() {
+		return stationCode;
+	}
+
+	public void setStationCode(String stationCode) {
+		this.stationCode = stationCode;
 	}
 
 }

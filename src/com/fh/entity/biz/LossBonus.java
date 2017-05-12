@@ -31,6 +31,10 @@ public class LossBonus implements Serializable {
      * 库提奖金
      */
     public static final String TYPE_DEDUCT = "1";
+    /**
+     * 其他奖金
+     */
+    public static final String TYPE_OTHERS = "2";
     
     
 	public Long getId() {

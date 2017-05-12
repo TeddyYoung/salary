@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="StaffTransfer" name="StaffTransferProcess" isExecutable="true">
+    <startEvent id="startevent1" name="发起流程" activiti:initiator="${startUser}"></startEvent>
+    <userTask id="inputUser1" name="油站会计提交员工调动申请" activiti:assignee="${inputUser}" activiti:candidateGroups="S_003:0"></userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="inputUser1"></sequenceFlow>
+    <userTask id="usertask2" name="油站经理系统审批员工调动申请" activiti:assignee="${checkUser}" activiti:candidateGroups="S_001:0"></userTask>
+    <sequenceFlow id="flow2" sourceRef="inputUser1" targetRef="usertask2"></sequenceFlow>
+    <endEvent id="endevent" name="结束流程"></endEvent>
+    <sequenceFlow id="flow3" name="批准" sourceRef="usertask2" targetRef="endevent">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='批准'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" name="驳回" sourceRef="usertask2" targetRef="inputUser1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_StaffTransfer">
+    <bpmndi:BPMNPlane bpmnElement="StaffTransfer" id="BPMNPlane_StaffTransfer">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="180.0" y="97.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="inputUser1" id="BPMNShape_inputUser1">
+        <omgdc:Bounds height="55.0" width="105.0" x="260.0" y="87.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="460.0" y="87.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent" id="BPMNShape_endevent">
+        <omgdc:Bounds height="35.0" width="35.0" x="650.0" y="97.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="215.0" y="114.0"></omgdi:waypoint>
+        <omgdi:waypoint x="260.0" y="114.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="365.0" y="114.0"></omgdi:waypoint>
+        <omgdi:waypoint x="460.0" y="114.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="565.0" y="114.0"></omgdi:waypoint>
+        <omgdi:waypoint x="650.0" y="114.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="22.0" x="10.0" y="0.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="512.0" y="142.0"></omgdi:waypoint>
+        <omgdi:waypoint x="512.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="388.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="312.0" y="196.0"></omgdi:waypoint>
+        <omgdi:waypoint x="312.0" y="142.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="16.0" width="22.0" x="10.0" y="0.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

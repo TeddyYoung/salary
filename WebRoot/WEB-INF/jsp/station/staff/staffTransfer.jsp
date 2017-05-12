@@ -30,6 +30,7 @@
 		<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
 		<script type="text/javascript" src="static/js/myjs/city.js"></script>
+		<script type="text/javascript" src="static/js/bootbox.min.js"></script>
 </head>
 
 <script type="text/javascript">
@@ -37,9 +38,13 @@
 	
 	//保存
 	function save(){
-		$("#staffForm").submit();
-		$("#zhongxin").hide();
-		$("#zhongxin2").show();
+		bootbox.confirm("请确认调动信息填写正确,提交后立即生效,确认立即提交？", function(result) {
+			if(result) {
+				$("#staffForm").submit();
+				$("#zhongxin").hide();
+				$("#zhongxin2").show();
+			}
+		});	
 	}
 	
 </script>
@@ -66,7 +71,8 @@
 								</biztab:biz>
 								<input type="hidden" name="beforeStationCode" id="beforeStationCode" value="${staff.stationCode }" /></td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">调动前职务：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><biztab:biz type="duty" code="${staff.dutyCode }">
+				<td style="width:120px;text-align: left;padding-top: 13px;">
+								<biztab:biz type="duty" code="${staff.dutyCode }">
 									<option value="${obj.dutyCode}">${obj.dutyName}</option>
 								</biztab:biz>
 				<input type="hidden" name="beforeDutyCode" id="beforeDutyCode" value="${staff.dutyCode }" /></td>
@@ -76,7 +82,7 @@
 				<td style="width:120px;text-align: left;padding-top: 13px;"><input class="span10 date-picker" name="staffTransferDate" name="staffTransferDate" style="width:205px;"  value="${date}" type="text" data-date-format="yyyy-mm-dd" style="width:88px;" placeholder="调动日期" title="调动日期"/></td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">调动附件：</td>
 				<td>
-					<input type="file" id="uploadPic" name="uploadPic" value="" style="width:220px;" />
+					<input disabled="disabled" type="file" id="uploadPic" name="uploadPic" value="" style="width:220px;" />
 				</td>
 			</tr>
 			<tr>	
@@ -87,9 +93,13 @@
 								</biztab:biz>
 					</select></td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">调动后职务：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;"><select name="afterDutyCode" id="afterDutyCode" class="chzn-select" data-placeholder="请选择员工调动后职务" style="vertical-align:top;width: 220px;" title="员工调动后职务">
+				<td style="width:120px;text-align: left;padding-top: 13px;">
+					<select name="afterDutyCode" id="afterDutyCode" class="chzn-select" data-placeholder="请选择员工调动后职务" style="vertical-align:top;width: 220px;" title="员工调动后职务">
 								<biztab:biz type="duty" code="all">
-									<option value="${obj.dutyCode}">${obj.dutyName}</option>
+									<option value="${obj.dutyCode}" 
+									 >
+									${obj.dutyName}
+									</option>
 								</biztab:biz>
 					</select></td>
 			</tr>

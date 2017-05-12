@@ -1,5 +1,6 @@
 package com.fh.service.station;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,12 +22,14 @@ import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fh.activiti.service.Activiti;
 import com.fh.common.SysConstant;
+import com.fh.common.exception.BizException;
 import com.fh.common.page.Page;
 import com.fh.dao.biz.DutyDao;
 import com.fh.dao.biz.StaffDao;
@@ -47,6 +50,7 @@ import com.fh.entity.system.StoreEmployeeVO;
 import com.fh.service.system.DepPartService;
 import com.fh.service.system.OrganiseCOService;
 import com.fh.service.system.StoreEmployeeService;
+import com.fh.util.DateUtil;
 import com.fh.util.UploadFile;
 
 /**
@@ -147,7 +151,7 @@ public class StaffServiceImpl implements StaffService {
 							AccountantStaffLeaveOffice accountantStaffLeaveOffice = new AccountantStaffLeaveOffice();
 							key = accountantStaffLeaveOffice.getClass()
 									.getSimpleName();
-							flag = 1;
+							flag = 1;//油站会计发起
 						}
 					}
 					String[] managers = SysConstant.AVTIVITI_STAFF_DUTY_MANAGER
@@ -157,12 +161,12 @@ public class StaffServiceImpl implements StaffService {
 							ManagerStaffLeaveOffice managerStaffLeaveOffice = new ManagerStaffLeaveOffice();
 							key = managerStaffLeaveOffice.getClass()
 									.getSimpleName();
-							flag = 2;
+							flag = 2;//油站经理发起
 						}
 					}
 					if (staffVO.getStationCode() == null
 							|| "".equals(staffVO.getStationCode())) {
-						flag = 4;
+						flag = 4;//非油站岗位
 					}
 
 					if (flag == 0) {
@@ -312,17 +316,25 @@ public class StaffServiceImpl implements StaffService {
 				staff.setStaffOutUrl(replacePath);
 			}
 		}
-		if (staff != null && !"".equals(staff)) {
+		if (staff != null) {
 			if (staff.getId() != null && !"".equals(staff.getId())) {
-				if (staff.getStaffOutDate() == null
-						|| "".equals(staff.getStaffOutDate())) {
-					SimpleDateFormat df = new SimpleDateFormat(
-							"yyyy-MM-dd HH:MM:ss");
-					String date = df.format(new Date());
-					staff.setStaffOutDate(date);
-				}
+//				if (staff.getStaffOutDate() == null
+//						|| "".equals(staff.getStaffOutDate())) {
+//					SimpleDateFormat df = new SimpleDateFormat(
+//							"yyyy-MM-dd HH:MM:ss");
+//					String date = df.format(new Date());
+//					staff.setStaffOutDate(date);
+//				}
 				// 修改
 				staff.setSysUpdateTime(new Date());
+				staff.setStaffOutStatus("2");
+				staff.setStaffCheckType("2");
+				staff.setStaffStatus("2");
+				staffDao.updateByPrimaryKeySelective(staff);
+				returnValue = true;//流程未定，暂去掉
+				if(returnValue){
+					return returnValue;
+				}
 				// 获取当前登录 用户 并 启动流程
 				StoreEmployee storeEmployee = SysConstant.getCurrentUser();
 				Map<String, Object> variablesnew = new HashMap<String, Object>();
@@ -579,10 +591,11 @@ public class StaffServiceImpl implements StaffService {
 	 * 保存调动申请信息
 	 * 
 	 * @return true 启动流程成功 false 启动流程失败
+	 * @throws BizException 
 	 */
 	public boolean staffTransfer(HttpServletRequest request, String type,
 			MultipartFile uploadPic, StaffTransfer staffTransfer, String sign,
-			String flag, String staffId) {
+			String flag, String staffId) throws BizException {
 		boolean returnValue = false;
 		String nextUserName = null;
 		if (staffTransfer != null && !"".equals(staffTransfer)) {
@@ -608,6 +621,40 @@ public class StaffServiceImpl implements StaffService {
 			}
 			// 修改
 			staffTransfer.setSysUpdateTime(new Date());
+			// 新增调动新消息
+			staffTransferDao.insertSelective(staffTransfer);
+			//调出
+			Staff staff = queryStaffByStaffCode(staffTransfer.getStaffCode(),staffTransfer.getBeforeStationCode());
+			Staff checkStaff = queryStaffByStaffCode(staffTransfer.getStaffCode(),staffTransfer.getAfterStationCode());
+			Staff newStaff = new Staff();
+			try {
+				staff.setStaffStatus("3");
+				staff.setStaffTransferDate(staffTransfer.getStaffTransferDate());
+				staffDao.updateByPrimaryKeySelective(staff);
+				if(checkStaff != null){
+					newStaff = checkStaff;
+					newStaff.setDutyCode(staffTransfer.getAfterDutyCode());
+					newStaff.setStaffStatus("1");
+					staffDao.updateByPrimaryKeySelective(newStaff);
+				}else{
+					PropertyUtils.copyProperties(newStaff,staff);
+					newStaff.setId(null);
+					newStaff.setStationCode(staffTransfer.getAfterStationCode());
+					newStaff.setDutyCode(staffTransfer.getAfterDutyCode());
+					newStaff.setStaffStatus("1");
+					staffDao.insertSelective(newStaff);
+				}
+				
+			} catch (Exception e) {
+				throw new BizException("调动失败");
+			}
+			//staff.setId(Long.valueOf(staffId));
+			//staff.setStaffOutStatus("1");
+			
+			returnValue = true;//流程未定,暂去掉
+			if(returnValue){
+				return returnValue;
+			}
 			// 获取当前登录 用户 并 启动流程
 			StoreEmployee storeEmployee = SysConstant.getCurrentUser();
 			Map<String, Object> variablesnew = new HashMap<String, Object>();
@@ -622,10 +669,10 @@ public class StaffServiceImpl implements StaffService {
 			ProcessInstance processInstance = activiti.runtime(key, objId,
 					variablesnew);
 			if (processInstance != null) {
-				Staff staff = new Staff();
-				staff.setId(Long.valueOf(staffId));
-				staff.setStaffOutStatus("1");
-				staffDao.updateByPrimaryKeySelective(staff);
+//				Staff staff = new Staff();
+//				staff.setId(Long.valueOf(staffId));
+//				staff.setStaffOutStatus("1");
+//				staffDao.updateByPrimaryKeySelective(staff);
 
 				// 新增调动新消息
 				staffTransferDao.insertSelective(staffTransfer);

@@ -61,7 +61,7 @@ public class StaffBonusController extends BaseController {
 		}
 		StoreEmployee user = (StoreEmployee) request.getSession().getAttribute(
 				SysConstant.CURRENT_USER_INFO);
-		Page pageList = staffCostService.findStaffCostByPage(page,
+		Page pageList = staffCostService.findStaffBonusByPage(page,
 				staffCost.getStaffCostYearMonth(), user.getSubOrganiseIdStr(),
 				staffCost.getStaffName());
 		model.addAttribute("pageList", pageList);
@@ -122,7 +122,7 @@ public class StaffBonusController extends BaseController {
 	public String StaffCostRealSaveOrUpdate(StaffCostVO staffCostVO, Model model)
 			throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		if (staffCostVO.getStaffCostList() != null
 				&& staffCostVO.getStaffCostList().size() > 0) {
@@ -140,7 +140,7 @@ public class StaffBonusController extends BaseController {
 	public String importStaffData(HttpServletRequest request, String type,
 			String ym, MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 
 		// 判断上传的文件是否是空文件
@@ -192,6 +192,8 @@ public class StaffBonusController extends BaseController {
 		XSSFRow row = null;
 		// XSSFCell cell = null;
 		ExcelUtil excelUtil = new ExcelUtil();
+		String excMes = "";
+		List<StaffCost> staffCostList = new ArrayList<StaffCost>();
 		for (int rowNum = 2; rowNum < sheet.getLastRowNum(); rowNum++) { // 从第2行开始
 			row = sheet.getRow(rowNum);
 			cellNum = 0; // 读取油站编号
@@ -202,51 +204,73 @@ public class StaffBonusController extends BaseController {
 			String stationCode = row.getCell(cellNum).toString();
 			// 油站名称
 			cellNum++;
+			// 员工编号
+			cellNum++;
+			String staffCode = "";
+			if (row.getCell(cellNum) == null
+					|| "".equals(row.getCell(cellNum).toString())) {
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【员工编号】未填写！";
+			} else {
+				staffCode = row.getCell(cellNum).toString();
+			}
 			// 姓名
 			cellNum++;
 			// 读取员工的身份证号
-			cellNum++;
-			if (row.getCell(cellNum) == null
-					|| "".equals(row.getCell(cellNum).toString())) {
-				// continue;
-				throw new Exception("第" + (rowNum + 1) + "行【身份证号】未填写！");
-			}
-			String idCardCellValue = row.getCell(cellNum).toString();
-			StaffCost staffCost = staffCostService
-					.findStaffCostByStaffIdCardAndYearMonth(idCardCellValue,
-							yearMonth, stationCode);
+			// cellNum++;
+			// if (row.getCell(cellNum) == null
+			// || "".equals(row.getCell(cellNum).toString())) {
+			// // continue;
+			// //throw new Exception("第" + (rowNum + 1) + "行【身份证号】未填写！");
+			// excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【身份证号】未填写！";
+			// }
+			// String idCardCellValue = row.getCell(cellNum).toString();
+			// StaffCost staffCost = staffCostService
+			// .findStaffCostByStaffIdCardAndYearMonth(idCardCellValue,
+			// yearMonth, stationCode);
 			// modyfy by yangjj start
 			// if (null != staffCost) { //设置共计的值
 			// 销售提成
 			cellNum++;
+			BigDecimal cellValue = BigDecimal.ZERO;
 			if (row.getCell(cellNum) == null
 					|| "".equals(row.getCell(cellNum).toString())) {
-				throw new Exception("第" + (rowNum + 1) + "行【销售提成】未填写！");
+				// throw new Exception("第" + (rowNum + 1) + "行【销售提成】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【销售提成】未填写！";
+			} else {
+				cellValue = excelUtil.getBigDecimalValue(row.getCell(cellNum));
 			}
-			Staff staff = staffService.queryStaffByIdcard(stationCode,
-					idCardCellValue);
+			Staff staff = staffService.queryStaffByStaffCode(staffCode,
+					stationCode);
 			if (staff == null) {
-				throw new Exception("第" + (rowNum + 1) + "行员工不存在,请检查油站编号及身份证号");
+				// throw new Exception("第" + (rowNum + 1) +
+				// "行员工不存在,请检查油站编号及身份证号");
+				excMes = excMes + "\n" + "第" + (rowNum + 1)
+						+ "行员工不存在,请检查油站编号及员工编号";
+				continue;
 			}
-			BigDecimal cellValue = excelUtil.getBigDecimalValue(row
-					.getCell(cellNum));
+			StaffCost staffCost = staffCostService.findStaffCostByStaffCode(
+					stationCode, staffCode, yearMonth);
 			if (null != staffCost) {
 				staffCost.setTotal(cellValue);
-				staffCostService.update(staffCost);
+				// staffCostService.update(staffCost);
 			} else {
 				staffCost = new StaffCost();
 				staffCost.setTotal(cellValue);
-				staffCost.setStaffCode(staff.getStaffCode());
-				staffCost.setStationCode(staff.getStationCode());
+				staffCost.setStaffCode(staffCode);
+				staffCost.setStationCode(stationCode);
 				staffCost.setStaffCostYearMonth(yearMonth);
-				staffCostService.save(staffCost);
+				// staffCostService.save(staffCost);
 			}
-
+			staffCostList.add(staffCost);
 			// }else{
 			// continue;
 			// }
 			// modyfy by yangjj end
 		}
+		if (!"".equals(excMes)) {
+			throw new Exception(excMes);
+		}
+		staffCostService.saveOrUpdateStaffCost(staffCostList);
 		return "redirect:/staffBonus/staffBonusList.do";
 
 	}

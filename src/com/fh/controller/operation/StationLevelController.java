@@ -65,7 +65,7 @@ public class StationLevelController extends BaseController {
 	@RequestMapping(value="/stationlevelSaveOrUpdate.do")
 	public String saveOrUpdate(StationLevel stationlevel,Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		stationLevelService.saveOrUpdate(stationlevel);
 		return "save_result";
@@ -93,7 +93,7 @@ public class StationLevelController extends BaseController {
 	@RequestMapping(value="/stationlevelDelById.do")
 	public void delstationlevelById(String id,HttpServletResponse response) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 			// json对象
 			JSONObject js = new JSONObject();

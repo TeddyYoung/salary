@@ -125,11 +125,11 @@ public class StationTrialController {
 		List<File> srcfile = new ArrayList<File>();
 		for (OrganiseCO organiseCO : organiseCOList) {
 			try {
-				if (!"Z001_B".equals(organiseCO.getOrganiseId())) {
-					System.out.println("==================:"
-							+ organiseCO.getOrganiseId());
-					continue;
-				}
+//				 if (!"Z001_06".equals(organiseCO.getOrganiseId())) {
+//				 System.out.println("==================:"
+//				 + organiseCO.getOrganiseId());
+//				 continue;
+//				 }
 				// System.out.println("开始计算============"+JSON.toJSONString(organiseCO));
 				this.calculateSalary(request, response, organiseCO, srcfile);
 			} catch (Exception e) {
@@ -344,8 +344,15 @@ public class StationTrialController {
 			// 是否保留宿舍 TODO 需要从数据库中获取
 			row1.getCell(cellNum1++).setCellValue("是");
 			// 宿舍补贴
-			row1.getCell(cellNum1).setCellFormula(
-					row1.getCell(cellNum1++).getCellFormula());// 使用excel自带公式
+			if (Constants.YES_FLAG.equals(stationTarget
+					.getIsAccommoSubsidyArti())) {
+				row1.getCell(cellNum1).setCellFormula(null);
+				row1.getCell(cellNum1++).setCellValue(
+						stationTarget.getAccommodationSubsidy().doubleValue());
+			} else {
+				row1.getCell(cellNum1).setCellFormula(
+						row1.getCell(cellNum1++).getCellFormula());// 直接取公式
+			}
 			// 便利店业绩得分
 			row1.getCell(cellNum1++).setCellValue(
 					stationTarget.getStoreMarkScore() == null ? 0
@@ -885,7 +892,7 @@ public class StationTrialController {
 		XSSFRow xssfRow3 = sheet.getRow(0);
 		XSSFCell xssfCell3 = xssfRow3.getCell(3);
 		StringBuilder sb = new StringBuilder();
-		sb.append("加油全站").append(String.valueOf(year)).append("年")
+		sb.append("加油站").append(String.valueOf(year)).append("年")
 				.append(yearMonth.substring(yearMonth.indexOf("-") + 1))
 				.append("月工资");
 		xssfCell3.setCellValue(sb.toString());
@@ -931,8 +938,9 @@ public class StationTrialController {
 		Map<String, Integer> staffMap = new HashMap<String, Integer>();
 		Map<String, List<Integer>> mergeMap = new HashMap<String, List<Integer>>();
 		AttendanceManagement attendanceManagement = null;
-		String[] total = new String[44];
+		String[] total = new String[41];
 		String lastStationCode = "";
+		String lastStationName = "";
 		int rowNum3 = 3;
 		int startCellnum = 56;
 		for (int i = 0; i < attendanceManagementList.size(); i++, rowNum3++) {
@@ -951,14 +959,18 @@ public class StationTrialController {
 				}
 			} else {
 				if (!lastStationCode.equals(stationCode)) {// 另起一站：先加总
+					row3.setRowStyle(cellStyle);
+					row3.getCell(cellNum3 + 3).setCellValue(
+							lastStationName + "合计：");
+					for (int j = startCellnum - 11; j < startCellnum; j++) {
+						row3.getCell(j).setCellFormula(null);
+						row3.getCell(j).setCellValue("");
+					}
 					for (int j = 0, totalCellnum = startCellnum; j < total.length; j++, totalCellnum++) {
-						row3.setRowStyle(cellStyle);
-						row3.getCell(cellNum3).setCellFormula(null);
-						row3.getCell(cellNum3).setCellValue(
-								attendanceManagement.getStationName() + "合计：");
+						// row3.getCell(totalCellnum).setCellFormula(null);
 						row3.getCell(totalCellnum).setCellFormula(total[j]);
 					}
-					total = new String[44];
+					total = new String[45];
 					rowNum3++;
 					row3 = sheet.getRow(rowNum3);
 					for (int j = 0, totalCellnum = startCellnum; j < total.length; j++, totalCellnum++) {
@@ -966,15 +978,19 @@ public class StationTrialController {
 					}
 				} else if (i == attendanceManagementList.size() - 1) {// 最后一条
 					XSSFRow rowTmp = sheet.getRow(rowNum3 + 1);
+					rowTmp.setRowStyle(cellStyle);
+					rowTmp.getCell(cellNum3 + 3).setCellValue(
+							attendanceManagement.getStationName() + "合计：");
+					for (int j = startCellnum - 11; j < startCellnum; j++) {
+						rowTmp.getCell(j).setCellFormula(null);
+						rowTmp.getCell(j).setCellValue("");
+					}
 					for (int j = 0, totalCellnum = startCellnum; j < total.length; j++, totalCellnum++) {
 						total[j] = total[j] + "+"
 								+ row3.getCell(totalCellnum).getReference();
 					}
 					for (int j = 0, totalCellnum = startCellnum; j < total.length; j++, totalCellnum++) {
-						rowTmp.setRowStyle(cellStyle);
-						rowTmp.getCell(cellNum3).setCellFormula(null);
-						rowTmp.getCell(cellNum3).setCellValue(
-								attendanceManagement.getStationName() + "合计：");
+						// rowTmp.getCell(totalCellnum).setCellFormula(null);
 						rowTmp.getCell(totalCellnum).setCellFormula(total[j]);
 						rowTmp.getCell(totalCellnum).setCellFormula(total[j]);
 					}
@@ -986,6 +1002,7 @@ public class StationTrialController {
 				}
 			}
 			lastStationCode = stationCode;
+			lastStationName = attendanceManagement.getStationName();
 
 			if (staffMap.get(staffCode) != null) {
 				if (mergeMap.get(staffCode) != null) {
@@ -1035,7 +1052,8 @@ public class StationTrialController {
 			// K 银行卡账号 10
 			row3.getCell(cellNum3++).setCellValue(
 					attendanceManagement.getStaffBankcard() == null ? ""
-							: attendanceManagement.getStaffBankcard());
+							: attendanceManagement.getStaffBankcard() 
+							+ "(" +attendanceManagement.getBankCardRemark() + ")");
 			// L 个人银行所属开户行 11
 			row3.getCell(cellNum3++).setCellValue(
 					attendanceManagement.getStaffBank() == null ? ""
@@ -1272,6 +1290,9 @@ public class StationTrialController {
 			// BO 精彩卡奖金 66
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
+			// 其他奖金
+			row3.getCell(cellNum3++).setCellValue(
+					attendanceManagement.getOtherBonus().doubleValue());
 			// BP 兼职便利店补贴 67
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
@@ -1283,30 +1304,30 @@ public class StationTrialController {
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// 夜班补贴配额
-			row3.getCell(cellNum3++).setCellValue(nightShiftAmt.doubleValue());
-			cellNum3++;
+			// row3.getCell(cellNum3++).setCellValue(nightShiftAmt.doubleValue());
+			row3.getCell(cellNum3).setCellFormula(
+					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// 年夜饭补贴配额
-			row3.getCell(cellNum3++).setCellValue(
-					familyReunionDinnerAmt.doubleValue());
-			cellNum3++;
+			// row3.getCell(cellNum3++).setCellValue(
+			// familyReunionDinnerAmt.doubleValue());
+			row3.getCell(cellNum3).setCellFormula(
+					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// 春节活动补贴配额
-			row3.getCell(cellNum3++).setCellValue(
-					chineseNewYearAmt.doubleValue());
-			cellNum3++;
+			// row3.getCell(cellNum3++).setCellValue(
+			// chineseNewYearAmt.doubleValue());
+			row3.getCell(cellNum3).setCellFormula(
+					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// BR 高温津贴配额 69
-			// row3.getCell(cellNum3++).setCellValue(attendanceManagement.getSubsidyMoney()
-			// == null? 0 :
-			// attendanceManagement.getSubsidyMoney().doubleValue());
-			row3.getCell(cellNum3++).setCellValue(
-					highTemperatureAmt.doubleValue());
-			cellNum3++;
-			// 其他补贴
-			row3.getCell(cellNum3++);
-			// row3.getCell(cellNum3).setCellFormula(row3.getCell(cellNum3++).getCellFormula());//
-			// 直接取公式
+			// row3.getCell(cellNum3++).setCellValue(
+			// highTemperatureAmt.doubleValue());
+			row3.getCell(cellNum3).setCellFormula(
+					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// BS 司龄补贴 70
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
+			// 其他补贴
+			row3.getCell(cellNum3++);
+			// row3.getCell(cellNum3).setCellFormula(row3.getCell(cellNum3++).getCellFormula());//
 			// BT 应发工资合计 71
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
@@ -1314,20 +1335,23 @@ public class StationTrialController {
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
 			// BV 住宿补贴 73
-			if (Constants.YES_FLAG.equals(attendanceManagement
-					.getIsAccommoSubsidyArti())) {
-				row3.getCell(cellNum3).setCellFormula(null);
-				row3.getCell(cellNum3++).setCellValue(
-						attendanceManagement.getAccommodationSubsidy()
-								.doubleValue());
-			} else {
-				row3.getCell(cellNum3).setCellFormula(
-						row3.getCell(cellNum3++).getCellFormula());// 直接取公式
-			}
+			// if (Constants.YES_FLAG.equals(attendanceManagement
+			// .getIsAccommoSubsidyArti())) {
+			// row3.getCell(cellNum3).setCellFormula(null);
+			// row3.getCell(cellNum3++).setCellValue(
+			// attendanceManagement.getAccommodationSubsidy()
+			// .doubleValue());
+			// } else {
+			row3.getCell(cellNum3).setCellFormula(
+					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
+			// }
 
 			// BW 交通补贴 74
 			row3.getCell(cellNum3++);
 			// BX 过节费 74:兼站无过节费
+			attendanceManagement.setHolidayMoney(attendanceManagement
+					.getHolidayMoney() == null ? BigDecimal.ZERO
+					: attendanceManagement.getHolidayMoney());
 			row3.getCell(cellNum3++).setCellValue(
 					Duty.DUTY_NATURE_PART_TIME.equals(dutyNature) ? 0
 							: attendanceManagement.getHolidayMoney()
@@ -1393,6 +1417,17 @@ public class StationTrialController {
 			// CQ 最后一列 93
 			row3.getCell(cellNum3).setCellFormula(
 					row3.getCell(cellNum3++).getCellFormula());// 直接取公式
+			cellNum3++;
+			row3.getCell(cellNum3++).setCellValue(nightShiftAmt.doubleValue());
+			// 年夜饭补贴配额
+			row3.getCell(cellNum3++).setCellValue(
+					familyReunionDinnerAmt.doubleValue());
+			// 春节活动补贴配额
+			row3.getCell(cellNum3++).setCellValue(
+					chineseNewYearAmt.doubleValue());
+			// BR 高温津贴配额 69
+			row3.getCell(cellNum3++).setCellValue(
+					highTemperatureAmt.doubleValue());
 		}
 
 		// 删除剩下的所有行数据
@@ -1402,8 +1437,8 @@ public class StationTrialController {
 		// 合并计税
 		if (mergeMap.size() > 0) {
 			for (List<Integer> list : mergeMap.values()) {
-				int cellnum = 91;
-				int cellnum1 = 100;
+				int cellnum = 90;
+				int cellnum1 = 99;
 				if (list.size() == 2) {
 					XSSFRow row = sheet.getRow(list.get(0));
 					row.getCell(cellnum1 + 1).setCellFormula(null);
@@ -1415,16 +1450,18 @@ public class StationTrialController {
 					String cellFormula = "";
 					for (int i = 0; i < list.size(); i++) {
 						XSSFRow row = sheet.getRow(list.get(i));
-						if (i == list.size() - 1) {
-							row.getCell(cellnum1).setCellFormula(cellFormula);
-						} else {
+						if (i == 0) {
+							cellFormula = row.getCell(cellnum).getReference();
 							row.getCell(cellnum1 + 1).setCellFormula(null);
 							row.getCell(cellnum1 + 2).setCellFormula(null);
-							if (i == 0) {
-								cellFormula = row.getCell(cellnum)
-										.getReference();
+						} else {
+							if (i == list.size() - 1) {
+								row.getCell(cellnum1).setCellFormula(
+										cellFormula);
 							} else {
 								cellFormula = cellFormula + "+" + cellFormula;
+								row.getCell(cellnum1 + 1).setCellFormula(null);
+								row.getCell(cellnum1 + 2).setCellFormula(null);
 							}
 						}
 					}

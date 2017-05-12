@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,51 +21,55 @@ import com.fh.common.page.Page;
 import com.fh.controller.BaseController;
 import com.fh.entity.biz.ManageBase;
 import com.fh.entity.system.Flag;
+import com.fh.entity.vo.ResultVO;
 import com.fh.service.operation.ManageBaseService;
 import com.fh.util.AutoYearMonth;
 import com.fh.util.UploadFile;
 
 /**
  * 管理岗位数据Controller
+ * 
  * @author zhang_yu
  *
- *提供管理岗位的Excel文件上传
+ *         提供管理岗位的Excel文件上传
  */
-@Controller(value="bountyController")
-@RequestMapping({"/bounty"})
+@Controller(value = "bountyController")
+@RequestMapping({ "/bounty" })
 public class BountyController extends BaseController {
-	
+
 	@Autowired
 	private ManageBaseService manageBaseService;
-	
+
 	/**
 	 * 管理岗位基础信息列表查询(支持分页, 支持模糊查询)
 	 */
 	@RequestMapping("/bountyList.do")
 	public String list(Page page, ManageBase manageBase, Model model) {
-		
-		//当用户点击二级菜单"星级评测"的时候, 默认查询上个月的记录
-		if ("".equals(manageBase.getYearMonth()) || null == manageBase.getYearMonth()) {
+
+		// 当用户点击二级菜单"星级评测"的时候, 默认查询上个月的记录
+		if ("".equals(manageBase.getYearMonth())
+				|| null == manageBase.getYearMonth()) {
 			AutoYearMonth autoYearMonth = new AutoYearMonth();
-			String yearMonth = autoYearMonth.getAutoYearMonth(); //获取上个月的年月份日期
+			String yearMonth = autoYearMonth.getAutoYearMonth(); // 获取上个月的年月份日期
 			manageBase.setYearMonth(yearMonth);
 		}
-				
-		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase.getYearMonth(),manageBase.getStaffName());
+		manageBase.setJobSubsidies(BigDecimal.ZERO);
+		Page pageList = manageBaseService
+				.findManageBaseByPage(page, manageBase);
 		model.addAttribute("pageList", pageList);
 		model.addAttribute("st", manageBase);
 		return "operation/bounty/bountyList";
-		
+
 	}
-	
+
 	/**
 	 * 导入管理岗位数据Excel
 	 */
 	@RequestMapping("/importBounty.do")
 	public String importOilBaseInfo(HttpServletRequest request, String type,
-									MultipartFile uploadFile, Model model) throws Exception {
+			MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -78,22 +81,24 @@ public class BountyController extends BaseController {
 		}
 
 		// 判断上传的是否是Excel文件
-		String substring = originalFilename.substring(originalFilename.lastIndexOf("."));
+		String substring = originalFilename.substring(originalFilename
+				.lastIndexOf("."));
 		if (!".xlsx".equals(substring)) {
 			Flag flag = new Flag();
 			flag.setFlag("2");
 			model.addAttribute("Flag", flag);
 			return "operation/bounty/bountyList";
 		}
-		
+
 		// 上传文件工具类
 		UploadFile uploadUtil = new UploadFile();
 		// 上传文件, 并返回文件上传的绝对目录
-		String filePath = uploadUtil.uploadFile(request, uploadFile, type, null);
+		String filePath = uploadUtil
+				.uploadFile(request, uploadFile, type, null);
 		// 以返回的上传文件的绝对路径构建输入流
 		InputStream is = new FileInputStream(filePath);
-		
-		//准备解析上传的Excel, 顺便判断一下是否用的是系统提供的模板
+
+		// 准备解析上传的Excel, 顺便判断一下是否用的是系统提供的模板
 		@SuppressWarnings("resource")
 		XSSFWorkbook xSFWorkbook = new XSSFWorkbook(is);
 		XSSFSheet sheet = xSFWorkbook.getSheetAt(0);
@@ -103,91 +108,100 @@ public class BountyController extends BaseController {
 			model.addAttribute("Flag", flag);
 			return "operation/bounty/bountyList";
 		}
-		
-		//准备解析Excel
+
+		// 准备解析Excel
 		int cellNum = 0;
 		XSSFRow row2 = null;
-		XSSFCell cell2 = null;
+		// XSSFCell cell2 = null;
 		List<ManageBase> manageBaseList = new ArrayList<ManageBase>();
 		ManageBase manageBase = null;
 		AutoYearMonth autoYearMonth = new AutoYearMonth();
 		String yearMonth = autoYearMonth.getAutoYearMonth();
-		
+		String excMes = "";
 		// 解析数据
 		for (int rowNum = 2; rowNum < sheet.getLastRowNum() + 1; rowNum++) {
-			cellNum = 0; //油站编号
-			//以员工编号的有无判断数据的可用性
+			cellNum = 0; // 油站编号
+			// 以员工编号的有无判断数据的可用性
 			row2 = sheet.getRow(rowNum);
 			if (null == row2 || "".equals(row2)) {
-				break;
-			}else{
-				cell2 = row2.getCell(cellNum);
-				if (null == cell2 || "".equals(String.valueOf(cell2))) {
-					break;
-				}
+				continue;
 			}
 			manageBase = new ManageBase();
-			////油站编号
-			if (null == row2.getCell(cellNum) || "".equals(String.valueOf(row2.getCell(cellNum)))) {
+			// //油站编号
+			if (null == row2.getCell(cellNum)
+					|| "".equals(String.valueOf(row2.getCell(cellNum)))) {
 				continue;
 			}
 			String stationCode = String.valueOf(row2.getCell(cellNum));
 			manageBase.setStationCode(stationCode);
-			//油站名称
+			// 油站名称
 			cellNum++;
-			//员工编号
+			// 员工编号
 			cellNum++;
 			String staffCode = "";
-			if (null != row2.getCell(cellNum) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+			if (null != row2.getCell(cellNum)
+					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				staffCode = String.valueOf(row2.getCell(cellNum));
 				manageBase.setStaffCode(staffCode);
-			}else{
-				throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
+			} else {
+				//throw new Exception("第" + (rowNum + 1) + "行【员工编号】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【员工编号】未填写！";
 			}
-			
-			//员工姓名
+
+			// 员工姓名
 			cellNum++;
 			String staffName = "";
-			if (null != row2.getCell(cellNum) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+			if (null != row2.getCell(cellNum)
+					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				staffName = String.valueOf(row2.getCell(cellNum));
 				manageBase.setStaffName(staffName);
 			}
-			
-			//职务
+
+			// 职务
 			cellNum++;
 			String dutyName = "";
-			if (null != row2.getCell(cellNum) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+			if (null != row2.getCell(cellNum)
+					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				dutyName = String.valueOf(row2.getCell(cellNum));
 				manageBase.setDutyName(dutyName);
 			}
-			
+
 			// 岗位津贴
 			cellNum++;
 			String jobSubsidies = "";
-			if (null != row2.getCell(cellNum) && !"".equals(String.valueOf(row2.getCell(cellNum)))) {
+			if (null != row2.getCell(cellNum)
+					&& !"".equals(String.valueOf(row2.getCell(cellNum)))) {
 				jobSubsidies = String.valueOf(row2.getCell(cellNum));
 				manageBase.setJobSubsidies(new BigDecimal(jobSubsidies));
-			}else{
-				//manageBase.setJobSubsidies(BigDecimal.ZERO);
-				throw new Exception("第" + (rowNum + 1) + "行【岗位津贴】未填写！");
+			} else {
+				// manageBase.setJobSubsidies(BigDecimal.ZERO);
+				//throw new Exception("第" + (rowNum + 1) + "行【岗位津贴】未填写！");
+				excMes = excMes + "\n" + "第" + (rowNum + 1) + "行【岗位津贴】未填写！";
 			}
 			manageBase.setYearMonth(yearMonth);
 			manageBaseList.add(manageBase);
 		}
-		
-		
-		
-		//判断上传的是否是没有数据的空文件模板
+		boolean submit = true;
+		// 判断上传的是否是没有数据的空文件模板
 		if (null != manageBaseList && manageBaseList.size() != 0) {
-			manageBaseService.insertAllByYearMonth(manageBaseList);
+			if(!"".equals(excMes)){
+				submit = false;
+			}
+			ResultVO resultVO = manageBaseService.insertAllByYearMonth(manageBaseList,submit);
+			if(resultVO.getFail() > 0){
+				excMes = excMes + resultVO.getFailMes();
+			}
+			if (!"".equals(excMes)) {
+				throw new Exception(excMes);
+			}
 			return "redirect:/bounty/bountyList.do";
-		}else{
+		} else {
 			Flag flag = new Flag();
 			flag.setFlag("4");
 			model.addAttribute("Flag", flag);
 			return "operation/bounty/bountyList";
 		}
-		
+
 	}
-	
+
 }

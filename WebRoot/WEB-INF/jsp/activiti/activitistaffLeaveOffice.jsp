@@ -113,6 +113,10 @@
 						</systab:dataDictionary></td>
 					</tr>
 					<tr>
+						<td style="width:120px;text-align: right;padding-top: 13px;">离职日期：</td>
+						<td   style="width: 120px; text-align: left; padding-top: 13px;">
+							${staff.staffOutDate}
+						</td>
 						<td style="width: 120px; text-align: right; padding-top: 13px;">离职附件：</td>
 						<td style="width: 120px; text-align: left; padding-top: 13px;">
 							<c:if test="${staff.staffOutUrl!=null}">
@@ -123,7 +127,19 @@
 						没有相关附件
 					</c:if>
 						</td>
-						<td style="width: 120px; text-align: right; padding-top: 13px;">指定审批人：</td>
+					</tr>
+					<tr>
+						<td style="width: 120px; text-align: right; padding-top: 13px;">离职原因：</td>
+						<td colspan="3"
+							style="width: 120px; text-align: left; padding-top: 13px;">${staff.staffOutCause}</td>
+					</tr>
+					<tr>
+						<td style="width: 120px; text-align: right; padding-top: 13px;">批注：</td>
+						<td colspan="3"><textarea rows="4" cols="38"
+								style="width: 666px" id="message" name="message"></textarea></td>
+					</tr>
+					<tr>
+					<td style="width: 120px; text-align: right; padding-top: 13px;">选择审批人：</td>
 						<td style="width: 120px; text-align: left; padding-top: 13px;">
 							<select
 									name="nextUserName" id="nextUserName" class="chzn-select"
@@ -139,16 +155,6 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
-						<td style="width: 120px; text-align: right; padding-top: 13px;">离职原因：</td>
-						<td colspan="3"
-							style="width: 120px; text-align: left; padding-top: 13px;">${staff.staffOutCause}</td>
-					</tr>
-					<tr>
-						<td style="width: 120px; text-align: right; padding-top: 13px;">批注：</td>
-						<td colspan="3"><textarea rows="4" cols="38"
-								style="width: 666px" id="message" name="message"></textarea></td>
-					</tr>
 					<!-- 
 					<tr>
 						<td style="width: 120px; text-align: right; padding-top: 13px; ">添加抄送：</td>
@@ -163,6 +169,7 @@
 					 -->
 					<tr>
 						<td style="text-align: center;" colspan="10">
+							<input type="button" class="btn btn-mini btn-danger" name="outcome" onclick="javascript:history.go(-1)" value="返回" />
 							<c:forEach items="${variableList}" var="variable" varStatus="vs">
 								<input type="submit" class="btn btn-mini btn-primary" name="outcome" value="${variable}">
 							</c:forEach>

@@ -1,5 +1,6 @@
 package com.fh.service.operation;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import com.fh.entity.biz.ManageBase;
 import com.fh.entity.biz.ManageBaseQuery;
 import com.fh.entity.biz.Staff;
 import com.fh.entity.biz.StaffQuery;
+import com.fh.entity.vo.ResultVO;
+import com.fh.service.masterdata.DutyService;
 
 /**
  * 油站指标系数维护 Service实现类
@@ -35,6 +38,9 @@ public class ManageBaseServiceImpl implements ManageBaseService {
 
 	@Autowired
 	private DutyDao dutyDao;
+
+	@Autowired
+	private DutyService dutyService;
 
 	/**
 	 * 根据页码查询分页记录, 支持模糊查询
@@ -118,59 +124,80 @@ public class ManageBaseServiceImpl implements ManageBaseService {
 
 	/**
 	 * 批量INSERT管理岗位数据
-	 * @throws BizException 
+	 * 
+	 * @throws BizException
 	 */
-	public void insertAllByYearMonth(List<ManageBase> manageBaseList) throws BizException {
-		try {
-			for (ManageBase manageBase : manageBaseList) {
-				String staffCode = manageBase.getStaffCode();
-				String yearMonth = manageBase.getYearMonth();
-				String stationCode = manageBase.getStationCode();
-				// String staffName = manageBase.getStaffName();
-				ManageBase manageBaseTemp = new ManageBase();
-				// if (staffName != null && !"".equals(staffName)) {
-				Staff staff = new Staff();
-				// staff.setStaffName(staffName);
-				staff.setStaffCode(staffCode);
-				staff.setStationCode(manageBase.getStationCode());
-				List<Staff> staffList = this.staffDao
-						.getStaffByCondition(staff);
-				if (staffList == null || staffList.size() == 0) {
-					throw new BizException("员工不存在，请检查油站编号：" + stationCode
-							+ ",员工编号：" + staffCode);
-				}
-				staff = staffList.get(0);
-				staffCode = staff.getStaffCode();
-				String staffName = staff.getStaffName();
-				manageBase.setStaffCode(staffCode);
+	public ResultVO insertAllByYearMonth(List<ManageBase> manageBaseList,boolean submit)
+			throws BizException {
+		ResultVO resultVO = new ResultVO();
+		String failMes = "";
+		int fail = 0;
+		List<ManageBase> updateList = new ArrayList<ManageBase>();
 
-				manageBaseTemp.setStaffCode(staffCode);
-				manageBaseTemp.setYearMonth(yearMonth);
-				manageBaseTemp.setStaffName(staffName);
-				manageBaseTemp.setNewDutyName(manageBase.getNewDutyName());
-				manageBaseTemp.setDutyName(manageBase.getDutyName());
-				manageBaseTemp.setStationCode(stationCode);
-				// 通过员工编号和月份获取管理岗位数据
-				manageBaseTemp = this.getManageBaseByCondition(manageBaseTemp);
-				if (manageBaseTemp != null) {
-					manageBaseTemp.setPhoneCost(manageBase.getPhoneCost());
-					manageBaseTemp
-							.setJobSubsidies(manageBase.getJobSubsidies());
-					manageBaseTemp.setPerformanceCoefficient(manageBase
-							.getPerformanceCoefficient());
-					manageBaseTemp.setDutyName(manageBase.getDutyName());
-					manageBaseTemp.setBonusBase(manageBase.getBonusBase());
-					manageBaseTemp.setEducationCost(manageBase.getEducationCost());
-					manageBaseDao.updateByPrimaryKeySelective(manageBaseTemp);
-				} else {
-					manageBaseDao.insertSelective(manageBase);
-				}
-				// }
+		for (ManageBase manageBase : manageBaseList) {
+			String staffCode = manageBase.getStaffCode();
+			String stationCode = manageBase.getStationCode();
 
+			Staff staff = new Staff();
+			staff.setStaffCode(staffCode);
+			staff.setStationCode(manageBase.getStationCode());
+			List<Staff> staffList = this.staffDao.getStaffByCondition(staff);
+			if (staffList == null || staffList.size() == 0) {
+				fail++;
+				failMes = failMes + "\n" + "员工不存在,请检查油站编号:" + stationCode
+						+ ",员工编号：" + staffCode;
+				// throw new BizException("员工不存在,请检查油站编号:" + stationCode
+				// + ",员工编号：" + staffCode);
+				continue;
 			}
-		} catch (Exception e) {
-			throw new BizException(e.getMessage());
+			staff = staffList.get(0);
+			staffCode = staff.getStaffCode();
+			String staffName = staff.getStaffName();
+			manageBase.setStaffName(staffName);
+			manageBase.setStaffCode(staffCode);
+			manageBase
+					.setDutyName(dutyService.getDutyName(staff.getDutyCode()));
+
+			updateList.add(manageBase);
 		}
+
+		if (fail == 0 && submit) {
+			try {
+				for (ManageBase manageBase : updateList) {
+					ManageBase manageBaseTemp = new ManageBase();
+					// 通过员工编号和月份获取管理岗位数据
+					manageBaseTemp.setStaffCode(manageBase.getStaffCode());
+					manageBaseTemp.setYearMonth(manageBase.getYearMonth());
+					manageBaseTemp.setStationCode(manageBase.getStationCode());
+					manageBaseTemp = this
+							.getManageBaseByCondition(manageBaseTemp);
+					if (manageBaseTemp != null) {
+						manageBaseTemp.setStaffName(manageBase.getStaffName());
+						manageBaseTemp.setNewDutyName(manageBase
+								.getNewDutyName());
+						manageBaseTemp.setDutyName(manageBase.getDutyName());
+						manageBaseTemp.setPhoneCost(manageBase.getPhoneCost());
+						manageBaseTemp.setJobSubsidies(manageBase
+								.getJobSubsidies());
+						manageBaseTemp.setPerformanceCoefficient(manageBase
+								.getPerformanceCoefficient());
+						manageBaseTemp.setDutyName(manageBase.getDutyName());
+						manageBaseTemp.setBonusBase(manageBase.getBonusBase());
+						manageBaseTemp.setEducationCost(manageBase
+								.getEducationCost());
+						manageBaseDao
+								.updateByPrimaryKeySelective(manageBaseTemp);
+					} else {
+						manageBaseDao.insertSelective(manageBase);
+					}
+				}
+			} catch (Exception e) {
+				throw new BizException(e.getMessage());
+			}
+		}
+		resultVO.setFail(fail);
+		resultVO.setFailMes(failMes);
+		return resultVO;
 
 	}
 
@@ -180,8 +207,9 @@ public class ManageBaseServiceImpl implements ManageBaseService {
 	public int findAllManageBaseCountByYearMonth(String yearMonth) {
 
 		if (null != yearMonth && !"".equals(yearMonth)) {
-			return manageBaseDao.findAllManageBaseCountByYearMonth(yearMonth,
-					null);
+			ManageBase manageBase = new ManageBase();
+			manageBase.setYearMonth(yearMonth);
+			return manageBaseDao.findAllManageBaseCountByYearMonth(manageBase);
 		} else {
 			throw new RuntimeException("The yearMonth is Null!");
 		}
@@ -206,17 +234,16 @@ public class ManageBaseServiceImpl implements ManageBaseService {
 	/**
 	 * 根据年月份分页查询当月的管理岗位数据
 	 */
-	public Page findManageBaseByPage(Page page, String yearMonth,
-			String staffName) {
+	public Page findManageBaseByPage(Page page, ManageBase manageBase) {
 
 		// 查询总记录条数(需要判断是否带着查询条件进来, 且带进来几个查询条件)
-		int totalRecordsNum = manageBaseDao.findAllManageBaseCountByYearMonth(
-				yearMonth, staffName);
+		int totalRecordsNum = manageBaseDao
+				.findAllManageBaseCountByYearMonth(manageBase);
 		page.setTotalRecordsNum(totalRecordsNum);
 		// 分页查询记录
 		List<ManageBase> records = manageBaseDao
-				.findStarEvaByPageCriteriaQuery(yearMonth, staffName,
-						page.getPageSize(), page.getStartIndex());
+				.findStarEvaByPageCriteriaQuery(manageBase, page.getPageSize(),
+						page.getStartIndex());
 		page.setRecords(records);
 		return page;
 

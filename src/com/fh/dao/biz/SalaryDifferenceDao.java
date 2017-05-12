@@ -75,6 +75,10 @@ public interface SalaryDifferenceDao {
 	 * 查询biz_salary_difference表中是否有approvalStatus字段为 "1" 的记录
 	 * @return
 	 */
-	public int findSalaryDifferenceCountByApprovalStatus();
+	public int findSalaryDifferenceCountByApprovalStatus(@Param("stationCode") String stationCode);
+	
+	
+	List<SalaryDifference> findByStaffCodes(@Param("stationCode") String stationCode,
+			@Param("yearMonth") String yearMonth,@Param("staffCodes") String[] staffCodes);
     
 }

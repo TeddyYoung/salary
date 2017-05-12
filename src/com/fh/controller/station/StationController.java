@@ -1,6 +1,10 @@
 package com.fh.controller.station;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -16,8 +20,6 @@ import com.fh.controller.BaseController;
 import com.fh.entity.biz.Station;
 import com.fh.entity.system.OrganiseCO;
 import com.fh.service.station.StationService;
-
-import net.sf.json.JSONObject;
 
 /**
  * 油站基本信息维护 Controller
@@ -74,7 +76,7 @@ public class StationController extends BaseController {
 	@RequestMapping(value="/stationSaveOrUpdate.do")
 	public String saveOrUpdate(Station station,Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		station.setStationStatus("1");// 油站状态：可用（默认）
 		stationService.saveOrUpdate(station);
@@ -112,6 +114,24 @@ public class StationController extends BaseController {
 			throw new IllegalArgumentException(e);
 		}
 	}
+	
+	@RequestMapping(value="/getListByDistrict.do")
+	public void getListByDistrict(String districtCode,HttpServletResponse response){
+		// json对象
+		JSONObject js = new JSONObject();
+		try {
+			List<Station> list = stationService.findByDistrict(districtCode);
+			// json中添加 数据 key value 形式
+			js.put("list", list);
+			// 更改编码
+			response.setContentType("application/json;charset=UTF-8");
+			// 发送数据到页面
+			response.getWriter().write(js.toString());
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+	
 	/**机构树
 	 * @param model
 	 * @return

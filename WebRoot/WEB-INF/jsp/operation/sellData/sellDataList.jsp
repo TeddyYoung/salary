@@ -204,15 +204,22 @@
 						name="stationTargetForm" id="stationTargetForm" method="post" enctype="multipart/form-data">
 						<table>
 							<tr>
-								<td style="vertical-align:top;"><select name="stationCode" id="stationCode" class="chzn-select" data-placeholder="请选择所属油站" style="vertical-align:top;width: 220px;" title="所属油站">
-								<option value=""></option>
-								<biztab:biz type="station" code="all">
-									<option value="${obj.stationCode}" ${obj.stationCode==st.stationCode ? 'selected="selected"' : '' }>${obj.stationName}</option>
-								</biztab:biz>
-								</select></td>
+								<td style="vertical-align:top;"><select name="districtCode" id="districtCode" class="chzn-select" data-placeholder="请选择所属区域" style="vertical-align:top;width: 220px;" title="所属区域">
+								<option value="">全部</option>
+									<biztab:biz type="district" code="all">
+										<option value="${obj.organiseId}" ${obj.organiseId == searchVO.districtCode ? 'selected="selected"' : '' }>${obj.organiseName}</option>
+									</biztab:biz>
+								</select>
+								</td>
+<!-- 								<td style="vertical-align:top;"><select name="stationCode" id="stationCode" class="chzn-select" data-placeholder="请选择所属油站" style="vertical-align:top;width: 220px;" title="所属油站"> -->
+<!-- 								<option value=""></option> -->
+<%-- 								<biztab:biz type="station" code="all"> --%>
+<%-- 									<option value="${obj.stationCode}" ${obj.stationCode==st.stationCode ? 'selected="selected"' : '' }>${obj.stationName}</option> --%>
+<%-- 								</biztab:biz> --%>
+<!-- 								</select></td> -->
 								<td style="vertical-align:top;"><span class="input-icon"> <input
 										autocomplete="off" id="nav-search-input" type="text" class="span10 date-picker"
-										name="yearMonth" value="${st.yearMonth}" data-date-format="yyyy-mm" style="vertical-align:top;width: 150px;"
+										name="yearMonth" value="${searchVO.yearMonth}" data-date-format="yyyy-mm" style="vertical-align:top;width: 150px;"
 										placeholder="这里输入年份月份" /> <i id="nav-search-icon"
 										class="icon-search"></i>
 								</span></td>
@@ -279,7 +286,7 @@
 													<fmt:formatNumber value="${stationTarget.directSellingBonus}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
 												</td>
 												<td class="center">
-													<fmt:formatNumber value="${stationTarget.oilStandardRate}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
+													<fmt:formatNumber value="${stationTarget.oilStandardRate*100}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
 												</td>
 												<td class="center">
 													<fmt:formatNumber value="${stationTarget.nonOilTargetVolume}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
@@ -291,7 +298,7 @@
 													<fmt:formatNumber value="${stationTarget.nonOilDayAverageVolume}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
 												</td>
 												<td class="center">
-													<fmt:formatNumber value="${stationTarget.nonOilStandardRate}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
+													<fmt:formatNumber value="${stationTarget.nonOilStandardRate*100}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>
 												</td>
 											<td class='center'>
 <!-- 												<a class='btn btn-mini btn-info' -->

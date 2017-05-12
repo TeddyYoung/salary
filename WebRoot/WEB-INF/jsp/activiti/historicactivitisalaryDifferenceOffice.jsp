@@ -91,7 +91,7 @@
 				</tr>
 			</c:forEach>
 			<tr>
-				<td style="width:120px;text-align: right;padding-top: 13px;">
+				<td colspan="5" style="width:120px;text-align: center;padding-top: 13px;">
 					<input type="button" class="btn btn-mini btn-primary" name="outcome" onclick="javascript:history.go(-1)" value="返回" />
 				</td>
 			</tr>

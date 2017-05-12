@@ -95,8 +95,12 @@
 				</td>
 			</tr>
 			<tr>
+				<td style="width:120px;text-align: right;padding-top: 13px;">离职日期：</td>
+				<td   style="width: 120px; text-align: left; padding-top: 13px;">
+					${staff.staffOutDate}
+				</td>
 				<td style="width:120px;text-align: right;padding-top: 13px;">离职附件：</td>
-				<td style="width:120px;text-align: left;padding-top: 13px;">
+				<td  style="width:120px;text-align: left;padding-top: 13px;">
 					<c:if test="${staff.staffOutUrl!=null}">
 						<input type="button" id="uploadPic" name="uploadPic" value="点击查看" onclick="down('${staff.staffOutUrl}')" style="width:220px;" />
 					</c:if>
@@ -104,8 +108,10 @@
 						没有相关附件
 					</c:if>
 				</td>
+			</tr>
+			<tr>
 				<td style="width:120px;text-align: right;padding-top: 13px;">离职原因：</td>
-				<td colspan="2"  style="width: 120px; text-align: left; padding-top: 13px;">
+				<td colspan="3"  style="width: 120px; text-align: left; padding-top: 13px;">
 					${staff.staffOutCause}
 				</td>
 			</tr>

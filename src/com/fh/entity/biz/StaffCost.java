@@ -84,6 +84,8 @@ public class StaffCost implements Serializable {
      * 拓展属性：员工
      */
     private Staff staff;
+    
+    private String dutyCode;
 	
     private static final long serialVersionUID = 1L;
 
@@ -221,6 +223,14 @@ public class StaffCost implements Serializable {
 
 	public void setStationCode(String stationCode) {
 		this.stationCode = stationCode;
+	}
+
+	public String getDutyCode() {
+		return dutyCode;
+	}
+
+	public void setDutyCode(String dutyCode) {
+		this.dutyCode = dutyCode;
 	}
 	
 }

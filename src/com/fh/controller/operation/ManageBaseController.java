@@ -53,7 +53,7 @@ public class ManageBaseController extends BaseController {
 			manageBase.setYearMonth(yearMonth);
 		}
 				
-		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase.getYearMonth(),manageBase.getStaffName());
+		Page pageList = manageBaseService.findManageBaseByPage(page, manageBase);
 		model.addAttribute("pageList", pageList);
 		model.addAttribute("st", manageBase);
 		return "operation/manageBase/manageBaseList";
@@ -67,7 +67,7 @@ public class ManageBaseController extends BaseController {
 	public String importOilBaseInfo(HttpServletRequest request, String type,
 									MultipartFile uploadFile, Model model) throws Exception {
 		if (!this.checkData()) {
-			throw new Exception("已经超过了数据可维护日期，数据不可维护！如需修改数据，请联系管理员。");
+			throw new Exception("数据维护日期已截止,无法操作!");
 		}
 		// 判断上传的文件是否是空文件
 		String originalFilename = uploadFile.getOriginalFilename();
@@ -312,7 +312,7 @@ public class ManageBaseController extends BaseController {
 		if (null != manageBaseList && manageBaseList.size() != 0) {
 			//判断当前月份, 先将上个月的相关数据全部DELETE, 然后再INSERT进去
 			manageBaseService.deleteAllByYearMonth(yearMonth);
-			manageBaseService.insertAllByYearMonth(manageBaseList);
+			manageBaseService.insertAllByYearMonth(manageBaseList,true);
 			return "redirect:/manageBase/manageBaseList.do";
 		}else{
 			Flag flag = new Flag();

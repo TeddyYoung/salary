@@ -137,7 +137,8 @@
 								<tr>
 									<th class="center">序号</th>
 									<th class="center">所属区域</th>
-									<th class='center'>所属油站</th>
+									<th class='center'>油站编号</th>
+									<th class='center'>油站名称</th>
 									<th class='center'>星级站</th>
 									<th class='center'>月份</th>
 								</tr>
@@ -150,6 +151,7 @@
 											<tr>
 												<td class='center' style="width: 30px;">${vs.count}</td>
 												<td class="center">${stationTarget.districtName}</td>
+												<td class="center">${stationTarget.stationCode}</td>
 												<td class="center">${stationTarget.stationName}</td>
 												<td class="center">${stationTarget.stationLevelName}</td>
 												<td class="center">${stationTarget.yearMonth}</td>
